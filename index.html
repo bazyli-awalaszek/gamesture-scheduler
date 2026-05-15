@@ -712,17 +712,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
       <div id="notesContainer"></div>
     </div>
   </div>
-  <div class="sb-myvac collapsed" id="sbMyVac">
-    <div class="sb-title sb-title-toggle" id="sbMyVacToggle">🏖️ Mój urlop <span class="sb-arrow">▾</span></div>
-    <div class="myvac-body">
-      <div class="myvac-form">
-        <input id="myVacFrom" type="text" placeholder="Od DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
-        <input id="myVacTo" type="text" placeholder="Do DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
-        <button class="btn-myvac-add" id="btnMyVacAdd">+ Dodaj</button>
-      </div>
-      <div id="myVacList"></div>
-    </div>
-  </div>
+
   <div class="sb-gallery" id="sbGallery">
     <div class="sb-title sb-title-toggle" id="sbGalleryToggle">🖼️ Galeria <span class="sb-arrow">▾</span></div>
     <div class="gallery-body" id="galleryBody">
@@ -1110,11 +1100,11 @@ function addMyVacation(){
   state.myVacations.sort((a,b)=>a.from.localeCompare(b.from));
   document.getElementById('myVacFrom').value='';
   document.getElementById('myVacTo').value='';
-  save(true);renderMyVacList();renderApp();
+  save(true);renderApp();
 }
 function delMyVacation(id){
   state.myVacations=(state.myVacations||[]).filter(v=>v.id!==id);
-  save(true);renderMyVacList();renderApp();
+  save(true);renderApp();
 }
 function weekRange(wk){
   const[yr,wn]=wk.split('-W').map(Number);
@@ -1377,7 +1367,35 @@ function renderNinja(){
   <input class="ninja-add-inp" data-person="${person}" placeholder="+ Dodaj zadanie...">
 </div>`;
   });
+
+  // Mój urlop column
+  const myVacs=state.myVacations||[];
+  const myVacItems=myVacs.map(v=>
+    `<div class="myvac-list-item"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`
+  ).join('')||'<div class="myvac-empty">Brak urlopów</div>';
+  html+=`<div class="ninja-person-section">
+  <div class="ninja-person-hdr"><span class="ninja-person-name" style="color:var(--orange)">🏖️ Mój urlop</span><span style="flex:1"></span></div>
+  <div id="myVacList">${myVacItems}</div>
+  <div class="myvac-form" style="margin-top:6px">
+    <input id="myVacFrom" type="text" placeholder="Od DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
+    <input id="myVacTo" type="text" placeholder="Do DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
+    <button class="btn-myvac-add" id="btnMyVacAdd">+ Dodaj</button>
+  </div>
+</div>`;
+
   body.innerHTML=html;
+
+  // Re-attach form listeners (rebuilt on each render)
+  const myVacFromEl=document.getElementById('myVacFrom');
+  const myVacToEl=document.getElementById('myVacTo');
+  const btnAdd=document.getElementById('btnMyVacAdd');
+  if(myVacFromEl) myVacFromEl.addEventListener('keydown',e=>{if(e.key==='Enter')myVacToEl?.focus();});
+  if(myVacToEl) myVacToEl.addEventListener('keydown',e=>{if(e.key==='Enter')addMyVacation();});
+  if(btnAdd) btnAdd.addEventListener('click',addMyVacation);
+  document.getElementById('myVacList')?.addEventListener('click',e=>{
+    const btn=e.target.closest('[data-action="del-my-vac"]');
+    if(btn)delMyVacation(btn.dataset.vacId);
+  });
 }
 
 function ninjaToggle(ninjaId){
@@ -2409,17 +2427,6 @@ function initListeners(){
   });
   document.getElementById('sbGalleryToggle').addEventListener('click',()=>{
     document.getElementById('sbGallery').classList.toggle('collapsed');
-  });
-  document.getElementById('sbMyVacToggle').addEventListener('click',()=>{
-    document.getElementById('sbMyVac').classList.toggle('collapsed');
-    renderMyVacList();
-  });
-  document.getElementById('btnMyVacAdd').addEventListener('click',addMyVacation);
-  document.getElementById('myVacFrom').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('myVacTo').focus();});
-  document.getElementById('myVacTo').addEventListener('keydown',e=>{if(e.key==='Enter')addMyVacation();});
-  document.getElementById('myVacList').addEventListener('click',e=>{
-    const btn=e.target.closest('[data-action="del-my-vac"]');
-    if(btn)delMyVacation(btn.dataset.vacId);
   });
   document.getElementById('sbTgeToggle').addEventListener('click',()=>{
     document.getElementById('sbTge').classList.toggle('collapsed');
