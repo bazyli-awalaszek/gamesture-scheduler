@@ -140,6 +140,12 @@
     "sean": [],
     "yahu": []
   },
-  "myVacations": [],
+  "myVacations": [
+    {
+      "id": "mp6o8bqipl8x",
+      "from": "2026-07-06",
+      "to": "2026-07-07"
+    }
+  ],
   "ninjaItems": []
 }
