@@ -24,52 +24,6 @@
   ],
   "tasks": [
     {
-      "id": "mol5r4tirxwk",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-04-30",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mol5r4tj5nqg",
-          "title": "Morning Support Check",
-          "done": false
-        },
-        {
-          "id": "mol5r4tjcpdl",
-          "title": "TG refunds check",
-          "done": false
-        },
-        {
-          "id": "mol5r4tj9pgu",
-          "title": "FB posts Accept",
-          "done": false
-        },
-        {
-          "id": "mol5r4tjjkn6",
-          "title": "FB/DC dms check",
-          "done": false
-        },
-        {
-          "id": "mol5r4tjcqk9",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mol5r4tjvazh",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mol7r45f2x34",
       "game": "The Gang",
       "title": "fsdfsdf",
