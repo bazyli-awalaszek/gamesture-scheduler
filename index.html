@@ -938,6 +938,7 @@ async function loadFromFile(h){
 
 function updateFileUI(){
   const badge=document.getElementById('fileBadge');
+  if(!badge)return;
   if(fileHandle){
     document.getElementById('fileNameLbl').textContent=fileHandle.name;
     badge.style.display='flex';
