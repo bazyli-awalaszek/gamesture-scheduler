@@ -184,6 +184,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6r5383mzmj",
+      "game": "Cooking Wars",
+      "title": "mini passy + GStore news",
+      "date": null,
+      "note": "- mini passy 7/14d, które są trochę takimi evento/ofertami\n- Gstore dla CW",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 1,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
