@@ -2374,7 +2374,7 @@ function initListeners(){
   document.getElementById('btnNext').addEventListener('click',()=>{currentWeekKey=shiftWeek(currentWeekKey,1);renderApp();});
   document.getElementById('btnToday').addEventListener('click',()=>{currentWeekKey=isoWeekKey(new Date());renderApp();});
   document.getElementById('atSave').addEventListener('click',saveNewTask);
-  document.getElementById('btnFileDisconnect').addEventListener('click',disconnectFile);
+  document.getElementById('btnFileDisconnect')?.addEventListener('click',disconnectFile);
   document.getElementById('btnExportPdf').addEventListener('click',exportToPdf);
   document.getElementById('btnGhSync').addEventListener('click',openGhModal);
     document.getElementById('ghModalSave').addEventListener('click',connectGitHub);
