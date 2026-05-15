@@ -505,9 +505,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ql-item-edit:hover{color:var(--blue);}
 .ql-add{background:none;border:1px dashed var(--border2);border-radius:4px;color:var(--muted);font-size:15px;line-height:1;cursor:pointer;padding:1px 6px;opacity:.5;transition:opacity .1s;}
 .ql-add:hover{opacity:1;color:var(--blue);border-color:var(--blue);}
-.ql-edit-mode-btn,.ql-json-btn{background:none;border:1px solid var(--border2);border-radius:3px;color:var(--muted);font-size:9px;font-weight:600;letter-spacing:.04em;cursor:pointer;padding:1px 5px;opacity:.5;transition:opacity .1s,color .1s,border-color .1s;}
+.ql-edit-mode-btn,.ql-json-btn{background:none;border:1px dashed var(--border2);border-radius:4px;color:var(--muted);font-size:14px;line-height:1;cursor:pointer;padding:1px 6px;opacity:.5;transition:opacity .1s,color .1s,border-color .1s;}
 .ql-edit-mode-btn:hover,.ql-json-btn:hover{opacity:1;}
-#globalQlBar.edit-mode .ql-edit-mode-btn{color:var(--green);border-color:var(--green);opacity:1;}
+#globalQlBar.edit-mode .ql-edit-mode-btn{color:var(--green);border-color:var(--green);border-style:solid;opacity:1;}
 /* Gallery */
 .sb-gallery{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:38%;}
 .sb-gallery.collapsed .gallery-body{display:none;}
@@ -637,7 +637,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div id="globalQlBar" class="ql-bar" style="border:none;padding:0;margin:0;min-height:0;"></div>
 
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
-    <button class="btn-pdf-export" id="btnExportPdf" title="Eksportuj zadania tygodnia do PDF">📄 PDF</button>
   </div>
 </div>
 
@@ -1656,8 +1655,8 @@ function renderGlobalQlBar(){
   const links=state.quicklinks||[];
   const iconsHtml=links.map(l=>`<div class="ql-item" data-ql-id="${l.id}"><a href="${esc(l.url)}" target="_blank" rel="noopener" class="ql-icon" title="${esc(l.label||l.url)}">${l.icon}</a><button class="ql-item-edit" data-action="ql-edit" data-ql-id="${l.id}">✏</button><button class="ql-item-del" data-action="ql-del" data-ql-id="${l.id}">✕</button></div>`).join('');
   bar.innerHTML=iconsHtml
-    +`<button class="ql-add" data-action="ql-open" title="Dodaj link">+</button>`
-    +`<button class="ql-edit-mode-btn" data-action="ql-toggle-edit">${qlEditMode?'✓ GOTOWE':'EDYCJA'}</button>`
+    +(qlEditMode?`<button class="ql-add" data-action="ql-open" title="Dodaj link">+</button>`:'')
+    +`<button class="ql-edit-mode-btn" data-action="ql-toggle-edit" title="${qlEditMode?'Zakończ edycję':'Edytuj linki'}">${qlEditMode?'✓':'← ✏'}</button>`
 ;
   bar.classList.toggle('edit-mode',qlEditMode);
   if(qlEditMode&&links.length>1){
@@ -2375,7 +2374,7 @@ function initListeners(){
   document.getElementById('btnToday').addEventListener('click',()=>{currentWeekKey=isoWeekKey(new Date());renderApp();});
   document.getElementById('atSave').addEventListener('click',saveNewTask);
   document.getElementById('btnFileDisconnect')?.addEventListener('click',disconnectFile);
-  document.getElementById('btnExportPdf').addEventListener('click',exportToPdf);
+  document.getElementById('btnExportPdf')?.addEventListener('click',exportToPdf);
   document.getElementById('btnGhSync').addEventListener('click',openGhModal);
     document.getElementById('ghModalSave').addEventListener('click',connectGitHub);
   document.getElementById('ghModalClose').addEventListener('click',closeGhModal);
