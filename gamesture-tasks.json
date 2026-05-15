@@ -284,6 +284,12 @@
       "icon": "📖",
       "url": "http://knowledge/tutorials",
       "label": "Knowledge Base"
+    },
+    {
+      "id": "mp6rjkyxumcr",
+      "icon": "🥟",
+      "url": "https://app.clickup.com/9005049603/v/tl/8cbw9r3-17112?pr=90123120102",
+      "label": "CW Clickup"
     }
   ],
   "gallery": [],
