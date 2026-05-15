@@ -1722,17 +1722,11 @@ function seedRecurringTasks(){
   const START='2026-04-23';
   const allWgc=state.tasks.filter(t=>t.game==='The Gang'&&t.title==='WGC LOGO NEW').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   const last=allWgc[0];
-  let nextDate;
-  if(!last){
-    if(today<START) return;
-    nextDate=START;
-  } else {
-    if(!last.date){return;}
-    const lastD=new Date(last.date+'T00:00:00');
-    const nextD=new Date(lastD);nextD.setDate(nextD.getDate()+30);
-    nextDate=nextD.toISOString().slice(0,10);
-    if(today<nextDate) return;
-  }
+  if(!last||!last.date) return;
+  const lastD=new Date(last.date+'T00:00:00');
+  const nextD=new Date(lastD);nextD.setDate(nextD.getDate()+30);
+  const nextDate=nextD.toISOString().slice(0,10);
+  if(today<nextDate) return;
   const nd=new Date(nextDate+'T00:00:00');nd.setDate(nd.getDate()+6);
   const deadline=`${p2(nd.getDate())}.${p2(nd.getMonth()+1)}`;
   state.tasks.push({id:uid(),game:'The Gang',title:'WGC LOGO NEW',date:nextDate,note:'',
