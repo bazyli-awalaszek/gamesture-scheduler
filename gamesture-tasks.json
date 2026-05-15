@@ -196,7 +196,13 @@
       "weekKey": "2026-W20",
       "order": 1,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mp6r59pslok0",
+          "title": "GStore news",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
