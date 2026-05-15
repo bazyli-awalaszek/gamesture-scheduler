@@ -111,27 +111,6 @@
       "links": []
     },
     {
-      "id": "mp6oa9ip3b81",
-      "game": "Cooking Wars",
-      "title": "test urlopu",
-      "date": "2026-09-02",
-      "note": "csfdsadfdsf",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mp6ojqwv4z3d",
-          "title": "dssdf",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mp6ong2t2bgg",
       "game": "Cooking Wars",
       "title": "kkkk",
