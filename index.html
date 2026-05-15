@@ -1350,7 +1350,7 @@ const NINJA_PERSONS={
   ]}
 };
 
-let ninjaOpen=true;
+let ninjaOpen=localStorage.getItem('ninja-open')==='1';
 function renderNinja(){
   const body=document.getElementById('ninjaBody');if(!body)return;
   body.classList.toggle('collapsed',!ninjaOpen);
@@ -1800,7 +1800,11 @@ function saveLbCaption(val){
   const item=lbItems[lbIdx];if(!item)return;
   item.caption=val;
   save();
-  renderGallery();
+  const newTitle=val||item.name||'';
+  const galImg=document.querySelector(`.gallery-thumb[data-gal-id="${item.id}"]`);
+  if(galImg){galImg.title=newTitle;return;}
+  const attImg=document.querySelector(`.attach-thumb[data-att-id="${item.id}"]`);
+  if(attImg) attImg.title=newTitle;
 }
 function closeLightbox(){document.getElementById('galleryLightbox').classList.remove('open');}
 
@@ -2544,16 +2548,14 @@ function initListeners(){
   });
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
   // Ninja strip
-  document.getElementById('ninjaTitleToggle').addEventListener('click',()=>{
+  const _ninjaToggle=()=>{
     ninjaOpen=!ninjaOpen;
+    localStorage.setItem('ninja-open',ninjaOpen?'1':'0');
     document.getElementById('ninjaBody').classList.toggle('collapsed',!ninjaOpen);
     document.getElementById('ninjaToggleBtn').textContent=ninjaOpen?'▼':'▶';
-  });
-  document.getElementById('ninjaToggleBtn').addEventListener('click',()=>{
-    ninjaOpen=!ninjaOpen;
-    document.getElementById('ninjaBody').classList.toggle('collapsed',!ninjaOpen);
-    document.getElementById('ninjaToggleBtn').textContent=ninjaOpen?'▼':'▶';
-  });
+  };
+  document.getElementById('ninjaTitleToggle').addEventListener('click',_ninjaToggle);
+  document.getElementById('ninjaToggleBtn').addEventListener('click',_ninjaToggle);
   document.getElementById('btnNinjaSean').addEventListener('click',e=>{e.stopPropagation();openNinjaVacModal('sean');});
   document.getElementById('btnNinjaYahu').addEventListener('click',e=>{e.stopPropagation();openNinjaVacModal('yahu');});
   document.getElementById('ninjaVacSave').addEventListener('click',saveNinjaVac);
