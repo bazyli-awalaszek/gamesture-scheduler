@@ -1283,7 +1283,7 @@ function cardHtml(t){
   const atts=(t.attachments||[]);
   const attHtml=atts.map(a=>{
     const preview=a.type.startsWith('image/')
-      ?`<img src="${a.data}" class="attach-thumb" title="${esc(a.name)}" data-action="view-attach" data-att-id="${a.id}" data-id="${t.id}">${a.caption?`<div class="gal-caption-overlay">${esc(a.caption)}</div>`:''}`
+      ?`<img src="${a.data}" class="attach-thumb" title="${esc(a.caption||a.name)}" data-action="view-attach" data-att-id="${a.id}" data-id="${t.id}">`
       :`<a class="attach-link" href="${a.data}" download="${esc(a.name)}" title="${esc(a.name)}">${esc(a.name)}</a>`;
     return`<div class="attach-item">${preview}<button class="attach-del" data-action="del-attach" data-att-id="${a.id}" data-id="${t.id}">✕</button></div>`;
   }).join('');
@@ -1724,7 +1724,7 @@ function renderGallery(){
   const items=state.gallery||[];
   grid.innerHTML=items.map(g=>{
     if(g.type==='image'||!g.type){
-      return`<div class="gallery-thumb-wrap" data-gal-id="${g.id}"><img class="gallery-thumb" src="${g.data}" alt="${esc(g.name)}" data-gal-id="${g.id}" title="${esc(g.name)}"><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button>${g.caption?`<div class="gal-caption-overlay">${esc(g.caption)}</div>`:''}</div>`;
+      return`<div class="gallery-thumb-wrap" data-gal-id="${g.id}"><img class="gallery-thumb" src="${g.data}" alt="${esc(g.name)}" data-gal-id="${g.id}" title="${esc(g.caption||g.name)}"><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button></div>`;
     }
     return`<div class="gallery-file-wrap" data-gal-id="${g.id}" data-gal-type="${g.type}" title="${esc(g.name)}"><span class="gallery-file-icon">${galFileIcon(g.type)}</span><span class="gallery-file-name">${esc(g.name)}</span><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button></div>`;
   }).join('');
