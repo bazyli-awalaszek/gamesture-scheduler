@@ -2833,7 +2833,8 @@ async function init(){
       state=result.state;
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
       rolloverIncompleteTasks();seedDailyTasks();seedRecurringTasks();seedNinjaVacationTasks();
-      save();updateFileUI();initListeners();renderApp();return;
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+      updateFileUI();initListeners();renderApp();return;
     }
   }
 
