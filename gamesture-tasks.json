@@ -180,7 +180,13 @@
       "weekKey": "2026-W20",
       "order": 4,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mp6mau34vtdl",
+          "title": "sdfjsdf",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
