@@ -289,7 +289,13 @@
       "weekKey": "2026-W20",
       "order": 4,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mp6y4jk5lqbp",
+          "title": "news ready",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
