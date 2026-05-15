@@ -181,7 +181,13 @@
       "weekKey": "2026-W20",
       "order": 4,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mp6mbql6lns8",
+          "title": "xsassa",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
