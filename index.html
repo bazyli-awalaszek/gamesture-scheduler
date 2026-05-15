@@ -529,7 +529,8 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .gallery-drop{min-height:36px;border:1.5px dashed var(--border2);border-radius:6px;cursor:pointer;padding:8px;transition:border-color .12s,background .12s;}
 .gallery-drop.drag-over{border-color:var(--blue);background:rgba(122,162,247,.07);}
 .gallery-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
-.gallery-thumb-wrap{position:relative;display:inline-flex;}
+.gallery-thumb-wrap{position:relative;display:inline-flex;cursor:grab;}
+.gallery-thumb-wrap:active{cursor:grabbing;}
 .gallery-thumb{width:64px;height:64px;object-fit:cover;border-radius:5px;cursor:zoom-in;border:2px solid transparent;transition:border-color .1s,transform .12s;}
 .gallery-thumb:hover{border-color:var(--blue);transform:scale(1.05);}
 .gallery-thumb-del{position:absolute;top:-4px;right:-4px;background:var(--bg);border:1px solid var(--border2);border-radius:50%;width:14px;height:14px;font-size:8px;cursor:pointer;display:none;align-items:center;justify-content:center;color:var(--muted);padding:0;line-height:1;}
@@ -1706,15 +1707,28 @@ function galFileIcon(type){
   if(type==='pdf') return '📋';
   return '📄';
 }
+let gallerySortable=null;
 function renderGallery(){
   const grid=document.getElementById('galleryGrid');if(!grid)return;
+  if(gallerySortable){try{gallerySortable.destroy();}catch(_){}gallerySortable=null;}
   const items=state.gallery||[];
   grid.innerHTML=items.map(g=>{
     if(g.type==='image'||!g.type){
-      return`<div class="gallery-thumb-wrap"><img class="gallery-thumb" src="${g.data}" alt="${esc(g.name)}" data-gal-id="${g.id}" title="${esc(g.name)}"><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button></div>`;
+      return`<div class="gallery-thumb-wrap" data-gal-id="${g.id}"><img class="gallery-thumb" src="${g.data}" alt="${esc(g.name)}" data-gal-id="${g.id}" title="${esc(g.name)}"><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button></div>`;
     }
     return`<div class="gallery-file-wrap" data-gal-id="${g.id}" data-gal-type="${g.type}" title="${esc(g.name)}"><span class="gallery-file-icon">${galFileIcon(g.type)}</span><span class="gallery-file-name">${esc(g.name)}</span><button class="gallery-thumb-del" data-action="gal-del" data-gal-id="${g.id}">✕</button></div>`;
   }).join('');
+  if(items.length>1){
+    gallerySortable=Sortable.create(grid,{
+      animation:150,ghostClass:'sortable-ghost',
+      onEnd(){
+        const ids=[...grid.children].map(el=>el.dataset.galId).filter(Boolean);
+        const byId={};(state.gallery||[]).forEach(g=>byId[g.id]=g);
+        state.gallery=ids.map(id=>byId[id]).filter(Boolean);
+        save();
+      }
+    });
+  }
 }
 function addGalleryImages(files){
   Array.from(files).forEach(f=>{
