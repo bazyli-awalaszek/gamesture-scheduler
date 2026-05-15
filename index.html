@@ -635,11 +635,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
   <div class="ms-auto d-flex gap-2 flex-wrap align-items-center">
     <div id="globalQlBar" class="ql-bar" style="border:none;padding:0;margin:0;min-height:0;"></div>
-    <div id="fileBadge" style="display:none;align-items:center;gap:5px;font-size:11px;background:rgba(158,206,106,.12);border:1px solid rgba(158,206,106,.3);border-radius:5px;padding:3px 8px;">
-      <span style="color:var(--green)">📁</span>
-      <span id="fileNameLbl" style="color:var(--green);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-      <button id="btnFileDisconnect" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:11px;padding:0 0 0 3px;line-height:1" title="Rozłącz plik">✕</button>
-    </div>
+
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
     <button class="btn-pdf-export" id="btnExportPdf" title="Eksportuj zadania tygodnia do PDF">📄 PDF</button>
   </div>
@@ -1622,7 +1618,7 @@ function renderGlobalQlBar(){
   bar.innerHTML=iconsHtml
     +`<button class="ql-add" data-action="ql-open" title="Dodaj link">+</button>`
     +`<button class="ql-edit-mode-btn" data-action="ql-toggle-edit">${qlEditMode?'✓ GOTOWE':'EDYCJA'}</button>`
-    +`<button class="ql-json-btn" data-action="ql-json" title="Połącz plik JSON z Dropbox">JSON</button>`;
+;
   bar.classList.toggle('edit-mode',qlEditMode);
   if(qlEditMode&&links.length>1){
     qlSortable=Sortable.create(bar,{
