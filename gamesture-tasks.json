@@ -82,18 +82,8 @@
       "attachments": [],
       "subtasks": [
         {
-          "id": "mp6mfqjh58sf",
-          "title": "waiting for contact (do 29.04)",
-          "done": false
-        },
-        {
           "id": "mp6mfqjhvrur",
           "title": "references received",
-          "done": false
-        },
-        {
-          "id": "mp6mfqjhdug5",
-          "title": "references shared with the team",
           "done": false
         }
       ],
