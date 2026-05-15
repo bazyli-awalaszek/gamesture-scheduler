@@ -376,8 +376,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .btn-add-date:hover{opacity:.9;}
 
 /* Title */
-.title-wrap{flex:1;min-width:0;}
+.title-wrap{flex:1;min-width:0;display:flex;align-items:flex-start;gap:3px;}
 .title-display{
+  flex:1;min-width:0;
   font-size:12px;font-weight:500;line-height:1.45;color:var(--dark);
   cursor:pointer;word-break:break-word;min-height:18px;
 }
@@ -390,7 +391,7 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .link-icon:hover{opacity:1;}
 .time-hl{color:var(--orange);font-weight:700;}
 .card-title{
-  width:100%;
+  flex:1;min-width:0;width:0;
   font-size:12px;font-weight:500;line-height:1.45;color:var(--dark);
   border:none;outline:none;background:transparent;
   resize:none;padding:0;overflow:hidden;min-height:18px;display:none;
