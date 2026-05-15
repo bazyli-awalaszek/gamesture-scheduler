@@ -139,6 +139,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6r0nwib9fv",
+      "game": "The Gang",
+      "title": "check character names",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 1,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
