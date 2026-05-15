@@ -24,21 +24,6 @@
   ],
   "tasks": [
     {
-      "id": "mol7r45f2x34",
-      "game": "The Gang",
-      "title": "fsdfsdf",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 1,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mp6k2u0ps7kz",
       "game": "Ogólne",
       "title": "DAILY BREAD",
@@ -78,92 +63,6 @@
         {
           "id": "mp6k2u0pvg1z",
           "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
-      "id": "mp6lc8619r16",
-      "game": "The Gang",
-      "title": "zadanie testowe zobaczymy",
-      "date": "2026-05-15",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 3,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
-      "id": "mp6lic2w97me",
-      "game": "The Gang",
-      "title": "usunalem jedno zobaczmy czy teraz to bedzie widac",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 4,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
-      "id": "mp6m8uw2ybje",
-      "game": "Cooking Wars",
-      "title": "aaa",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
-      "id": "mp6mag0cvhbq",
-      "game": "The Gang",
-      "title": "WGC LOGO NEW",
-      "date": "2026-04-23",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mp6mag0ckks3",
-          "title": "waiting for contact (do 29.04)",
-          "done": false
-        },
-        {
-          "id": "mp6mag0cfvsc",
-          "title": "references received",
-          "done": false
-        },
-        {
-          "id": "mp6mag0cno8s",
-          "title": "references shared with the team",
-          "done": false
-        },
-        {
-          "id": "mp6mag0ccqvk",
-          "title": "project 1 shared with winners",
-          "done": false
-        },
-        {
-          "id": "mp6mag0csodc",
-          "title": "in-game message to the winners Boss, Dpts: sent here https://the-gang.admin-gamesture.com/tools/personal-messages/details/1186?__game=Gang",
           "done": false
         }
       ],
