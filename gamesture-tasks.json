@@ -154,6 +154,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6r26dtpxri",
+      "game": "The Gang",
+      "title": "info o nagrodzie w Nations Cup news",
+      "date": null,
+      "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 2,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
