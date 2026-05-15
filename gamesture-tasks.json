@@ -232,6 +232,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6rbq00xthr",
+      "game": "Cooking Wars",
+      "title": "New Epic: Coq au Vin",
+      "date": "2026-06-03",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 3,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
