@@ -169,37 +169,6 @@
       ],
       "link": null,
       "links": []
-    },
-    {
-      "id": "mp6mbnkibl12",
-      "game": "The Gang",
-      "title": "xzczxcz",
-      "date": "2026-05-15",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W20",
-      "order": 4,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mp6mbql6lns8",
-          "title": "xsassa",
-          "done": false
-        },
-        {
-          "id": "mp6mbrah26kw",
-          "title": "sadasdsa",
-          "done": false
-        },
-        {
-          "id": "mp6mbrx6w2uf",
-          "title": "sadasdsa",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
     }
   ],
   "quicklinks": [
