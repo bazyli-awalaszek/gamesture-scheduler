@@ -1,0 +1,4 @@
+# dane zadań są pushowane przez app — nie ignoruj JSON
+*.log
+.DS_Store
+Thumbs.db
