@@ -121,13 +121,7 @@
       "weekKey": "2026-W20",
       "order": 1,
       "attachments": [],
-      "subtasks": [
-        {
-          "id": "mp6r4bylhjno",
-          "title": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
-          "done": false
-        }
-      ],
+      "subtasks": [],
       "link": null,
       "links": []
     },
