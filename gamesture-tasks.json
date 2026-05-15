@@ -189,6 +189,46 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6lm7j7c0yj",
+      "game": "The Gang",
+      "title": "WGC LOGO NEW",
+      "date": "2026-04-23",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mp6lm7j7hweu",
+          "title": "waiting for contact (do 29.04)",
+          "done": false
+        },
+        {
+          "id": "mp6lm7j7vs3r",
+          "title": "references received",
+          "done": false
+        },
+        {
+          "id": "mp6lm7j7zdtb",
+          "title": "references shared with the team",
+          "done": false
+        },
+        {
+          "id": "mp6lm7j7tdzj",
+          "title": "project 1 shared with winners",
+          "done": false
+        },
+        {
+          "id": "mp6lm7j70val",
+          "title": "in-game message to the winners Boss, Dpts: sent here https://the-gang.admin-gamesture.com/tools/personal-messages/details/1186?__game=Gang",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
