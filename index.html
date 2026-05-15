@@ -420,7 +420,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .btn-dup:hover{color:var(--blue);opacity:1;}
 
 /* Expandable section (note only) */
-.card-expand{display:none;padding-left:37px;margin-top:4px;}
+.card-note-wrap{display:none;padding-left:37px;margin-top:4px;}
+.task-card.expanded .card-note-wrap{display:block;}
+.card-expand{display:none;padding-left:37px;}
 .task-card.expanded .card-expand{display:block;}
 /* Subtasks always visible */
 .card-subs-always{padding-left:28px;margin-top:3px;}
@@ -1300,10 +1302,12 @@ function cardHtml(t){
       <button class="btn-edit-title" data-action="edit-title" data-id="${t.id}" title="Edytuj tytuł">✏️</button>
     </div>
   </div>
-  ${subs.length?`<div class="card-subs-always">${subsItemsHtml}</div>`:''}
-  <div class="card-expand">
+  <div class="card-note-wrap">
     <div class="card-note-view" data-id="${t.id}">${formatNoteLinks(t.note||'')}</div>
     <textarea class="card-note" data-f="note" data-id="${t.id}" rows="1" placeholder="Notatka..." spellcheck="false">${esc(t.note||'')}</textarea>
+  </div>
+  ${subs.length?`<div class="card-subs-always">${subsItemsHtml}</div>`:''}
+  <div class="card-expand">
     <div class="subtasks-area"><input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."></div>
   </div>
   ${atts.length?`<div class="card-attach-always">${attHtml}</div>`:''}
