@@ -277,6 +277,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mp6y4c3l4gwn",
+      "game": "The Gang",
+      "title": "NEW Card Heist news",
+      "date": "2026-05-15",
+      "note": "last-minute news, więcej info tu: https://gamesture.slack.com/archives/C0AE8TXH9HB/p1778844189739249",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 4,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
