@@ -287,7 +287,13 @@
     }
   ],
   "gallery": [],
-  "notes": [],
+  "notes": [
+    {
+      "id": "mp6rhvl729a7",
+      "text": "",
+      "color": "#1e0806"
+    }
+  ],
   "vacations": {
     "sean": [],
     "yahu": []
