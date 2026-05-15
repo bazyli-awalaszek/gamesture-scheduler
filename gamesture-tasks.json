@@ -284,7 +284,7 @@
       "title": "NEW Card Heist news",
       "date": "2026-05-15",
       "note": "last-minute news, więcej info tu: https://gamesture.slack.com/archives/C0AE8TXH9HB/p1778844189739249",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W20",
       "order": 4,
@@ -298,7 +298,7 @@
         {
           "id": "mp6y4mwbhau2",
           "title": "CC 15:50",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
