@@ -1718,32 +1718,6 @@ function _showLbFrame(idx){
   document.getElementById('lbCounter').textContent=multi?`${lbIdx+1} / ${lbItems.length}`:'';
 }
 function closeLightbox(){document.getElementById('galleryLightbox').classList.remove('open');}
-// ── RECURRING TASKS ──────────────────────────────────
-function seedRecurringTasks(){
-  const today=todayStr();
-  const START='2026-04-23';
-  const allWgc=state.tasks.filter(t=>t.game==='The Gang'&&t.title==='WGC LOGO NEW').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  const last=allWgc[0];
-  if(!last||!last.date) return;
-  const lastD=new Date(last.date+'T00:00:00');
-  const nextD=new Date(lastD);nextD.setDate(nextD.getDate()+30);
-  const nextDate=nextD.toISOString().slice(0,10);
-  if(today<nextDate) return;
-  const nd=new Date(nextDate+'T00:00:00');nd.setDate(nd.getDate()+6);
-  const deadline=`${p2(nd.getDate())}.${p2(nd.getMonth()+1)}`;
-  state.tasks.push({id:uid(),game:'The Gang',title:'WGC LOGO NEW',date:nextDate,note:'',
-    status:'active',priority:false,weekKey:isoWeekKey(new Date()),
-    order:0,attachments:[],
-    subtasks:[
-      {id:uid(),title:`waiting for contact (do ${deadline})`,done:false},
-      {id:uid(),title:'references received',done:false},
-      {id:uid(),title:'references shared with the team',done:false},
-      {id:uid(),title:'project 1 shared with winners',done:false},
-      {id:uid(),title:'in-game message to the winners Boss, Dpts: sent here https://the-gang.admin-gamesture.com/tools/personal-messages/details/1186?__game=Gang',done:false},
-    ],
-    link:null});
-  save();
-}
 
 // ═══════════════════════════════════════
 // DATE TOGGLE
@@ -2851,8 +2825,7 @@ async function init(){
   if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));save();}
   rolloverIncompleteTasks();
   seedDailyTasks();
-  seedRecurringTasks();
-  seedNinjaVacationTasks();
+    seedNinjaVacationTasks();
   save();
   updateFileUI();
   initListeners();
