@@ -845,7 +845,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 // CONFIG
 // ═══════════════════════════════════════
 const STORAGE_KEY='gamesture-tasks-v2';
-const APP_VERSION=2;
+const APP_VERSION=3;
 
 async function checkForUpdates(){
   try{
@@ -2826,7 +2826,7 @@ async function init(){
     if(result.ok&&!result.isNew&&result.state){
       state=result.state;
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
-      rolloverIncompleteTasks();seedDailyTasks();seedRecurringTasks();seedNinjaVacationTasks();
+      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
       updateFileUI();initListeners();renderApp();return;
     }
