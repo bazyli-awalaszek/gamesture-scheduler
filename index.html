@@ -855,6 +855,27 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 // CONFIG
 // ═══════════════════════════════════════
 const STORAGE_KEY='gamesture-tasks-v2';
+const APP_VERSION=2;
+
+async function checkForUpdates(){
+  try{
+    const res=await fetch('version.txt?t='+Date.now());
+    if(!res.ok)return;
+    const v=parseInt((await res.text()).trim(),10);
+    if(v>APP_VERSION) showUpdateBanner();
+  }catch(_){}
+}
+function showUpdateBanner(){
+  if(document.getElementById('updateBanner'))return;
+  const isMac=navigator.platform.toUpperCase().includes('MAC')||navigator.userAgent.includes('Mac');
+  const shortcut=isMac?'Cmd+Shift+R':'Ctrl+Shift+R';
+  const el=document.createElement('div');
+  el.id='updateBanner';
+  el.style.cssText='position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:9999;background:#1f2335;border:1px solid #7aa2f7;border-radius:8px;padding:10px 18px;display:flex;align-items:center;gap:12px;font-size:12px;color:#c0caf5;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;';
+  el.innerHTML=`<span>🔄 Dostępna nowa wersja aplikacji — odśwież stronę (<strong style="color:#7aa2f7">${shortcut}</strong>)</span><button onclick="document.getElementById('updateBanner').remove()" style="background:none;border:none;cursor:pointer;color:#565f89;font-size:14px;line-height:1;padding:0 0 0 4px">✕</button>`;
+  document.body.appendChild(el);
+}
+setInterval(checkForUpdates,5*60*1000);
 const DEFAULT_GAMES=[
   {name:'Ogólne',       icon:'🌐', color:'#565f89', general:true},
   {name:'The Gang',     icon:null, color:'#f7768e'},
