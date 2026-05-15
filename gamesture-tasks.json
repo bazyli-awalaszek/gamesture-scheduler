@@ -180,7 +180,13 @@
     }
   ],
   "gallery": [],
-  "notes": [],
+  "notes": [
+    {
+      "id": "mp6mdst01j5d",
+      "text": "",
+      "color": "#1e0806"
+    }
+  ],
   "vacations": {
     "sean": [],
     "yahu": []
