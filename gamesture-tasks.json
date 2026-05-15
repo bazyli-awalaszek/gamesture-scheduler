@@ -1,0 +1,206 @@
+{
+  "games": [
+    {
+      "name": "Ogólne",
+      "icon": "🌐",
+      "color": "#565f89",
+      "general": true
+    },
+    {
+      "name": "The Gang",
+      "icon": null,
+      "color": "#f7768e"
+    },
+    {
+      "name": "Cooking Wars",
+      "icon": null,
+      "color": "#ff9e64"
+    },
+    {
+      "name": "Mafia Rivals",
+      "icon": null,
+      "color": "#bb9af7"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "mol5r4tirxwk",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-04-30",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mol5r4tj5nqg",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjcpdl",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mol5r4tj9pgu",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjjkn6",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjcqk9",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjvazh",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mol5r4tju5lk",
+      "game": "The Gang",
+      "title": "WGC LOGO NEW",
+      "date": "2026-04-23",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mol5r4tjmmnw",
+          "title": "waiting for contact (do 29.04)",
+          "done": false
+        },
+        {
+          "id": "mol5r4tj64g5",
+          "title": "references received",
+          "done": false
+        },
+        {
+          "id": "mol5r4tj8kh5",
+          "title": "references shared with the team",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjp0if",
+          "title": "project 1 shared with winners",
+          "done": false
+        },
+        {
+          "id": "mol5r4tjhuez",
+          "title": "in-game message to the winners Boss, Dpts: sent here https://the-gang.admin-gamesture.com/tools/personal-messages/details/1186?__game=Gang",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mol7r45f2x34",
+      "game": "The Gang",
+      "title": "fsdfsdf",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 1,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mp6k2u0ps7kz",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-05-15",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mp6k2u0pi0tj",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mp6k2u0pgbma",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mp6k2u0p7by5",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mp6k2u0pice3",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mp6k2u0pjbiz",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mp6k2u0pvg1z",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mp6k356xiy01",
+      "game": "The Gang",
+      "title": "asdsaddsf",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W20",
+      "order": 2,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    }
+  ],
+  "quicklinks": [
+    {
+      "id": "ql-knowledge",
+      "icon": "📖",
+      "url": "http://knowledge/tutorials",
+      "label": "Knowledge Base"
+    }
+  ],
+  "gallery": [],
+  "notes": [],
+  "vacations": {
+    "sean": [],
+    "yahu": []
+  },
+  "myVacations": [],
+  "ninjaItems": []
+}
