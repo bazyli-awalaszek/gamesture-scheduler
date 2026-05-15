@@ -165,7 +165,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ninja-vac-row .ninja-vac-field{flex:1;}
 
 /* ── MY VACATIONS ── */
-.sb-myvac{}
+.sb-myvac{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;}
+.sb-myvac.collapsed .myvac-body{display:none;}
+.sb-myvac.collapsed .sb-arrow{transform:rotate(-90deg);}
 .myvac-form{display:flex;gap:6px;align-items:flex-end;margin-bottom:8px;}
 .myvac-form input{flex:1;background:#16161e;color:var(--dark);border:1px solid var(--border2);border-radius:4px;padding:4px 7px;font-size:11px;outline:none;min-width:0;}
 .myvac-form input:focus{border-color:var(--orange);}
