@@ -563,6 +563,10 @@ a.ninja-item-title:hover{text-decoration:underline;}
 #emgNotePanel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .emg-note-ta{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;outline:none;font-size:11px;color:var(--dark2);padding:6px 8px;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;min-height:60px;box-sizing:border-box;}
 .emg-note-ta:focus{border-color:rgba(255,174,0,.5);}
+.emg-note-preview{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;font-size:11px;color:var(--dark2);padding:6px 8px;line-height:1.55;font-family:inherit;min-height:60px;box-sizing:border-box;white-space:pre-wrap;word-break:break-word;cursor:text;display:none;}
+.emg-note-preview.active{display:block;}
+.emg-note-preview a{color:#7ec8e3;text-decoration:underline;word-break:break-all;}
+.emg-note-preview a:hover{color:#aee;}
 /* Gallery */
 /* ── FOR EMERGENCY ── */
 .sb-emg{flex:0 0 auto;border-bottom:1px solid #4a1010;padding:8px 12px;display:flex;flex-direction:column;max-height:50%;background:#1a0404;}
@@ -860,6 +864,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <!-- EMG NOTE PANEL -->
 <div id="emgNotePanel">
   <div class="help-panel-title">Notatka dla zastępcy <button class="help-close" id="emgNoteClose">✕</button></div>
+  <div class="emg-note-preview" id="emgNotePreview"></div>
   <textarea class="emg-note-ta" id="emgNoteTa" rows="4" placeholder="Wpisz tu dowolne informacje, instrukcje, linki..." spellcheck="false"></textarea>
 </div>
 
@@ -2822,6 +2827,7 @@ function initListeners(){
     emgHighlight=on;
     localStorage.setItem('emg-highlight',on?'1':'0');
     if(on) sbEmgEl.classList.remove('collapsed');
+    else sbEmgEl.classList.add('collapsed');
     document.getElementById('emgNoteBtn').classList.toggle('emg-alert',on);
     btnEmgActivate.classList.toggle('active',on);
     renderGlobalQlBar();
@@ -2834,15 +2840,39 @@ function initListeners(){
   // Note ? panel (floating, like helpPanel)
   const emgNotePanel=document.getElementById('emgNotePanel');
   const emgNoteTa=document.getElementById('emgNoteTa');
+  const emgNotePreview=document.getElementById('emgNotePreview');
   const emgNoteBtn=document.getElementById('emgNoteBtn');
+  function autoLinkText(text){
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>')
+      .replace(/\n/g,'<br>');
+  }
+  function showNotePreview(){
+    const txt=(state.emergencyNote||'').trim();
+    if(txt){
+      emgNotePreview.innerHTML=autoLinkText(state.emergencyNote||'');
+      emgNotePreview.classList.add('active');
+      emgNoteTa.style.display='none';
+    } else {
+      emgNotePreview.classList.remove('active');
+      emgNoteTa.style.display='';
+    }
+  }
+  function showNoteEdit(){
+    emgNotePreview.classList.remove('active');
+    emgNoteTa.style.display='';
+    requestAnimationFrame(()=>{autoResize(emgNoteTa);emgNoteTa.focus();});
+  }
   emgNoteBtn.classList.toggle('active',!!(state.emergencyNote||'').trim());
   if(state.emergencyNote) emgNoteTa.value=state.emergencyNote;
-  requestAnimationFrame(()=>autoResize(emgNoteTa));
+  requestAnimationFrame(()=>{autoResize(emgNoteTa);showNotePreview();});
+  emgNotePreview.addEventListener('click',e=>{if(!e.target.closest('a'))showNoteEdit();});
+  emgNoteTa.addEventListener('blur',()=>showNotePreview());
   emgNoteBtn.addEventListener('click',e=>{
     e.stopPropagation();
     const open=emgNotePanel.classList.toggle('open');
     emgNoteBtn.classList.toggle('active',open||!!(state.emergencyNote||'').trim());
-    if(open) requestAnimationFrame(()=>{autoResize(emgNoteTa);emgNoteTa.focus();});
+    if(open) requestAnimationFrame(()=>{showNotePreview();if(!(state.emergencyNote||'').trim())showNoteEdit();});
   });
   document.getElementById('emgNoteClose').addEventListener('click',()=>{
     emgNotePanel.classList.remove('open');
