@@ -429,6 +429,18 @@
       "label": "Helpshift"
     },
     {
+      "id": "mpb1e1fzt018",
+      "icon": "🎮",
+      "url": "http://game-pulse/",
+      "label": "GamePulse"
+    },
+    {
+      "id": "mpb1dgt4m51g",
+      "icon": "💬",
+      "url": "https://www.deepl.com/pl/translator#en/pl",
+      "label": "DeepL"
+    },
+    {
       "id": "ql-knowledge",
       "icon": "📖",
       "url": "http://knowledge/tutorials",
@@ -463,18 +475,6 @@
       "icon": "🔗",
       "url": "https://translate.yandex.com/en/ocr",
       "label": "Image Translator"
-    },
-    {
-      "id": "mpb1dgt4m51g",
-      "icon": "💬",
-      "url": "https://www.deepl.com/pl/translator#en/pl",
-      "label": "DeepL"
-    },
-    {
-      "id": "mpb1e1fzt018",
-      "icon": "🎮",
-      "url": "http://game-pulse/",
-      "label": "GamePulse"
     }
   ],
   "gallery": [
