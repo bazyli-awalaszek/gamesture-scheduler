@@ -1472,10 +1472,10 @@ function renderNinja(){
     <span class="ninja-person-name" style="color:${cfg.color}">${cfg.name}</span>
     ${vacLabel}
   </div>
-  ${expiredVacHtml}
   ${activeHtml||`<div style="font-size:11px;color:var(--faint);font-style:italic;padding:2px 0">Brak zadań</div>`}
   ${doneSec}
   <input class="ninja-add-inp" data-person="${person}" placeholder="+ Dodaj zadanie...">
+  ${expiredVacHtml}
 </div>`;
   });
 
