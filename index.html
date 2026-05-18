@@ -698,7 +698,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 
   <div class="help-section">
     <div class="help-section-title">Taski</div>
-    <div class="help-item"><span class="hi-key">Klik tytułu</span><span class="hi-desc">rozwiń/zwiń kartę (notka + podzadania)</span></div>
+    <div class="help-item"><span class="hi-key">Klik tytułu</span><span class="hi-desc">rozwiń/zwiń kartę (notka + subtaski)</span></div>
     <div class="help-item"><span class="hi-key">✏️ obok tytułu</span><span class="hi-desc">edytuj tytuł taska</span></div>
     <div class="help-item"><span class="hi-key">2× klik notki</span><span class="hi-desc">edytuj notatkę taska</span></div>
     <div class="help-item"><span class="hi-key">Hover na kartę</span><span class="hi-desc">⭐ priorytet · ⎘ duplikuj · ⏪ poprzedni tydzień · ✕ usuń</span></div>
@@ -708,12 +708,12 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
 
   <div class="help-section">
-    <div class="help-section-title">Podzadania</div>
-    <div class="help-item"><span class="hi-key">Hover na podzadanie</span><span class="hi-desc">✏️ edytuj tytuł · ✕ usuń</span></div>
-    <div class="help-item"><span class="hi-key">PPM na podzadanie</span><span class="hi-desc">edytuj tytuł przez menu kontekstowe</span></div>
-    <div class="help-item"><span class="hi-key">📅 przy podzadaniu</span><span class="hi-desc">dodaj datę do istniejącego podzadania</span></div>
-    <div class="help-item"><span class="hi-key">Klik chipu z datą</span><span class="hi-desc">edytuj datę podzadania</span></div>
-    <div class="help-item"><span class="hi-key">Pole daty przy "+ Dodaj"</span><span class="hi-desc">ustaw datę już przy tworzeniu podzadania</span></div>
+    <div class="help-section-title">Subtaski</div>
+    <div class="help-item"><span class="hi-key">Hover na subtask</span><span class="hi-desc">✕ usuń</span></div>
+    <div class="help-item"><span class="hi-key">PPM na subtask</span><span class="hi-desc">edytuj tytuł przez menu kontekstowe</span></div>
+    <div class="help-item"><span class="hi-key">📅 przy subtasku</span><span class="hi-desc">dodaj datę do istniejącego subtaska</span></div>
+    <div class="help-item"><span class="hi-key">Klik chipu z datą</span><span class="hi-desc">edytuj datę subtaska</span></div>
+    <div class="help-item"><span class="hi-key">Pole daty przy "+ Dodaj"</span><span class="hi-desc">ustaw datę już przy tworzeniu subtaska</span></div>
   </div>
 
   <div class="help-section">
@@ -932,7 +932,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <!-- CONTEXT MENU -->
 <div id="ctxMenu" class="ctx-menu">
   <div class="ctx-item" id="ctxEditTitle">✏️ Edytuj tytuł</div>
-  <div class="ctx-item" id="ctxEditSubtask">✏️ Edytuj podtask</div>
+  <div class="ctx-item" id="ctxEditSubtask">✏️ Edytuj subtask</div>
   <div class="ctx-item" id="ctxMoveNext">⏩ Przenieś na następny tydzień</div>
   <div class="ctx-item" id="ctxMovePrev">⏪ Cofnij do poprzedniego tygodnia</div>
   <div class="ctx-item" id="ctxMoveCurrent">⏮ Przenieś do bieżącego tygodnia</div>
@@ -1380,7 +1380,6 @@ function cardHtml(t){
   ${dateEl}
   <input type="text" class="sub-date-inp" data-subtask-id="${s.id}" data-id="${t.id}" value="${sd?toDisplayDate(sd):''}" placeholder="DD/MM/RRRR" maxlength="10" style="display:none" oninput="formatDateInput(this)">
   <span class="subtask-title ${s.done?'done-text':''}">${formatSubtaskTitle(s.title)}</span>
-  <button class="subtask-edit-btn" data-action="edit-subtask-title" data-subtask-id="${s.id}" data-id="${t.id}" title="Edytuj">✏️</button>
   <button class="subtask-del" data-action="del-subtask" data-subtask-id="${s.id}" data-id="${t.id}">✕</button>
 </div>`;
   }).join('');
@@ -1408,7 +1407,7 @@ function cardHtml(t){
   </div>
   ${subs.length?`<div class="card-subs-always">${subsItemsHtml}</div>`:''}
   <div class="card-expand">
-    <div class="subtasks-area"><input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."><input class="subtask-date-new" type="text" data-id="${t.id}" placeholder="DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)"></div>
+    <div class="subtasks-area"><input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj subtask..."><input class="subtask-date-new" type="text" data-id="${t.id}" placeholder="DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)"></div>
   </div>
   ${atts.length?`<div class="card-attach-always">${attHtml}</div>`:''}
   <div class="attach-hint">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
