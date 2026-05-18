@@ -654,5 +654,35 @@
       "to": "2026-09-02"
     }
   ],
-  "ninjaItems": []
+  "ninjaItems": [],
+  "emergency": [
+    {
+      "id": "mpb3zl95bphr",
+      "title": "🍳 Cooking Wars",
+      "content": "",
+      "collapsed": false,
+      "dropboxLink": ""
+    },
+    {
+      "id": "mpb3zl954jr7",
+      "title": "🎭 Mafia Rivals",
+      "content": "",
+      "collapsed": false,
+      "dropboxLink": ""
+    },
+    {
+      "id": "mpb3zl95d95d",
+      "title": "🌴 The Gang",
+      "content": "",
+      "collapsed": false,
+      "dropboxLink": ""
+    },
+    {
+      "id": "mpb3zl95g8ge",
+      "title": "⚙️ Ogólne",
+      "content": "",
+      "collapsed": false,
+      "dropboxLink": ""
+    }
+  ]
 }
