@@ -559,7 +559,13 @@
     }
   ],
   "vacations": {
-    "sean": [],
+    "sean": [
+      {
+        "id": "mpb2xerbcgx1",
+        "from": "2026-05-29",
+        "to": "2026-05-29"
+      }
+    ],
     "yahu": [
       {
         "id": "mpb2wu6fxgd3",
