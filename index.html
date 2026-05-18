@@ -555,9 +555,11 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s,filter .15s;}
 .emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
 .emg-note-btn.emg-alert{border-color:rgba(231,72,86,.8)!important;color:rgba(231,72,86,.9)!important;filter:drop-shadow(0 0 5px rgba(231,72,86,.7))!important;opacity:1!important;}
-.btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.45);border-radius:3px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.08em;padding:2px 7px;cursor:pointer;transition:background .12s,border-color .12s;text-transform:uppercase;flex-shrink:0;white-space:nowrap;line-height:1.4;}
-.btn-emg-activate:hover{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.75);}
+.btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.45);border-radius:3px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.08em;padding:2px 7px;cursor:pointer;transition:background .12s,border-color .12s,opacity .15s;text-transform:uppercase;flex-shrink:0;white-space:nowrap;line-height:1.4;}
+.btn-emg-activate:not(.active){opacity:0.35;border-color:rgba(231,72,86,.25);background:transparent;}
+.btn-emg-activate:not(.active):hover{opacity:0.65;border-color:rgba(231,72,86,.45);background:rgba(231,72,86,.07);}
 .btn-emg-activate.active{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.8);}
+#sbEmg:not(.mode-on) .emg-note-btn{display:none!important;}
 #emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
 #emgNotePanel.open{display:block;}
 #emgNotePanel::-webkit-scrollbar{width:4px;}
@@ -1984,12 +1986,14 @@ function saveEmgDropbox(id,url){
   if(s){s.dropboxLink=url.trim();save();renderEmergency();}
 }
 function migrateEmergencyOrder(){
-  if(!state.emergency||!state.emergency.length)return;
+  if(!state.emergency||!state.emergency.length)return false;
   const ORDER=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
   const norm=t=>t.replace(/^[\p{Emoji}\s]+/u,'').trim();
+  const before=state.emergency.map(s=>s.id).join(',');
   const ordered=ORDER.map(name=>state.emergency.find(s=>s.title===name||norm(s.title)===name)).filter(Boolean);
   state.emergency.forEach(s=>{if(!ORDER.includes(norm(s.title))&&!ORDER.includes(s.title))ordered.push(s);});
   if(ordered.length)state.emergency=ordered;
+  return state.emergency.map(s=>s.id).join(',')!==before;
 }
 function seedEmergencySections(){
   if(state.emergency&&state.emergency.length)return;
@@ -2833,6 +2837,7 @@ function initListeners(){
     localStorage.setItem('emg-highlight',on?'1':'0');
     if(on) sbEmgEl.classList.remove('collapsed');
     else sbEmgEl.classList.add('collapsed');
+    sbEmgEl.classList.toggle('mode-on',on);
     document.getElementById('emgNoteBtn').classList.toggle('emg-alert',on);
     btnEmgActivate.classList.toggle('active',on);
     document.getElementById('sbTge').classList.toggle('emg-active',on);
@@ -3367,9 +3372,12 @@ async function init(){
     if(result.ok&&!result.isNew&&result.state){
       state=result.state;
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
-      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();migrateEmergencyOrder();
+      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();
+      const _needsOrderSave=migrateEmergencyOrder();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-      updateFileUI();initListeners();renderApp();return;
+      updateFileUI();initListeners();renderApp();
+      if(_needsOrderSave)save();
+      return;
     }
   }
 
