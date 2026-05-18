@@ -3420,7 +3420,10 @@ async function init(){
 init();
 
 function updateClock(){
-  const fmt=(tz)=>new Date().toLocaleTimeString('pl-PL',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false});
+  const now=new Date();
+  const fmt=(tz)=>now.toLocaleTimeString('pl-PL',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false});
+  const cetAbbr=new Intl.DateTimeFormat('en',{timeZone:'Europe/Warsaw',timeZoneName:'short'}).formatToParts(now).find(p=>p.type==='timeZoneName').value;
+  document.querySelector('#clockWidget .clock-tz').textContent=cetAbbr;
   document.getElementById('clockCet').textContent=fmt('Europe/Warsaw');
   document.getElementById('clockUtc').textContent=fmt('UTC');
 }
