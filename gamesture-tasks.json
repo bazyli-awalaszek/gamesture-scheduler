@@ -451,6 +451,12 @@
       "icon": "📅",
       "url": "https://docs.google.com/spreadsheets/d/1D7KDdiqEtG13vLmlLg3S8PPw327ZTw4G9BeQ8Bnr_uM/edit?gid=1464693585#gid=1464693585",
       "label": "SM Posts&Info"
+    },
+    {
+      "id": "mpb1d0d0gwym",
+      "icon": "🔗",
+      "url": "https://translate.yandex.com/en/ocr",
+      "label": "Image Translator"
     }
   ],
   "gallery": [
