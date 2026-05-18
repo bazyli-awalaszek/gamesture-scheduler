@@ -555,9 +555,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s,filter .15s;}
 .emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
 .emg-note-btn.emg-alert{border-color:rgba(231,72,86,.8)!important;color:rgba(231,72,86,.9)!important;filter:drop-shadow(0 0 5px rgba(231,72,86,.7))!important;opacity:1!important;}
-.btn-emg-activate{background:none;border:none;color:var(--red);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0;line-height:1;opacity:.8;transition:opacity .1s,color .1s;flex-shrink:0;white-space:nowrap;}
-.btn-emg-activate:hover{opacity:1;text-decoration:underline;}
-.btn-emg-activate.active{opacity:1;color:#ff6677;}
+.btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.45);border-radius:3px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.08em;padding:2px 7px;cursor:pointer;transition:background .12s,border-color .12s;text-transform:uppercase;flex-shrink:0;white-space:nowrap;line-height:1.4;}
+.btn-emg-activate:hover{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.75);}
+.btn-emg-activate.active{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.8);}
 #emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
 #emgNotePanel.open{display:block;}
 #emgNotePanel::-webkit-scrollbar{width:4px;}
@@ -873,7 +873,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div class="sidebar">
   <div class="sb-emg collapsed" id="sbEmg">
     <div class="emg-top-row">
-      <div class="sb-title" style="margin-bottom:0;flex:1;display:flex;align-items:center;gap:4px;flex-wrap:nowrap">🆘 FOR EMERGENCY <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button></div>
+      <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+        <span class="sb-title" style="margin-bottom:0;white-space:nowrap">🆘 FOR EMERGENCY</span>
+        <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button>
+      </div>
+      <div style="flex:1"></div>
       <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
     </div>
     <div class="emg-body" id="emgBody">
@@ -1934,13 +1938,13 @@ function renderEmergency(){
   document.getElementById('emgNoteBtn')?.classList.toggle('active',!!(state.emergencyNote||'').trim()||document.getElementById('emgNotePanel')?.classList.contains('open'));
   const secs=state.emergency||[];
   container.innerHTML=secs.map(s=>{
-    const dbRow=s.dropboxLink
+    const _secName=s.title.replace(/^[\p{Emoji}\s]+/u,'').trim();
+    const dbRow=_secName==='Ogólne'?'':s.dropboxLink
       ?`<div class="emg-db-row"><a class="emg-db-link" href="${esc(s.dropboxLink)}" target="_blank" rel="noopener">${DROPBOX_SVG}Dropbox folder</a><button class="emg-db-edit" data-emg-id="${s.id}" title="Zmień link">✏️</button></div>`
       :`<div class="emg-db-row"><button class="emg-db-set" data-emg-id="${s.id}">${DROPBOX_SVG}+ dodaj link do folderu Dropbox</button></div>`;
-    const _emgGameName=s.title.replace(/^[\p{Emoji}\s]+/u,'').trim();
-    const _gcfg=gameCfg(_emgGameName);
-    const gameIcon=_gcfg?gameIconHtml(_emgGameName,18,4):'';
-    const displayTitle=(_gcfg&&_gcfg.icon)?_emgGameName:esc(s.title);
+    const _gcfg=gameCfg(_secName);
+    const gameIcon=_gcfg?gameIconHtml(_secName,18,4):'';
+    const displayTitle=(_gcfg&&_gcfg.icon)?_secName:esc(s.title);
     return`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
   <div class="emg-sec-hdr">
     <span class="emg-sec-arrow">▾</span>
