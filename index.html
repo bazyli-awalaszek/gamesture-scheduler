@@ -587,6 +587,22 @@ a.ninja-item-title:hover{text-decoration:underline;}
 /* PDF export button */
 .btn-pdf-export{background:none;border:1px solid var(--border2);border-radius:4px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;cursor:pointer;padding:3px 8px;opacity:.5;transition:opacity .1s;}
 .btn-pdf-export:hover{opacity:1;color:var(--blue);border-color:var(--blue);}
+/* Help button */
+.btn-help{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:22px;height:22px;display:flex;align-items:center;justify-content:center;opacity:.5;transition:opacity .1s,color .1s,border-color .1s;flex-shrink:0;}
+.btn-help:hover,.btn-help.active{opacity:1;color:var(--blue);border-color:var(--blue);}
+/* Help panel */
+#helpPanel{position:fixed;top:46px;right:12px;width:300px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
+#helpPanel.open{display:block;}
+#helpPanel::-webkit-scrollbar{width:4px;}
+#helpPanel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.help-panel-title{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.help-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0;line-height:1;}
+.help-close:hover{color:var(--red);}
+.help-section{margin-bottom:10px;}
+.help-section-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid var(--border);}
+.help-item{display:flex;gap:8px;align-items:baseline;padding:2px 0;font-size:11px;line-height:1.5;}
+.help-item .hi-key{color:var(--gold);flex-shrink:0;min-width:110px;font-size:10px;}
+.help-item .hi-desc{color:var(--dark2);}
 /* GitHub sync */
 .btn-gh-sync{background:none;border:1px solid var(--border2);border-radius:4px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;cursor:pointer;padding:3px 8px;opacity:.5;transition:opacity .1s;display:flex;align-items:center;gap:5px;}
 .btn-gh-sync:hover{opacity:1;color:var(--blue);border-color:var(--blue);}
@@ -665,6 +681,53 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div id="globalQlBar" class="ql-bar" style="border:none;padding:0;margin:0;min-height:0;"></div>
 
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
+    <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
+  </div>
+</div>
+
+<!-- HELP PANEL -->
+<div id="helpPanel">
+  <div class="help-panel-title">Ukryte funkcje <button class="help-close" id="helpClose">✕</button></div>
+
+  <div class="help-section">
+    <div class="help-section-title">Taski</div>
+    <div class="help-item"><span class="hi-key">Klik tytułu</span><span class="hi-desc">rozwiń/zwiń kartę (notka + podzadania)</span></div>
+    <div class="help-item"><span class="hi-key">✏️ obok tytułu</span><span class="hi-desc">edytuj tytuł taska</span></div>
+    <div class="help-item"><span class="hi-key">2× klik notki</span><span class="hi-desc">edytuj notatkę taska</span></div>
+    <div class="help-item"><span class="hi-key">Hover na kartę</span><span class="hi-desc">⭐ priorytet · ⎘ duplikuj · ⏪ poprzedni tydzień · ✕ usuń</span></div>
+    <div class="help-item"><span class="hi-key">PPM na task</span><span class="hi-desc">edytuj tytuł / przenieś na następny, poprzedni lub bieżący tydzień</span></div>
+    <div class="help-item"><span class="hi-key">Przeciąganie ⠿</span><span class="hi-desc">zmień kolejność kart w kolumnie</span></div>
+    <div class="help-item"><span class="hi-key">Upuść plik / Ctrl+V</span><span class="hi-desc">dodaj obrazek jako załącznik do taska</span></div>
+  </div>
+
+  <div class="help-section">
+    <div class="help-section-title">Podzadania</div>
+    <div class="help-item"><span class="hi-key">Hover na podzadanie</span><span class="hi-desc">✏️ edytuj tytuł · ✕ usuń</span></div>
+    <div class="help-item"><span class="hi-key">PPM na podzadanie</span><span class="hi-desc">edytuj tytuł przez menu kontekstowe</span></div>
+    <div class="help-item"><span class="hi-key">📅 przy podzadaniu</span><span class="hi-desc">dodaj datę do istniejącego podzadania</span></div>
+    <div class="help-item"><span class="hi-key">Klik chipu z datą</span><span class="hi-desc">edytuj datę podzadania</span></div>
+    <div class="help-item"><span class="hi-key">Pole daty przy "+ Dodaj"</span><span class="hi-desc">ustaw datę już przy tworzeniu podzadania</span></div>
+  </div>
+
+  <div class="help-section">
+    <div class="help-section-title">Galeria</div>
+    <div class="help-item"><span class="hi-key">Klik obrazka</span><span class="hi-desc">otwórz w powiększeniu (lightbox)</span></div>
+    <div class="help-item"><span class="hi-key">W lightboxie</span><span class="hi-desc">edytuj podpis obrazka (Enter zapisuje)</span></div>
+    <div class="help-item"><span class="hi-key">Hover na obrazek</span><span class="hi-desc">podpis/nazwa jako tooltip</span></div>
+    <div class="help-item"><span class="hi-key">Przeciąganie obrazka</span><span class="hi-desc">zmień kolejność w galerii</span></div>
+  </div>
+
+  <div class="help-section">
+    <div class="help-section-title">Notatki tygodnia</div>
+    <div class="help-item"><span class="hi-key">▸/▾ przy notatce</span><span class="hi-desc">zwiń/rozwiń (stan pamiętany po odświeżeniu)</span></div>
+    <div class="help-item"><span class="hi-key">Przeciąganie notatki</span><span class="hi-desc">zmień kolejność notatek</span></div>
+    <div class="help-item"><span class="hi-key">Nowa notatka</span><span class="hi-desc">zawsze tworzy się na górze listy</span></div>
+  </div>
+
+  <div class="help-section">
+    <div class="help-section-title">Reszta</div>
+    <div class="help-item"><span class="hi-key">✏️ przy quicklinksach</span><span class="hi-desc">tryb edycji linków (+ pojawia się tylko wtedy)</span></div>
+    <div class="help-item"><span class="hi-key">🥷 ninja's urlop</span><span class="hi-desc">kliknij tytuł lub ▼ aby zwinąć/rozwinąć (stan pamiętany)</span></div>
   </div>
 </div>
 
@@ -2692,8 +2755,8 @@ function initListeners(){
     }
   });
 
-  // Board click → note-view clicked (not on a link) → enter note edit mode
-  document.getElementById('board').addEventListener('click',e=>{
+  // Board dblclick → note-view → enter note edit mode
+  document.getElementById('board').addEventListener('dblclick',e=>{
     if(e.target.classList.contains('note-link'))return;
     const view=e.target.closest('.card-note-view');if(!view)return;
     const card=view.closest('.task-card');if(!card)return;
@@ -2740,6 +2803,26 @@ function initListeners(){
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideCtxMenu();});
   document.addEventListener('scroll',hideCtxMenu,true);
+
+  // Help panel
+  const helpPanel=document.getElementById('helpPanel');
+  document.getElementById('btnHelp').addEventListener('click',e=>{
+    e.stopPropagation();
+    helpPanel.classList.toggle('open');
+    document.getElementById('btnHelp').classList.toggle('active',helpPanel.classList.contains('open'));
+  });
+  document.getElementById('helpClose').addEventListener('click',()=>{
+    helpPanel.classList.remove('open');
+    document.getElementById('btnHelp').classList.remove('active');
+  });
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('#helpPanel')&&!e.target.closest('#btnHelp'))
+      helpPanel.classList.remove('open');
+      document.getElementById('btnHelp').classList.remove('active');
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');}
+  });
 
   // Board change
   document.getElementById('board').addEventListener('change',e=>{
