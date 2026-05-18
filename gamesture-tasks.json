@@ -419,6 +419,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpb1g4h5m5yj",
+      "game": "The Gang",
+      "title": "feedback dot. Card Heist",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 5,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
