@@ -726,9 +726,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 *::-webkit-scrollbar-track{background:transparent;}
 *::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 /* Edit title button */
-.btn-edit-title{background:none;border:none;cursor:pointer;font-size:11px;padding:0 1px;opacity:0;line-height:1;color:var(--muted);}
-.task-card:hover .btn-edit-title{opacity:.5;}
-.btn-edit-title:hover{opacity:1!important;}
 
 </style>
 </head>
@@ -758,7 +755,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="help-section">
     <div class="help-section-title">Taski</div>
     <div class="help-item"><span class="hi-key">Klik tytułu</span><span class="hi-desc">rozwiń/zwiń kartę (notka + subtaski)</span></div>
-    <div class="help-item"><span class="hi-key">✏️ obok tytułu</span><span class="hi-desc">edytuj tytuł taska</span></div>
     <div class="help-item"><span class="hi-key">2× klik notki</span><span class="hi-desc">edytuj notatkę taska</span></div>
     <div class="help-item"><span class="hi-key">Hover na kartę</span><span class="hi-desc">⭐ priorytet · ⎘ duplikuj · ⏪ poprzedni tydzień · ✕ usuń</span></div>
     <div class="help-item"><span class="hi-key">PPM na task</span><span class="hi-desc">edytuj tytuł / przenieś na następny, poprzedni lub bieżący tydzień</span></div>
@@ -1488,7 +1484,6 @@ function cardHtml(t){
     <div class="title-wrap">
       ${titleDisp}
       <textarea class="card-title" data-f="title" data-id="${t.id}" rows="1" spellcheck="false">${esc(t.title)}</textarea>
-      <button class="btn-edit-title" data-action="edit-title" data-id="${t.id}" title="Edytuj tytuł">✏️</button>
     </div>
   </div>
   <div class="card-note-wrap">
