@@ -845,7 +845,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="sb-emg" id="sbEmg">
+  <div class="sb-emg collapsed" id="sbEmg">
     <div class="emg-top-row">
       <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
       <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
@@ -2783,8 +2783,11 @@ function initListeners(){
   document.getElementById('sbNotesToggle').addEventListener('click',()=>{
     document.getElementById('sbNotes').classList.toggle('collapsed');
   });
+  const sbEmgEl=document.getElementById('sbEmg');
+  if(localStorage.getItem('emg-open')==='1') sbEmgEl.classList.remove('collapsed');
   document.getElementById('sbEmgToggle').addEventListener('click',()=>{
-    document.getElementById('sbEmg').classList.toggle('collapsed');
+    const c=sbEmgEl.classList.toggle('collapsed');
+    localStorage.setItem('emg-open',c?'0':'1');
   });
   document.getElementById('emgCopyAll').addEventListener('click',e=>{
     e.stopPropagation();copyAllEmg();
