@@ -553,9 +553,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s,filter .15s;}
 .emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
 .emg-note-btn.emg-alert{border-color:rgba(231,72,86,.8)!important;color:rgba(231,72,86,.9)!important;filter:drop-shadow(0 0 5px rgba(231,72,86,.7))!important;opacity:1!important;}
-.btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.4);border-radius:4px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s;text-transform:uppercase;flex-shrink:0;}
-.btn-emg-activate:hover{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.7);box-shadow:0 0 10px rgba(231,72,86,.25);}
-.btn-emg-activate.active{background:rgba(231,72,86,.25);border-color:rgba(231,72,86,.8);}
+.btn-emg-activate{background:none;border:none;color:var(--red);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0;line-height:1;opacity:.8;transition:opacity .1s,color .1s;flex-shrink:0;white-space:nowrap;}
+.btn-emg-activate:hover{opacity:1;text-decoration:underline;}
+.btn-emg-activate.active{opacity:1;color:#ff6677;}
 #emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
 #emgNotePanel.open{display:block;}
 #emgNotePanel::-webkit-scrollbar{width:4px;}
@@ -563,7 +563,7 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-note-ta{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;outline:none;font-size:11px;color:var(--dark2);padding:6px 8px;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;min-height:60px;box-sizing:border-box;}
 .emg-note-ta:focus{border-color:rgba(255,174,0,.5);}
 /* Gallery */
-/* ── FOR EMERGENCIES ── */
+/* ── FOR EMERGENCY ── */
 .sb-emg{flex:0 0 auto;border-bottom:1px solid #4a1010;padding:8px 12px;display:flex;flex-direction:column;max-height:50%;background:#1a0404;}
 .sb-emg.collapsed .emg-body{display:none;}
 .sb-emg.collapsed{max-height:none;}
@@ -802,7 +802,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
 
   <div class="help-section">
-    <div class="help-section-title">FOR EMERGENCIES</div>
+    <div class="help-section-title">FOR EMERGENCY</div>
     <div class="help-item"><span class="hi-key">+ Dodaj (Enter)</span><span class="hi-desc">utwórz nową sekcję (gra / temat)</span></div>
     <div class="help-item"><span class="hi-key">2× klik tytułu sekcji</span><span class="hi-desc">zmień nazwę sekcji</span></div>
     <div class="help-item"><span class="hi-key">Hover na sekcję</span><span class="hi-desc">📋 kopiuj sekcję · ✕ usuń sekcję</span></div>
@@ -866,8 +866,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div class="sidebar">
   <div class="sb-emg collapsed" id="sbEmg">
     <div class="emg-top-row">
-      <div class="sb-title" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES</div>
-      <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button>
+      <div class="sb-title" style="margin-bottom:0;flex:1;display:flex;align-items:center;gap:4px;flex-wrap:nowrap">🆘 FOR EMERGENCY <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button></div>
       <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
     </div>
     <div class="emg-body" id="emgBody">
