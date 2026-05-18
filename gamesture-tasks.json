@@ -385,7 +385,7 @@
       "title": "Community Mini-Event",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 5,
@@ -401,13 +401,13 @@
         {
           "id": "mpb0wa3ctxi2",
           "title": "posted",
-          "done": false,
+          "done": true,
           "date": "2026-05-18"
         },
         {
           "id": "mpb0wdc72zbm",
           "title": "in-game msg",
-          "done": false,
+          "done": true,
           "date": "2026-05-18"
         }
       ],
