@@ -547,9 +547,11 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-hl-btn.active{border-color:var(--red);color:var(--red);opacity:1;}
 .emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s;}
 .emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
-.emg-note-wrap{display:none;margin-bottom:8px;}
-.emg-note-wrap.open{display:block;}
-.emg-note-ta{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;outline:none;font-size:11px;color:var(--dark2);padding:6px 8px;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;min-height:36px;}
+#emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
+#emgNotePanel.open{display:block;}
+#emgNotePanel::-webkit-scrollbar{width:4px;}
+#emgNotePanel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.emg-note-ta{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;outline:none;font-size:11px;color:var(--dark2);padding:6px 8px;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;min-height:60px;box-sizing:border-box;}
 .emg-note-ta:focus{border-color:rgba(255,174,0,.5);}
 /* Gallery */
 /* ── FOR EMERGENCIES ── */
@@ -843,6 +845,12 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 </div>
 
 
+<!-- EMG NOTE PANEL -->
+<div id="emgNotePanel">
+  <div class="help-panel-title">Notatka dla zastępcy <button class="help-close" id="emgNoteClose">✕</button></div>
+  <textarea class="emg-note-ta" id="emgNoteTa" rows="4" placeholder="Wpisz tu dowolne informacje, instrukcje, linki..." spellcheck="false"></textarea>
+</div>
+
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sb-emg collapsed" id="sbEmg">
@@ -853,9 +861,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
       <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
     </div>
     <div class="emg-body" id="emgBody">
-      <div class="emg-note-wrap" id="emgNoteWrap">
-        <textarea class="emg-note-ta" id="emgNoteTa" rows="1" placeholder="Wpisz tu dowolne informacje, instrukcje, linki..." spellcheck="false"></textarea>
-      </div>
       <div id="emgContainer"></div>
       <div class="emg-add-row">
         <input class="emg-add-inp" id="emgAddInp" placeholder="+ Dodaj grę / temat (Enter)">
@@ -1904,7 +1909,7 @@ function renderEmergency(){
   // Sync note textarea
   const noteTa=document.getElementById('emgNoteTa');
   if(noteTa&&noteTa.value!==(state.emergencyNote||'')){noteTa.value=state.emergencyNote||'';requestAnimationFrame(()=>autoResize(noteTa));}
-  document.getElementById('emgNoteBtn')?.classList.toggle('active',!!(state.emergencyNote||'').trim()||document.getElementById('emgNoteWrap')?.classList.contains('open'));
+  document.getElementById('emgNoteBtn')?.classList.toggle('active',!!(state.emergencyNote||'').trim()||document.getElementById('emgNotePanel')?.classList.contains('open'));
   const secs=state.emergency||[];
   container.innerHTML=secs.map(s=>{
     const dbRow=s.dropboxLink
@@ -2792,21 +2797,28 @@ function initListeners(){
   document.getElementById('emgCopyAll').addEventListener('click',e=>{
     e.stopPropagation();copyAllEmg();
   });
-  // Note ? button
-  const emgNoteWrap=document.getElementById('emgNoteWrap');
+  // Note ? panel (floating, like helpPanel)
+  const emgNotePanel=document.getElementById('emgNotePanel');
   const emgNoteTa=document.getElementById('emgNoteTa');
   const emgNoteBtn=document.getElementById('emgNoteBtn');
-  const emgNoteOpen=localStorage.getItem('emg-note-open')==='1';
-  if(emgNoteOpen) emgNoteWrap.classList.add('open');
-  emgNoteBtn.classList.toggle('active',emgNoteOpen||!!(state.emergencyNote||'').trim());
+  emgNoteBtn.classList.toggle('active',!!(state.emergencyNote||'').trim());
   if(state.emergencyNote) emgNoteTa.value=state.emergencyNote;
   requestAnimationFrame(()=>autoResize(emgNoteTa));
   emgNoteBtn.addEventListener('click',e=>{
     e.stopPropagation();
-    const open=emgNoteWrap.classList.toggle('open');
-    localStorage.setItem('emg-note-open',open?'1':'0');
+    const open=emgNotePanel.classList.toggle('open');
     emgNoteBtn.classList.toggle('active',open||!!(state.emergencyNote||'').trim());
     if(open) requestAnimationFrame(()=>{autoResize(emgNoteTa);emgNoteTa.focus();});
+  });
+  document.getElementById('emgNoteClose').addEventListener('click',()=>{
+    emgNotePanel.classList.remove('open');
+    emgNoteBtn.classList.toggle('active',!!(state.emergencyNote||'').trim());
+  });
+  document.addEventListener('click',e=>{
+    if(emgNotePanel.classList.contains('open')&&!e.target.closest('#emgNotePanel')&&!e.target.closest('#emgNoteBtn')){
+      emgNotePanel.classList.remove('open');
+      emgNoteBtn.classList.toggle('active',!!(state.emergencyNote||'').trim());
+    }
   });
   emgNoteTa.addEventListener('input',()=>{
     autoResize(emgNoteTa);
