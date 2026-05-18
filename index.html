@@ -541,12 +541,19 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ql-item-emg:hover{border-color:var(--red);}
 #globalQlBar.emg-highlight-on .ql-icon:not(.ql-emergency){opacity:.15;transition:opacity .2s;}
 #globalQlBar.emg-highlight-on .ql-icon.ql-emergency{opacity:1;filter:drop-shadow(0 0 5px rgba(231,72,86,.8));transition:opacity .2s,filter .2s;}
-/* Emergency highlight button */
-.emg-hl-btn{background:none;border:1px solid var(--border2);border-radius:3px;color:var(--muted);font-size:10px;cursor:pointer;padding:1px 7px;white-space:nowrap;flex-shrink:0;transition:border-color .1s,color .1s;}
-.emg-hl-btn:hover{border-color:var(--red);color:var(--red);}
-.emg-hl-btn.active{border-color:var(--red);color:var(--red);opacity:1;}
-.emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s;}
+.emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s,filter .15s;}
 .emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
+.emg-note-btn.emg-alert{border-color:rgba(231,72,86,.8)!important;color:rgba(231,72,86,.9)!important;filter:drop-shadow(0 0 5px rgba(231,72,86,.7))!important;opacity:1!important;}
+.btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.4);border-radius:4px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s;text-transform:uppercase;flex-shrink:0;}
+.btn-emg-activate:hover{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.7);box-shadow:0 0 10px rgba(231,72,86,.25);}
+.btn-emg-activate.active{background:rgba(231,72,86,.25);border-color:rgba(231,72,86,.8);}
+#emgActivatedModal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99999;background:rgba(0,0,0,.6);}
+#emgActivatedModal.open{display:flex;}
+.emg-modal-card{background:#1c1e2e;border:1px solid rgba(231,72,86,.25);border-radius:16px;padding:40px 48px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 60px rgba(231,72,86,.1);max-width:320px;width:90%;animation:emgModalIn .22s ease;}
+@keyframes emgModalIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.emg-modal-emoji{font-size:48px;margin-bottom:16px;}
+.emg-modal-msg{font-size:21px;color:var(--fg);font-weight:700;margin:0 0 8px;}
+.emg-modal-sub{font-size:14px;color:var(--muted);}
 #emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
 #emgNotePanel.open{display:block;}
 #emgNotePanel::-webkit-scrollbar{width:4px;}
@@ -797,8 +804,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="help-item"><span class="hi-key">+ Dodaj (Enter)</span><span class="hi-desc">utwórz nową sekcję (gra / temat)</span></div>
     <div class="help-item"><span class="hi-key">2× klik tytułu sekcji</span><span class="hi-desc">zmień nazwę sekcji</span></div>
     <div class="help-item"><span class="hi-key">Hover na sekcję</span><span class="hi-desc">📋 kopiuj sekcję · ✕ usuń sekcję</span></div>
-    <div class="help-item"><span class="hi-key">📋 kopiuj (nagłówek)</span><span class="hi-desc">kopiuj wszystkie sekcje jako gotowy handout (z datą)</span></div>
-    <div class="help-item"><span class="hi-key">🔴 linki (nagłówek)</span><span class="hi-desc">podświetl czerwono linki oznaczone jako emergency (stan pamiętany)</span></div>
+    <div class="help-item"><span class="hi-key">CLICK HERE</span><span class="hi-desc">aktywuje tryb emergency: podświetla linki, rozwija sekcję, glowuje ? · ponowny klik deaktywuje</span></div>
     <div class="help-item"><span class="hi-key">⭕/🔴 w edycji linków</span><span class="hi-desc">oznacz / odznacz link jako emergency (widoczne tylko w trybie edycji ✏️)</span></div>
   </div>
 </div>
@@ -841,6 +847,15 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 </div>
 
 
+<!-- EMG ACTIVATED MODAL -->
+<div id="emgActivatedModal">
+  <div class="emg-modal-card">
+    <div class="emg-modal-emoji">🆘</div>
+    <div class="emg-modal-msg">it's gonna be allright</div>
+    <div class="emg-modal-sub">I gotcha</div>
+  </div>
+</div>
+
 <!-- EMG NOTE PANEL -->
 <div id="emgNotePanel">
   <div class="help-panel-title">Notatka dla zastępcy <button class="help-close" id="emgNoteClose">✕</button></div>
@@ -851,10 +866,9 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div class="sidebar">
   <div class="sb-emg collapsed" id="sbEmg">
     <div class="emg-top-row">
-      <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
+      <div class="sb-title" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES</div>
       <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
-      <button class="emg-hl-btn" id="emgHlBtn" title="Podświetl emergency linki w pasku">🔴 linki</button>
-      <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
+      <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button>
     </div>
     <div class="emg-body" id="emgBody">
       <div id="emgContainer"></div>
@@ -2784,13 +2798,31 @@ function initListeners(){
     document.getElementById('sbNotes').classList.toggle('collapsed');
   });
   const sbEmgEl=document.getElementById('sbEmg');
-  if(localStorage.getItem('emg-open')==='1') sbEmgEl.classList.remove('collapsed');
-  document.getElementById('sbEmgToggle').addEventListener('click',()=>{
-    const c=sbEmgEl.classList.toggle('collapsed');
-    localStorage.setItem('emg-open',c?'0':'1');
+  const btnEmgActivate=document.getElementById('btnEmgActivate');
+  function setEmgMode(on){
+    emgHighlight=on;
+    localStorage.setItem('emg-highlight',on?'1':'0');
+    if(on) sbEmgEl.classList.remove('collapsed');
+    document.getElementById('emgNoteBtn').classList.toggle('emg-alert',on);
+    btnEmgActivate.classList.toggle('active',on);
+    renderGlobalQlBar();
+  }
+  if(emgHighlight){setEmgMode(true);}
+  btnEmgActivate.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(!emgHighlight){
+      setEmgMode(true);
+      const modal=document.getElementById('emgActivatedModal');
+      modal.classList.add('open');
+      clearTimeout(modal._t);
+      modal._t=setTimeout(()=>modal.classList.remove('open'),3500);
+    } else {
+      setEmgMode(false);
+    }
   });
-  document.getElementById('emgCopyAll').addEventListener('click',e=>{
-    e.stopPropagation();copyAllEmg();
+  document.getElementById('emgActivatedModal').addEventListener('click',e=>{
+    if(!e.target.closest('.emg-modal-card'))
+      document.getElementById('emgActivatedModal').classList.remove('open');
   });
   // Note ? panel (floating, like helpPanel)
   const emgNotePanel=document.getElementById('emgNotePanel');
@@ -2819,15 +2851,6 @@ function initListeners(){
     autoResize(emgNoteTa);
     clearTimeout(emgNoteTa._t);
     emgNoteTa._t=setTimeout(()=>{state.emergencyNote=emgNoteTa.value;save();},400);
-  });
-  const emgHlBtn=document.getElementById('emgHlBtn');
-  emgHlBtn.classList.toggle('active',emgHighlight);
-  emgHlBtn.addEventListener('click',e=>{
-    e.stopPropagation();
-    emgHighlight=!emgHighlight;
-    localStorage.setItem('emg-highlight',emgHighlight?'1':'0');
-    emgHlBtn.classList.toggle('active',emgHighlight);
-    renderGlobalQlBar();
   });
   document.getElementById('emgAddInp').addEventListener('keydown',e=>{
     if(e.key==='Enter'){e.preventDefault();addEmgSection(e.target.value);e.target.value='';}
@@ -3111,7 +3134,7 @@ function initListeners(){
       document.getElementById('btnHelp').classList.remove('active');
   });
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');}
+    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');document.getElementById('emgActivatedModal').classList.remove('open');}
   });
 
   // Board change
