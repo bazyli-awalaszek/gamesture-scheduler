@@ -154,6 +154,13 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ninja-vac-label{font-size:10px;font-weight:600;padding:1px 0;flex:1;}
 .ninja-clear-btn{font-size:10px;background:none;border:1px solid var(--border2);border-radius:3px;padding:1px 6px;cursor:pointer;color:var(--muted);flex-shrink:0;transition:border-color .1s,color .1s;}
 .ninja-clear-btn:hover{border-color:var(--red);color:var(--red);}
+.old-vac-sec{margin-top:2px;}
+.old-vac-sec summary{font-size:10px;color:var(--faint);cursor:pointer;list-style:none;padding:1px 0;user-select:none;display:inline-flex;align-items:center;gap:4px;}
+.old-vac-sec summary:hover{color:var(--muted);}
+.old-vac-sec summary::-webkit-details-marker{display:none;}
+.old-vac-items{padding:2px 0 2px 6px;display:flex;flex-direction:column;gap:2px;}
+.old-vac-item{font-size:10px;color:var(--faint);}
+.myvac-list-item.old-vac span{color:var(--faint);}
 /* Vacation list inside modal */
 .ninja-vac-list-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:11px;color:var(--dark2);border-bottom:1px solid var(--border);}
 .ninja-vac-list-item:last-child{border-bottom:none;}
@@ -926,7 +933,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div id="ctxMenu" class="ctx-menu">
   <div class="ctx-item" id="ctxEditTitle">✏️ Edytuj tytuł</div>
   <div class="ctx-item" id="ctxEditSubtask">✏️ Edytuj podtask</div>
-  <div class="ctx-item" id="ctxMoveNext">⏭ Przenieś na następny tydzień</div>
+  <div class="ctx-item" id="ctxMoveNext">⏩ Przenieś na następny tydzień</div>
   <div class="ctx-item" id="ctxMovePrev">⏪ Cofnij do poprzedniego tygodnia</div>
   <div class="ctx-item" id="ctxMoveCurrent">⏮ Przenieś do bieżącego tygodnia</div>
 </div>
@@ -1429,16 +1436,21 @@ function renderNinja(){
   body.classList.toggle('collapsed',!ninjaOpen);
   document.getElementById('ninjaToggleBtn').textContent=ninjaOpen?'▼':'▶';
   const vacs=state.vacations||{sean:[],yahu:[]};
-  document.getElementById('btnNinjaSean').classList.toggle('vac-active',(vacs.sean||[]).length>0);
-  document.getElementById('btnNinjaYahu').classList.toggle('vac-active',(vacs.yahu||[]).length>0);
+  const _today=todayStr();
   let html='';
   ['sean','yahu'].forEach(person=>{
     const cfg=NINJA_PERSONS[person];
     const periods=(vacs[person]||[]);
+    const activePeriods=periods.filter(v=>v.to>=_today);
+    const expiredPeriods=periods.filter(v=>v.to<_today);
+    document.getElementById(person==='sean'?'btnNinjaSean':'btnNinjaYahu').classList.toggle('vac-active',activePeriods.length>0);
     const items=(state.ninjaItems||[]).filter(i=>i.person===person).sort((a,b)=>a.date.localeCompare(b.date));
-    const vacLabel=periods.length
-      ?`<span class="ninja-vac-label" style="color:${cfg.color}">${periods.map(v=>`${toDisplayDate(v.from)}–${toDisplayDate(v.to)}`).join(', ')}</span><button class="ninja-clear-btn" data-action="ninja-clear" data-person="${person}">clear</button>`
+    const vacLabel=activePeriods.length
+      ?`<span class="ninja-vac-label" style="color:${cfg.color}">${activePeriods.map(v=>`${toDisplayDate(v.from)}–${toDisplayDate(v.to)}`).join(', ')}</span><button class="ninja-clear-btn" data-action="ninja-clear" data-person="${person}">clear</button>`
       :'<span style="flex:1"></span>';
+    const expiredVacHtml=expiredPeriods.length
+      ?`<details class="old-vac-sec"><summary>🕓 stare urlopy (${expiredPeriods.length})</summary><div class="old-vac-items">${expiredPeriods.map(v=>`<span class="old-vac-item">${toDisplayDate(v.from)}–${toDisplayDate(v.to)}</span>`).join('')}</div></details>`
+      :'';
     const mkItem=item=>{
       const done=item.done;
       const titleHtml=item.link
@@ -1460,6 +1472,7 @@ function renderNinja(){
     <span class="ninja-person-name" style="color:${cfg.color}">${cfg.name}</span>
     ${vacLabel}
   </div>
+  ${expiredVacHtml}
   ${activeHtml||`<div style="font-size:11px;color:var(--faint);font-style:italic;padding:2px 0">Brak zadań</div>`}
   ${doneSec}
   <input class="ninja-add-inp" data-person="${person}" placeholder="+ Dodaj zadanie...">
@@ -1468,12 +1481,18 @@ function renderNinja(){
 
   // Mój urlop column
   const myVacs=state.myVacations||[];
-  const myVacItems=myVacs.map(v=>
+  const activeMyVacs=myVacs.filter(v=>v.to>=_today);
+  const expiredMyVacs=myVacs.filter(v=>v.to<_today);
+  const myVacItems=activeMyVacs.map(v=>
     `<div class="myvac-list-item"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`
   ).join('')||'<div class="myvac-empty">Brak urlopów</div>';
+  const expiredMyVacHtml=expiredMyVacs.length
+    ?`<details class="old-vac-sec"><summary>🕓 stare urlopy (${expiredMyVacs.length})</summary><div class="old-vac-items">${expiredMyVacs.map(v=>`<div class="myvac-list-item old-vac"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`).join('')}</div></details>`
+    :'';
   html+=`<div class="ninja-person-section">
   <div class="ninja-person-hdr"><span class="ninja-person-name" style="color:var(--orange)">🏖️ Mój urlop</span><span style="flex:1"></span></div>
   <div id="myVacList">${myVacItems}</div>
+  ${expiredMyVacHtml}
   <div class="myvac-form" style="margin-top:6px">
     <input id="myVacFrom" type="text" placeholder="Od DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
     <input id="myVacTo" type="text" placeholder="Do DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
