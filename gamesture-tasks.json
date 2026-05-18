@@ -517,7 +517,8 @@
       "id": "mpb1cluhv115",
       "icon": "📅",
       "url": "https://docs.google.com/spreadsheets/d/1D7KDdiqEtG13vLmlLg3S8PPw327ZTw4G9BeQ8Bnr_uM/edit?gid=1464693585#gid=1464693585",
-      "label": "SM Posts&Info"
+      "label": "SM Posts&Info",
+      "emergency": true
     },
     {
       "id": "mpb1c3eolvsz",
