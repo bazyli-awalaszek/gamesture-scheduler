@@ -476,7 +476,10 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .attach-hint{display:none;font-size:10px;color:var(--faint);margin-top:4px;font-style:italic;padding-left:37px;}
 .task-card.drag-over .attach-hint{display:block;}
 /* Subtasks */
-.subtasks-area{margin-bottom:4px;}
+.subtasks-area{margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.subtask-date-new{background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:10px;color:var(--dark2);padding:1px 2px;width:70px;flex-shrink:0;}
+.subtask-date-new:focus{border-bottom-color:var(--blue);}
+.subtask-date-new::placeholder{color:var(--faint);font-style:italic;}
 .subtask{display:flex;align-items:center;gap:5px;padding:2px 0;}
 .subtask-cb{width:13px;height:13px;border:2px solid var(--border2);border-radius:2px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;transition:all .1s;}
 .subtask-cb:hover{border-color:var(--green);}
@@ -487,6 +490,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .subtask-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:10px;padding:0 2px;opacity:0;line-height:1;}
 .subtask:hover .subtask-del{opacity:1;}
 .subtask-del:hover{color:var(--red);}
+.subtask-edit-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:10px;padding:0 2px;opacity:0;line-height:1;}
+.subtask:hover .subtask-edit-btn{opacity:1;}
+.subtask-edit-btn:hover{color:var(--blue);}
 .subtask-inp{width:100%;background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:11px;color:var(--dark2);padding:2px 0;margin-top:2px;}
 .subtask-inp::placeholder{color:var(--faint);font-style:italic;}
 .subtask-inp:focus{border-bottom-color:var(--blue);}
@@ -1301,6 +1307,7 @@ function cardHtml(t){
   ${dateEl}
   <input type="text" class="sub-date-inp" data-subtask-id="${s.id}" data-id="${t.id}" value="${sd?toDisplayDate(sd):''}" placeholder="DD/MM/RRRR" maxlength="10" style="display:none" oninput="formatDateInput(this)">
   <span class="subtask-title ${s.done?'done-text':''}">${formatSubtaskTitle(s.title)}</span>
+  <button class="subtask-edit-btn" data-action="edit-subtask-title" data-subtask-id="${s.id}" data-id="${t.id}" title="Edytuj">✏️</button>
   <button class="subtask-del" data-action="del-subtask" data-subtask-id="${s.id}" data-id="${t.id}">✕</button>
 </div>`;
   }).join('');
@@ -1328,7 +1335,7 @@ function cardHtml(t){
   </div>
   ${subs.length?`<div class="card-subs-always">${subsItemsHtml}</div>`:''}
   <div class="card-expand">
-    <div class="subtasks-area"><input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."></div>
+    <div class="subtasks-area"><input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."><input class="subtask-date-new" type="text" data-id="${t.id}" placeholder="DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)"></div>
   </div>
   ${atts.length?`<div class="card-attach-always">${attHtml}</div>`:''}
   <div class="attach-hint">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
@@ -2025,13 +2032,14 @@ function deleteSubtask(taskId,subId){
   t.subtasks=t.subtasks.filter(x=>x.id!==subId);
   patchTask(taskId,{subtasks:t.subtasks});renderApp();
 }
-function addSubtask(taskId,title){
+function addSubtask(taskId,title,date=null){
   const t=taskById(taskId);if(!t||!title.trim())return;
   if(!t.subtasks)t.subtasks=[];
-  t.subtasks.push({id:uid(),title:title.trim(),done:false});
+  const sub={id:uid(),title:title.trim(),done:false};
+  if(date) sub.date=date;
+  t.subtasks.push(sub);
   patchTask(taskId,{subtasks:t.subtasks});
   expandedCards.add(taskId);renderApp();
-  // Refocus the input after render
   requestAnimationFrame(()=>{
     const inp=document.querySelector(`.subtask-inp[data-id="${taskId}"]`);
     if(inp) inp.focus();
@@ -2661,6 +2669,10 @@ function initListeners(){
       const subId=e.target.dataset.subtaskId||e.target.closest('[data-subtask-id]')?.dataset.subtaskId;
       if(subId) deleteSubtask(id,subId);
     }
+    else if(action==='edit-subtask-title'){
+      const subId=e.target.dataset.subtaskId||e.target.closest('[data-subtask-id]')?.dataset.subtaskId;
+      if(subId) startEditSubtaskTitle(id,subId);
+    }
   });
 
   // Board click → note-view clicked (not on a link) → enter note edit mode
@@ -2676,7 +2688,16 @@ function initListeners(){
   // Board keydown → Enter in subtask-inp / date-input / sub-date-inp
   document.getElementById('board').addEventListener('keydown',e=>{
     if(e.target.classList.contains('subtask-inp')){
-      if(e.key==='Enter'){e.preventDefault();addSubtask(e.target.dataset.id,e.target.value);e.target.value='';}
+      if(e.key==='Enter'){
+        e.preventDefault();
+        const tid=e.target.dataset.id;
+        const dateInp=e.target.closest('.subtasks-area')?.querySelector('.subtask-date-new');
+        const rawDate=dateInp?dateInp.value.trim():'';
+        const iso=rawDate?parseDisplayDate(rawDate):'';
+        addSubtask(tid,e.target.value,iso||null);
+        e.target.value='';
+        if(dateInp) dateInp.value='';
+      }
       if(e.key==='Escape'){e.target.value='';e.target.blur();}
       return;
     }
