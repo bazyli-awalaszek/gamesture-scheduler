@@ -453,6 +453,12 @@
       "label": "SM Posts&Info"
     },
     {
+      "id": "mpb1c3eolvsz",
+      "icon": "📊",
+      "url": "https://docs.google.com/spreadsheets/d/1QZ2y7xHb2CsHh-_-vFbVgEDV8eStGIvKvtxZlqxl2xI/edit?gid=1129302167#gid=1129302167",
+      "label": "CORE Calendar"
+    },
+    {
       "id": "ql-knowledge",
       "icon": "📖",
       "url": "http://knowledge/tutorials",
@@ -469,12 +475,6 @@
       "icon": "🍔",
       "url": "https://docs.google.com/document/d/1as8DUyRr2vSXzXMVwxT33ebqLjm76z9-FhHjUJ_WQkA/edit?tab=t.0",
       "label": "CW Events&Rewards"
-    },
-    {
-      "id": "mpb1c3eolvsz",
-      "icon": "📊",
-      "url": "https://docs.google.com/spreadsheets/d/1QZ2y7xHb2CsHh-_-vFbVgEDV8eStGIvKvtxZlqxl2xI/edit?gid=1129302167#gid=1129302167",
-      "label": "CORE Calendar"
     }
   ],
   "gallery": [
