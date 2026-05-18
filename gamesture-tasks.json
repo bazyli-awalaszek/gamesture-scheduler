@@ -457,6 +457,12 @@
       "icon": "🔗",
       "url": "https://translate.yandex.com/en/ocr",
       "label": "Image Translator"
+    },
+    {
+      "id": "mpb1dgt4m51g",
+      "icon": "💬",
+      "url": "https://www.deepl.com/pl/translator#en/pl",
+      "label": "DeepL"
     }
   ],
   "gallery": [
