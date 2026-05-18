@@ -463,6 +463,12 @@
       "icon": "💬",
       "url": "https://www.deepl.com/pl/translator#en/pl",
       "label": "DeepL"
+    },
+    {
+      "id": "mpb1e1fzt018",
+      "icon": "🎮",
+      "url": "http://game-pulse/",
+      "label": "GamePulse"
     }
   ],
   "gallery": [
