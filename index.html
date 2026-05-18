@@ -539,14 +539,21 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ql-item-emg{position:absolute;bottom:-5px;right:-5px;background:var(--bg);border:1px solid var(--border2);border-radius:50%;width:14px;height:14px;font-size:8px;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;line-height:1;}
 #globalQlBar.edit-mode .ql-item-emg{display:flex;}
 .ql-item-emg:hover{border-color:var(--red);}
-.ql-icon.ql-emergency{box-shadow:0 0 0 2px var(--red)!important;border-radius:6px;}
+.ql-icon.ql-emergency{outline:2px solid var(--red);outline-offset:2px;border-radius:6px;}
+#globalQlBar.emg-highlight-on{gap:6px;}
 /* Emergency highlight button */
 .emg-hl-btn{background:none;border:1px solid var(--border2);border-radius:3px;color:var(--muted);font-size:10px;cursor:pointer;padding:1px 7px;white-space:nowrap;flex-shrink:0;transition:border-color .1s,color .1s;}
 .emg-hl-btn:hover{border-color:var(--red);color:var(--red);}
 .emg-hl-btn.active{border-color:var(--red);color:var(--red);opacity:1;}
+.emg-note-btn{background:none;border:1px solid var(--border2);border-radius:50%;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .1s,color .1s;}
+.emg-note-btn:hover,.emg-note-btn.active{border-color:var(--orange);color:var(--orange);}
+.emg-note-wrap{display:none;margin-bottom:8px;}
+.emg-note-wrap.open{display:block;}
+.emg-note-ta{width:100%;background:rgba(255,174,0,.04);border:1px solid rgba(255,174,0,.2);border-radius:4px;outline:none;font-size:11px;color:var(--dark2);padding:6px 8px;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;min-height:36px;}
+.emg-note-ta:focus{border-color:rgba(255,174,0,.5);}
 /* Gallery */
 /* ── FOR EMERGENCIES ── */
-.sb-emg{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
+.sb-emg{flex:0 0 auto;border-bottom:1px solid #4a1010;padding:8px 12px;display:flex;flex-direction:column;max-height:50%;background:#1a0404;}
 .sb-emg.collapsed .emg-body{display:none;}
 .sb-emg.collapsed{max-height:none;}
 .sb-emg.collapsed .sb-arrow{transform:rotate(-90deg);}
@@ -838,6 +845,24 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 
 <!-- SIDEBAR -->
 <div class="sidebar">
+  <div class="sb-emg" id="sbEmg">
+    <div class="emg-top-row">
+      <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
+      <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
+      <button class="emg-hl-btn" id="emgHlBtn" title="Podświetl emergency linki w pasku">🔴 linki</button>
+      <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
+    </div>
+    <div class="emg-body" id="emgBody">
+      <div class="emg-note-wrap" id="emgNoteWrap">
+        <textarea class="emg-note-ta" id="emgNoteTa" rows="1" placeholder="Wpisz tu dowolne informacje, instrukcje, linki..." spellcheck="false"></textarea>
+      </div>
+      <div id="emgContainer"></div>
+      <div class="emg-add-row">
+        <input class="emg-add-inp" id="emgAddInp" placeholder="+ Dodaj grę / temat (Enter)">
+      </div>
+    </div>
+  </div>
+
   <div class="sb-tge collapsed" id="sbTge">
     <div class="sb-title sb-title-toggle" id="sbTgeToggle">🎮 Game Schedule <span class="sb-arrow">▾</span></div>
     <div class="tge-body">
@@ -867,20 +892,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="sb-title sb-title-toggle" id="sbNotesToggle">📝 Notatki tygodnia <span class="sb-arrow">▾</span></div>
     <div class="notes-scroll">
       <div id="notesContainer"></div>
-    </div>
-  </div>
-
-  <div class="sb-emg" id="sbEmg">
-    <div class="emg-top-row">
-      <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
-      <button class="emg-hl-btn" id="emgHlBtn" title="Podświetl emergency linki w pasku">🔴 linki</button>
-      <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
-    </div>
-    <div class="emg-body" id="emgBody">
-      <div id="emgContainer"></div>
-      <div class="emg-add-row">
-        <input class="emg-add-inp" id="emgAddInp" placeholder="+ Dodaj grę / temat (Enter)">
-      </div>
     </div>
   </div>
 
@@ -1854,6 +1865,7 @@ function renderGlobalQlBar(){
     +`<button class="ql-edit-mode-btn" data-action="ql-toggle-edit" title="${qlEditMode?'Zakończ edycję':'Edytuj linki'}">${qlEditMode?'✓':'✏️'}</button>`
 ;
   bar.classList.toggle('edit-mode',qlEditMode);
+  bar.classList.toggle('emg-highlight-on',emgHighlight);
   if(qlEditMode&&links.length>1){
     qlSortable=Sortable.create(bar,{
       draggable:'.ql-item',animation:150,
@@ -1886,20 +1898,27 @@ function galFileIcon(type){
 // ═══════════════════════════════════════
 // FOR EMERGENCIES
 // ═══════════════════════════════════════
+const DROPBOX_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 27" width="12" height="12" style="display:inline-block;vertical-align:middle;margin-right:3px;flex-shrink:0"><path fill="#0061FF" d="M12 0L6 3.791 12 7.582 18 3.791zm-6 7.582L0 11.373l6 3.791 6-3.791zm12 0l-6 3.791 6 3.791 6-3.791-6-3.791zM6 15.164L0 18.955l6 3.791 6-3.791zm12 0l-6 3.791 6 3.791 6-3.791-6-3.791zM12 19.21l-6 3.79 6 3.791 6-3.791z"/></svg>`;
 function renderEmergency(){
   const container=document.getElementById('emgContainer');if(!container)return;
+  // Sync note textarea
+  const noteTa=document.getElementById('emgNoteTa');
+  if(noteTa&&noteTa.value!==(state.emergencyNote||'')){noteTa.value=state.emergencyNote||'';requestAnimationFrame(()=>autoResize(noteTa));}
+  document.getElementById('emgNoteBtn')?.classList.toggle('active',!!(state.emergencyNote||'').trim()||document.getElementById('emgNoteWrap')?.classList.contains('open'));
   const secs=state.emergency||[];
   container.innerHTML=secs.map(s=>{
     const dbRow=s.dropboxLink
-      ?`<div class="emg-db-row"><a class="emg-db-link" href="${esc(s.dropboxLink)}" target="_blank" rel="noopener">📁 Dropbox folder</a><button class="emg-db-edit" data-emg-id="${s.id}" title="Zmień link">✏️</button></div>`
-      :`<div class="emg-db-row"><button class="emg-db-set" data-emg-id="${s.id}">📁 + dodaj link do folderu Dropbox</button></div>`;
+      ?`<div class="emg-db-row"><a class="emg-db-link" href="${esc(s.dropboxLink)}" target="_blank" rel="noopener">${DROPBOX_SVG}Dropbox folder</a><button class="emg-db-edit" data-emg-id="${s.id}" title="Zmień link">✏️</button></div>`
+      :`<div class="emg-db-row"><button class="emg-db-set" data-emg-id="${s.id}">${DROPBOX_SVG}+ dodaj link do folderu Dropbox</button></div>`;
     const _emgGameName=s.title.replace(/^[\p{Emoji}\s]+/u,'').trim();
-    const gameIcon=gameCfg(_emgGameName)?gameIconHtml(_emgGameName,18,4):'';
+    const _gcfg=gameCfg(_emgGameName);
+    const gameIcon=_gcfg?gameIconHtml(_emgGameName,18,4):'';
+    const displayTitle=(_gcfg&&_gcfg.icon)?_emgGameName:esc(s.title);
     return`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
   <div class="emg-sec-hdr">
     <span class="emg-sec-arrow">▾</span>
     ${gameIcon}
-    <span class="emg-sec-title">${esc(s.title)}</span>
+    <span class="emg-sec-title">${displayTitle}</span>
     <button class="emg-sec-copy" data-emg-id="${s.id}" title="Kopiuj sekcję">📋</button>
     <button class="emg-sec-del" data-emg-id="${s.id}" title="Usuń sekcję">✕</button>
   </div>
@@ -1932,6 +1951,14 @@ function saveEmgContent(id,content){
 function saveEmgDropbox(id,url){
   const s=(state.emergency||[]).find(x=>x.id===id);
   if(s){s.dropboxLink=url.trim();save();renderEmergency();}
+}
+function migrateEmergencyOrder(){
+  if(!state.emergency||!state.emergency.length)return;
+  const ORDER=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
+  const norm=t=>t.replace(/^[\p{Emoji}\s]+/u,'').trim();
+  const ordered=ORDER.map(name=>state.emergency.find(s=>s.title===name||norm(s.title)===name)).filter(Boolean);
+  state.emergency.forEach(s=>{if(!ORDER.includes(norm(s.title))&&!ORDER.includes(s.title))ordered.push(s);});
+  if(ordered.length)state.emergency=ordered;
 }
 function seedEmergencySections(){
   if(state.emergency&&state.emergency.length)return;
@@ -2762,6 +2789,27 @@ function initListeners(){
   document.getElementById('emgCopyAll').addEventListener('click',e=>{
     e.stopPropagation();copyAllEmg();
   });
+  // Note ? button
+  const emgNoteWrap=document.getElementById('emgNoteWrap');
+  const emgNoteTa=document.getElementById('emgNoteTa');
+  const emgNoteBtn=document.getElementById('emgNoteBtn');
+  const emgNoteOpen=localStorage.getItem('emg-note-open')==='1';
+  if(emgNoteOpen) emgNoteWrap.classList.add('open');
+  emgNoteBtn.classList.toggle('active',emgNoteOpen||!!(state.emergencyNote||'').trim());
+  if(state.emergencyNote) emgNoteTa.value=state.emergencyNote;
+  requestAnimationFrame(()=>autoResize(emgNoteTa));
+  emgNoteBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const open=emgNoteWrap.classList.toggle('open');
+    localStorage.setItem('emg-note-open',open?'1':'0');
+    emgNoteBtn.classList.toggle('active',open||!!(state.emergencyNote||'').trim());
+    if(open) requestAnimationFrame(()=>{autoResize(emgNoteTa);emgNoteTa.focus();});
+  });
+  emgNoteTa.addEventListener('input',()=>{
+    autoResize(emgNoteTa);
+    clearTimeout(emgNoteTa._t);
+    emgNoteTa._t=setTimeout(()=>{state.emergencyNote=emgNoteTa.value;save();},400);
+  });
   const emgHlBtn=document.getElementById('emgHlBtn');
   emgHlBtn.classList.toggle('active',emgHighlight);
   emgHlBtn.addEventListener('click',e=>{
@@ -3243,7 +3291,7 @@ async function init(){
     if(result.ok&&!result.isNew&&result.state){
       state=result.state;
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
-      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();
+      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();migrateEmergencyOrder();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
       updateFileUI();initListeners();renderApp();return;
     }
@@ -3268,6 +3316,7 @@ async function init(){
   seedDailyTasks();
   seedNinjaVacationTasks();
   seedEmergencySections();
+  migrateEmergencyOrder();
   save();
   updateFileUI();
   initListeners();
