@@ -471,6 +471,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpb326cso2dv",
+      "game": "Ogólne",
+      "title": "bug z recenzją w GamePulse",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 5,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
