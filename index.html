@@ -76,6 +76,10 @@ body{
 .app-title{font-size:16px;font-weight:700;color:var(--dark);white-space:nowrap;}
 .week-nav{display:flex;align-items:center;gap:5px;}
 .week-lbl{font-size:12px;font-weight:600;color:var(--dark);min-width:190px;text-align:center;}
+.clock-widget{display:flex;flex-direction:column;gap:1px;font-family:monospace;font-size:10px;line-height:1.4;flex-shrink:0;border-left:1px solid var(--border);padding-left:10px;margin-left:2px;}
+.clock-row{display:flex;align-items:baseline;gap:5px;}
+.clock-tz{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--border2);min-width:28px;}
+.clock-time{color:var(--muted);letter-spacing:.03em;}
 
 /* ── BOARD ── */
 .board{
@@ -201,6 +205,8 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .sb-title-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:5px;}
 .sb-title-toggle:hover{color:var(--dark2);}
 #sbTge>.sb-title-toggle,#sbCal>.sb-title-toggle,#sbNotes>.sb-title-toggle,#sbGallery>.sb-title-toggle{background:#0f0f17;margin:-8px -12px 6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);}
+#sbTge.collapsed>.sb-title-toggle,#sbCal.collapsed>.sb-title-toggle,#sbNotes.collapsed>.sb-title-toggle,#sbGallery.collapsed>.sb-title-toggle{margin-bottom:-8px;}
+#sbTge.collapsed,#sbCal.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
 #sbTge.emg-active>.sb-title-toggle{color:rgba(231,72,86,.9)!important;background:rgba(231,72,86,.08)!important;border-bottom-color:rgba(231,72,86,.2)!important;text-shadow:0 0 10px rgba(231,72,86,.5);transition:color .2s,background .2s,text-shadow .2s;}
 .sb-arrow{font-size:10px;transition:transform .18s;margin-left:auto;}
 .sb-cal.collapsed .sb-arrow{transform:rotate(-90deg);}
@@ -759,6 +765,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
   <div class="ms-auto d-flex gap-2 flex-wrap align-items-center">
     <div id="globalQlBar" class="ql-bar" style="border:none;padding:0;margin:0;min-height:0;"></div>
+
+    <div class="clock-widget" id="clockWidget">
+      <div class="clock-row"><span class="clock-tz">CET</span><span class="clock-time" id="clockCet">--:--:--</span></div>
+      <div class="clock-row"><span class="clock-tz">UTC</span><span class="clock-time" id="clockUtc">--:--:--</span></div>
+    </div>
 
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
     <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
@@ -3407,6 +3418,14 @@ async function init(){
   renderApp();
 }
 init();
+
+function updateClock(){
+  const fmt=(tz)=>new Date().toLocaleTimeString('pl-PL',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  document.getElementById('clockCet').textContent=fmt('Europe/Warsaw');
+  document.getElementById('clockUtc').textContent=fmt('UTC');
+}
+updateClock();
+setInterval(updateClock,1000);
 </script>
 </body>
 </html>
