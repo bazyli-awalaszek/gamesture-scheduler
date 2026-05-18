@@ -348,6 +348,21 @@
         }
       ],
       "link": null
+    },
+    {
+      "id": "mpazz2czcjkc",
+      "game": "The Gang",
+      "title": "spenders shadow ban 18.05",
+      "date": null,
+      "note": "sporo platnikow dostanie shadow bana\n[11:12 AM]jakby ktos pisal i sie zastanawial to chodzi o ten chat\n[11:12 AM]https://the-gang.admin-gamesture.com/gameplay/chat-preview?__game=Gang&c_pag%5Bon_page%5D=2[…]Bis_tournament%5D=true&c_sea%5Btranslate_to_en%5D=true",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 3,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
