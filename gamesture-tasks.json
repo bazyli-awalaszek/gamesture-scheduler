@@ -31,7 +31,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -118,7 +118,7 @@
       "note": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -133,7 +133,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -148,7 +148,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 0,
       "attachments": [],
       "subtasks": [],
@@ -163,7 +163,7 @@
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -178,7 +178,7 @@
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -193,7 +193,7 @@
       "note": "- mini passy 7/14d, które są trochę takimi evento/ofertami\n- Gstore dla CW",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 1,
       "attachments": [],
       "subtasks": [
@@ -219,7 +219,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 2,
       "attachments": [
         {
@@ -241,7 +241,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 3,
       "attachments": [
         {
@@ -264,7 +264,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W20",
+      "weekKey": "2026-W21",
       "order": 4,
       "attachments": [
         {
@@ -303,6 +303,51 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpauuy6313nk",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-05-18",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpauuy637vue",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpauuy63flem",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpauuy63rpnf",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpauuy63gxnf",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpauuy63ongd",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpauuy63uie1",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
