@@ -1492,12 +1492,12 @@ function renderNinja(){
   html+=`<div class="ninja-person-section">
   <div class="ninja-person-hdr"><span class="ninja-person-name" style="color:var(--orange)">🏖️ Mój urlop</span><span style="flex:1"></span></div>
   <div id="myVacList">${myVacItems}</div>
-  ${expiredMyVacHtml}
   <div class="myvac-form" style="margin-top:6px">
     <input id="myVacFrom" type="text" placeholder="Od DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
     <input id="myVacTo" type="text" placeholder="Do DD/MM/RRRR" maxlength="10" oninput="formatDateInput(this)">
     <button class="btn-myvac-add" id="btnMyVacAdd">+ Dodaj</button>
   </div>
+  ${expiredMyVacHtml}
 </div>`;
 
   body.innerHTML=html;
