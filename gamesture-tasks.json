@@ -406,6 +406,11 @@
       ],
       "subtasks": [
         {
+          "id": "mpb6mfxk1dck",
+          "title": "porozumieć się z Arkiem",
+          "done": false
+        },
+        {
           "id": "mpb0wa3ctxi2",
           "title": "posted",
           "done": true,
@@ -422,11 +427,6 @@
           "title": "winners announced",
           "done": false,
           "date": "2026-05-19"
-        },
-        {
-          "id": "mpb6mfxk1dck",
-          "title": "porozumieć się z Arkiem",
-          "done": false
         }
       ],
       "link": null,
