@@ -426,6 +426,8 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .del-btn:hover{color:var(--red);}
 .btn-dup{font-size:13px;background:none;border:none;cursor:pointer;color:var(--muted);padding:0 2px;line-height:1;opacity:.7;}
 .btn-dup:hover{color:var(--blue);opacity:1;}
+.btn-prev-wk{font-size:12px;background:none;border:none;cursor:pointer;color:var(--muted);padding:0 2px;line-height:1;opacity:.7;}
+.btn-prev-wk:hover{color:var(--orange);opacity:1;}
 
 /* Expandable section (note only) */
 .card-note-wrap{display:none;padding-left:37px;margin-top:4px;}
@@ -862,6 +864,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="ctx-item" id="ctxEditTitle">✏️ Edytuj tytuł</div>
   <div class="ctx-item" id="ctxEditSubtask">✏️ Edytuj podtask</div>
   <div class="ctx-item" id="ctxMoveNext">⏭ Przenieś na następny tydzień</div>
+  <div class="ctx-item" id="ctxMovePrev">⏪ Cofnij do poprzedniego tygodnia</div>
   <div class="ctx-item" id="ctxMoveCurrent">⏮ Przenieś do bieżącego tygodnia</div>
 </div>
 
@@ -1342,6 +1345,7 @@ function cardHtml(t){
   <div class="card-footer">
     <button class="btn-prio ${t.priority?'on':''}" data-action="priority" data-id="${t.id}" title="${t.priority?'Usuń priorytet':'Oznacz jako ważne'}">${t.priority?'⭐':'☆'}</button>
     <button class="btn-dup" data-action="dup" data-id="${t.id}" title="Duplikuj">⎘</button>
+    <button class="btn-prev-wk" data-action="prev-week" data-id="${t.id}" title="Cofnij do poprzedniego tygodnia">⏪</button>
     <button class="del-btn" data-action="del" data-id="${t.id}" title="Usuń">✕</button>
   </div>
 </div>`;
@@ -2060,6 +2064,7 @@ function showCtxMenu(x,y,taskId,subId=null){
   isSub?hide('ctxEditTitle'):show('ctxEditTitle');
   isSub?show('ctxEditSubtask'):hide('ctxEditSubtask');
   isSub?hide('ctxMoveNext'):show('ctxMoveNext');
+  isSub?hide('ctxMovePrev'):show('ctxMovePrev');
   (isSub||isCurrentWk)?hide('ctxMoveCurrent'):show('ctxMoveCurrent');
   const menu=document.getElementById('ctxMenu');
   menu.style.display='block';
@@ -2102,6 +2107,17 @@ function moveTaskToNextWeek(id){
   if(t.date){
     const[y,m,d]=t.date.split('-').map(Number);
     const nd=new Date(y,m-1,d);nd.setDate(nd.getDate()+7);
+    updates.date=`${nd.getFullYear()}-${p2(nd.getMonth()+1)}-${p2(nd.getDate())}`;
+  }
+  patchTask(id,updates);renderApp();
+}
+function moveTaskToPrevWeek(id){
+  const t=taskById(id);if(!t)return;
+  const prevWk=shiftWeek(currentWeekKey,-1);
+  const updates={weekKey:prevWk};
+  if(t.date){
+    const[y,m,d]=t.date.split('-').map(Number);
+    const nd=new Date(y,m-1,d);nd.setDate(nd.getDate()-7);
     updates.date=`${nd.getFullYear()}-${p2(nd.getMonth()+1)}-${p2(nd.getDate())}`;
   }
   patchTask(id,updates);renderApp();
@@ -2613,6 +2629,7 @@ function initListeners(){
     else if(action==='priority') togglePriority(id);
     else if(action==='del') deleteTask(id);
     else if(action==='dup') duplicateTask(id);
+    else if(action==='prev-week') moveTaskToPrevWeek(id);
     else if(action==='show-date'||action==='edit-date') showDateInput(e.target);
     else if(action==='edit-sub-date'||action==='add-sub-date'){
       const sub=e.target.closest('.subtask');if(!sub)return;
@@ -2718,6 +2735,7 @@ function initListeners(){
   document.getElementById('ctxEditTitle').addEventListener('click',()=>{if(ctxTaskId)startEditTaskTitle(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxEditSubtask').addEventListener('click',()=>{if(ctxTaskId&&ctxSubtaskId)startEditSubtaskTitle(ctxTaskId,ctxSubtaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
+  document.getElementById('ctxMovePrev').addEventListener('click',()=>{if(ctxTaskId)moveTaskToPrevWeek(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveCurrent').addEventListener('click',()=>{if(ctxTaskId)moveTaskToCurrentWeek(ctxTaskId);hideCtxMenu();});
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideCtxMenu();});
