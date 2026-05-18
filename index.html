@@ -535,6 +535,15 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ql-edit-mode-btn,.ql-json-btn{background:none;border:1px solid var(--border2);border-radius:4px;color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.04em;cursor:pointer;padding:3px 8px;opacity:.5;transition:opacity .1s,color .1s,border-color .1s;}
 .ql-edit-mode-btn:hover,.ql-json-btn:hover{opacity:1;color:var(--blue);border-color:var(--blue);}
 #globalQlBar.edit-mode .ql-edit-mode-btn{opacity:1;color:var(--green);border-color:var(--green);}
+/* Emergency quicklink marker */
+.ql-item-emg{position:absolute;bottom:-5px;right:-5px;background:var(--bg);border:1px solid var(--border2);border-radius:50%;width:14px;height:14px;font-size:8px;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;line-height:1;}
+#globalQlBar.edit-mode .ql-item-emg{display:flex;}
+.ql-item-emg:hover{border-color:var(--red);}
+.ql-icon.ql-emergency{box-shadow:0 0 0 2px var(--red)!important;border-radius:6px;}
+/* Emergency highlight button */
+.emg-hl-btn{background:none;border:1px solid var(--border2);border-radius:3px;color:var(--muted);font-size:10px;cursor:pointer;padding:1px 7px;white-space:nowrap;flex-shrink:0;transition:border-color .1s,color .1s;}
+.emg-hl-btn:hover{border-color:var(--red);color:var(--red);}
+.emg-hl-btn.active{border-color:var(--red);color:var(--red);opacity:1;}
 /* Gallery */
 /* ── FOR EMERGENCIES ── */
 .sb-emg{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
@@ -566,6 +575,16 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .emg-add-inp{flex:1;background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:11px;color:var(--dark2);padding:2px 0;}
 .emg-add-inp::placeholder{color:var(--faint);font-style:italic;}
 .emg-add-inp:focus{border-bottom-color:rgba(247,118,142,.6);}
+/* Dropbox link row */
+.emg-db-row{display:flex;align-items:center;gap:4px;margin-bottom:5px;}
+.emg-db-link{font-size:10px;color:var(--blue);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.emg-db-link:hover{text-decoration:underline;}
+.emg-db-set{background:none;border:none;cursor:pointer;font-size:10px;color:var(--faint);padding:0;font-style:italic;}
+.emg-db-set:hover{color:var(--blue);}
+.emg-db-edit{background:none;border:none;cursor:pointer;font-size:10px;color:var(--faint);padding:0 2px;opacity:0;}
+.emg-db-row:hover .emg-db-edit{opacity:1;}
+.emg-db-edit:hover{color:var(--blue);}
+.emg-db-inp{flex:1;background:transparent;border:none;border-bottom:1px solid var(--blue);outline:none;font-size:10px;color:var(--dark2);padding:1px 0;}
 /* ── GALLERY ── */
 .sb-gallery{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:38%;}
 .sb-gallery.collapsed .gallery-body{display:none;}
@@ -774,6 +793,8 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="help-item"><span class="hi-key">2× klik tytułu sekcji</span><span class="hi-desc">zmień nazwę sekcji</span></div>
     <div class="help-item"><span class="hi-key">Hover na sekcję</span><span class="hi-desc">📋 kopiuj sekcję · ✕ usuń sekcję</span></div>
     <div class="help-item"><span class="hi-key">📋 kopiuj (nagłówek)</span><span class="hi-desc">kopiuj wszystkie sekcje jako gotowy handout (z datą)</span></div>
+    <div class="help-item"><span class="hi-key">🔴 linki (nagłówek)</span><span class="hi-desc">podświetl czerwono linki oznaczone jako emergency (stan pamiętany)</span></div>
+    <div class="help-item"><span class="hi-key">⭕/🔴 w edycji linków</span><span class="hi-desc">oznacz / odznacz link jako emergency (widoczne tylko w trybie edycji ✏️)</span></div>
   </div>
 </div>
 
@@ -852,6 +873,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="sb-emg" id="sbEmg">
     <div class="emg-top-row">
       <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
+      <button class="emg-hl-btn" id="emgHlBtn" title="Podświetl emergency linki w pasku">🔴 linki</button>
       <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
     </div>
     <div class="emg-body" id="emgBody">
@@ -1821,11 +1843,12 @@ function delQlLink(linkId){
   save();renderApp();
 }
 let qlSortable=null,qlEditMode=false;
+let emgHighlight=localStorage.getItem('emg-highlight')==='1';
 function renderGlobalQlBar(){
   const bar=document.getElementById('globalQlBar');if(!bar)return;
   if(qlSortable){try{qlSortable.destroy();}catch(_){}qlSortable=null;}
   const links=state.quicklinks||[];
-  const iconsHtml=links.map(l=>`<div class="ql-item" data-ql-id="${l.id}"><a href="${esc(l.url)}" target="_blank" rel="noopener" class="ql-icon" title="${esc(l.label||l.url)}">${l.icon}</a><button class="ql-item-edit" data-action="ql-edit" data-ql-id="${l.id}">✏</button><button class="ql-item-del" data-action="ql-del" data-ql-id="${l.id}">✕</button></div>`).join('');
+  const iconsHtml=links.map(l=>`<div class="ql-item" data-ql-id="${l.id}"><a href="${esc(l.url)}" target="_blank" rel="noopener" class="ql-icon${l.emergency&&emgHighlight?' ql-emergency':''}" title="${esc(l.label||l.url)}">${l.icon}</a><button class="ql-item-edit" data-action="ql-edit" data-ql-id="${l.id}">✏</button><button class="ql-item-emg" data-action="ql-emg-toggle" data-ql-id="${l.id}" title="${l.emergency?'Usuń z emergency':'Oznacz jako emergency'}">${l.emergency?'🔴':'⭕'}</button><button class="ql-item-del" data-action="ql-del" data-ql-id="${l.id}">✕</button></div>`).join('');
   bar.innerHTML=iconsHtml
     +(qlEditMode?`<button class="ql-add" data-action="ql-open" title="Dodaj link">+</button>`:'')
     +`<button class="ql-edit-mode-btn" data-action="ql-toggle-edit" title="${qlEditMode?'Zakończ edycję':'Edytuj linki'}">${qlEditMode?'✓':'✏️'}</button>`
@@ -1866,7 +1889,11 @@ function galFileIcon(type){
 function renderEmergency(){
   const container=document.getElementById('emgContainer');if(!container)return;
   const secs=state.emergency||[];
-  container.innerHTML=secs.map(s=>`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
+  container.innerHTML=secs.map(s=>{
+    const dbRow=s.dropboxLink
+      ?`<div class="emg-db-row"><a class="emg-db-link" href="${esc(s.dropboxLink)}" target="_blank" rel="noopener">📁 Dropbox folder</a><button class="emg-db-edit" data-emg-id="${s.id}" title="Zmień link">✏️</button></div>`
+      :`<div class="emg-db-row"><button class="emg-db-set" data-emg-id="${s.id}">📁 + dodaj link do folderu Dropbox</button></div>`;
+    return`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
   <div class="emg-sec-hdr">
     <span class="emg-sec-arrow">▾</span>
     <span class="emg-sec-title">${esc(s.title)}</span>
@@ -1874,15 +1901,17 @@ function renderEmergency(){
     <button class="emg-sec-del" data-emg-id="${s.id}" title="Usuń sekcję">✕</button>
   </div>
   <div class="emg-sec-body">
+    ${dbRow}
     <textarea class="emg-ta" data-emg-id="${s.id}" rows="1" placeholder="Wpisz instrukcje awaryjne..." spellcheck="false">${esc(s.content||'')}</textarea>
   </div>
-</div>`).join('');
+</div>`;
+  }).join('');
   requestAnimationFrame(()=>container.querySelectorAll('.emg-ta').forEach(autoResize));
 }
 function addEmgSection(title){
   if(!title.trim())return;
   if(!state.emergency)state.emergency=[];
-  state.emergency.push({id:uid(),title:title.trim(),content:'',collapsed:false});
+  state.emergency.push({id:uid(),title:title.trim(),content:'',collapsed:false,dropboxLink:''});
   save();renderEmergency();
 }
 function deleteEmgSection(id){
@@ -1896,6 +1925,19 @@ function toggleEmgSection(id){
 function saveEmgContent(id,content){
   const s=(state.emergency||[]).find(x=>x.id===id);
   if(s){s.content=content;save();}
+}
+function saveEmgDropbox(id,url){
+  const s=(state.emergency||[]).find(x=>x.id===id);
+  if(s){s.dropboxLink=url.trim();save();renderEmergency();}
+}
+function seedEmergencySections(){
+  if(state.emergency&&state.emergency.length)return;
+  state.emergency=[
+    {id:uid(),title:'🍳 Cooking Wars', content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'🎭 Mafia Rivals',  content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'🌴 The Gang',      content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'⚙️ Ogólne',        content:'',collapsed:false,dropboxLink:''},
+  ];
 }
 function renameEmgSection(id,title){
   const s=(state.emergency||[]).find(x=>x.id===id);
@@ -2655,6 +2697,10 @@ function initListeners(){
     if(action==='ql-open'){openQlModal();}
     else if(action==='ql-edit'&&qlId){e.preventDefault();openQlModal(qlId);}
     else if(action==='ql-del'&&qlId){delQlLink(qlId);}
+    else if(action==='ql-emg-toggle'&&qlId){
+      const l=(state.quicklinks||[]).find(x=>x.id===qlId);
+      if(l){l.emergency=!l.emergency;save();renderGlobalQlBar();}
+    }
     else if(action==='ql-toggle-edit'){qlEditMode=!qlEditMode;renderGlobalQlBar();}
     else if(action==='ql-json'){showFileMenu(btn);}
   });
@@ -2713,6 +2759,15 @@ function initListeners(){
   document.getElementById('emgCopyAll').addEventListener('click',e=>{
     e.stopPropagation();copyAllEmg();
   });
+  const emgHlBtn=document.getElementById('emgHlBtn');
+  emgHlBtn.classList.toggle('active',emgHighlight);
+  emgHlBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    emgHighlight=!emgHighlight;
+    localStorage.setItem('emg-highlight',emgHighlight?'1':'0');
+    emgHlBtn.classList.toggle('active',emgHighlight);
+    renderGlobalQlBar();
+  });
   document.getElementById('emgAddInp').addEventListener('keydown',e=>{
     if(e.key==='Enter'){e.preventDefault();addEmgSection(e.target.value);e.target.value='';}
   });
@@ -2723,6 +2778,19 @@ function initListeners(){
     }
     if(e.target.closest('.emg-sec-del')){
       deleteEmgSection(e.target.closest('.emg-sec-del').dataset.emgId);return;
+    }
+    const dbBtn=e.target.closest('.emg-db-set,.emg-db-edit');
+    if(dbBtn){
+      const id=dbBtn.dataset.emgId;
+      const row=dbBtn.closest('.emg-db-row');
+      const s=(state.emergency||[]).find(x=>x.id===id);
+      const inp=document.createElement('input');
+      inp.className='emg-db-inp';inp.value=s?.dropboxLink||'';inp.placeholder='https://www.dropbox.com/...';
+      row.innerHTML='';row.appendChild(inp);inp.focus();inp.select();
+      const commit=()=>saveEmgDropbox(id,inp.value);
+      inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();commit();}if(ev.key==='Escape')renderEmergency();});
+      inp.addEventListener('blur',commit,{once:true});
+      return;
     }
     const hdr=e.target.closest('.emg-sec-hdr');
     if(hdr){toggleEmgSection(hdr.closest('.emg-section').dataset.emgId);}
@@ -3172,7 +3240,7 @@ async function init(){
     if(result.ok&&!result.isNew&&result.state){
       state=result.state;
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
-      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();
+      rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
       updateFileUI();initListeners();renderApp();return;
     }
@@ -3192,10 +3260,11 @@ async function init(){
   }else{
     state=loadAndMigrate();
   }
-  if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));save();}
+  if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
   rolloverIncompleteTasks();
   seedDailyTasks();
-    seedNinjaVacationTasks();
+  seedNinjaVacationTasks();
+  seedEmergencySections();
   save();
   updateFileUI();
   initListeners();
