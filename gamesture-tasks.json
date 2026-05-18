@@ -453,7 +453,13 @@
       "weekKey": "2026-W21",
       "order": 3,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpb6jb2dyyz6",
+          "title": "sekcja for emergencies (in case of sudden absence)",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
