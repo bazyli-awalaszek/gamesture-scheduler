@@ -456,6 +456,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpb31vkq592y",
+      "game": "Ogólne",
+      "title": "info nt. uczenia się GamePulse",
+      "date": null,
+      "note": "info nt uczenia się i wdrażania nowych reguł w reviews",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 4,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
