@@ -469,6 +469,12 @@
       "icon": "🎮",
       "url": "http://game-pulse/",
       "label": "GamePulse"
+    },
+    {
+      "id": "mpb1eup1w71p",
+      "icon": "🛠️",
+      "url": "https://gamesture.helpshift.com/admin/issues",
+      "label": "Helpshift"
     }
   ],
   "gallery": [
