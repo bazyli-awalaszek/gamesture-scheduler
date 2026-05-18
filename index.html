@@ -536,6 +536,37 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ql-edit-mode-btn:hover,.ql-json-btn:hover{opacity:1;color:var(--blue);border-color:var(--blue);}
 #globalQlBar.edit-mode .ql-edit-mode-btn{opacity:1;color:var(--green);border-color:var(--green);}
 /* Gallery */
+/* ── FOR EMERGENCIES ── */
+.sb-emg{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
+.sb-emg.collapsed .emg-body{display:none;}
+.sb-emg.collapsed{max-height:none;}
+.sb-emg.collapsed .sb-arrow{transform:rotate(-90deg);}
+.emg-top-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.emg-top-row .sb-title{margin-bottom:0!important;flex:1;}
+.emg-copy-all{background:none;border:1px solid var(--border2);border-radius:3px;color:var(--muted);font-size:10px;cursor:pointer;padding:1px 7px;white-space:nowrap;flex-shrink:0;transition:border-color .1s,color .1s;}
+.emg-copy-all:hover{border-color:var(--red);color:var(--red);}
+.emg-body{overflow-y:auto;padding-right:2px;}
+.emg-body::-webkit-scrollbar{width:4px;}
+.emg-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.emg-section{border-left:2px solid rgba(247,118,142,.3);margin:0 0 8px;padding:0 0 0 8px;}
+.emg-sec-hdr{display:flex;align-items:center;gap:4px;padding:2px 0;cursor:pointer;user-select:none;}
+.emg-sec-arrow{font-size:9px;color:var(--muted);flex-shrink:0;transition:transform .12s;}
+.emg-section.collapsed .emg-sec-arrow{transform:rotate(-90deg);}
+.emg-sec-title{font-size:11px;font-weight:600;color:var(--dark2);flex:1;}
+.emg-sec-copy,.emg-sec-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:11px;padding:0 2px;opacity:0;line-height:1;flex-shrink:0;}
+.emg-sec-hdr:hover .emg-sec-copy,.emg-sec-hdr:hover .emg-sec-del{opacity:1;}
+.emg-sec-copy:hover{color:var(--blue);}
+.emg-sec-del:hover{color:var(--red);}
+.emg-sec-body{padding:2px 0 4px;}
+.emg-section.collapsed .emg-sec-body{display:none;}
+.emg-ta{width:100%;background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:11px;color:var(--dark2);padding:2px 0;resize:none;overflow:hidden;line-height:1.55;font-family:inherit;}
+.emg-ta:focus{border-bottom-color:rgba(247,118,142,.6);}
+.emg-ta::placeholder{color:var(--faint);font-style:italic;}
+.emg-add-row{display:flex;margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);}
+.emg-add-inp{flex:1;background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:11px;color:var(--dark2);padding:2px 0;}
+.emg-add-inp::placeholder{color:var(--faint);font-style:italic;}
+.emg-add-inp:focus{border-bottom-color:rgba(247,118,142,.6);}
+/* ── GALLERY ── */
 .sb-gallery{flex:0 0 auto;border-top:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:38%;}
 .sb-gallery.collapsed .gallery-body{display:none;}
 .sb-gallery.collapsed{max-height:none;}
@@ -736,6 +767,14 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="help-item"><span class="hi-key">✏️ przy quicklinksach</span><span class="hi-desc">tryb edycji linków (+ pojawia się tylko wtedy)</span></div>
     <div class="help-item"><span class="hi-key">🥷 ninja's urlop</span><span class="hi-desc">kliknij tytuł lub ▼ aby zwinąć/rozwinąć (stan pamiętany)</span></div>
   </div>
+
+  <div class="help-section">
+    <div class="help-section-title">FOR EMERGENCIES</div>
+    <div class="help-item"><span class="hi-key">+ Dodaj (Enter)</span><span class="hi-desc">utwórz nową sekcję (gra / temat)</span></div>
+    <div class="help-item"><span class="hi-key">2× klik tytułu sekcji</span><span class="hi-desc">zmień nazwę sekcji</span></div>
+    <div class="help-item"><span class="hi-key">Hover na sekcję</span><span class="hi-desc">📋 kopiuj sekcję · ✕ usuń sekcję</span></div>
+    <div class="help-item"><span class="hi-key">📋 kopiuj (nagłówek)</span><span class="hi-desc">kopiuj wszystkie sekcje jako gotowy handout (z datą)</span></div>
+  </div>
 </div>
 
 <!-- BOARD -->
@@ -807,6 +846,19 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="sb-title sb-title-toggle" id="sbNotesToggle">📝 Notatki tygodnia <span class="sb-arrow">▾</span></div>
     <div class="notes-scroll">
       <div id="notesContainer"></div>
+    </div>
+  </div>
+
+  <div class="sb-emg" id="sbEmg">
+    <div class="emg-top-row">
+      <div class="sb-title sb-title-toggle" id="sbEmgToggle" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES <span class="sb-arrow">▾</span></div>
+      <button class="emg-copy-all" id="emgCopyAll" title="Skopiuj wszystkie sekcje do schowka">📋 kopiuj</button>
+    </div>
+    <div class="emg-body" id="emgBody">
+      <div id="emgContainer"></div>
+      <div class="emg-add-row">
+        <input class="emg-add-inp" id="emgAddInp" placeholder="+ Dodaj grę / temat (Enter)">
+      </div>
     </div>
   </div>
 
@@ -1598,7 +1650,7 @@ function delNinjaVacPeriod(vacId){
 }
 
 // ── SIDEBAR ────────────────────────────────────────
-function renderSidebar(){renderCalendar();renderNotes();renderGallery();}
+function renderSidebar(){renderCalendar();renderNotes();renderGallery();renderEmergency();}
 
 function renderCalendar(){
   const calView=document.getElementById('calView');
@@ -1808,6 +1860,59 @@ function galFileIcon(type){
   if(type==='pdf') return '📋';
   return '📄';
 }
+// ═══════════════════════════════════════
+// FOR EMERGENCIES
+// ═══════════════════════════════════════
+function renderEmergency(){
+  const container=document.getElementById('emgContainer');if(!container)return;
+  const secs=state.emergency||[];
+  container.innerHTML=secs.map(s=>`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
+  <div class="emg-sec-hdr">
+    <span class="emg-sec-arrow">▾</span>
+    <span class="emg-sec-title">${esc(s.title)}</span>
+    <button class="emg-sec-copy" data-emg-id="${s.id}" title="Kopiuj sekcję">📋</button>
+    <button class="emg-sec-del" data-emg-id="${s.id}" title="Usuń sekcję">✕</button>
+  </div>
+  <div class="emg-sec-body">
+    <textarea class="emg-ta" data-emg-id="${s.id}" rows="1" placeholder="Wpisz instrukcje awaryjne..." spellcheck="false">${esc(s.content||'')}</textarea>
+  </div>
+</div>`).join('');
+  requestAnimationFrame(()=>container.querySelectorAll('.emg-ta').forEach(autoResize));
+}
+function addEmgSection(title){
+  if(!title.trim())return;
+  if(!state.emergency)state.emergency=[];
+  state.emergency.push({id:uid(),title:title.trim(),content:'',collapsed:false});
+  save();renderEmergency();
+}
+function deleteEmgSection(id){
+  state.emergency=(state.emergency||[]).filter(s=>s.id!==id);
+  save();renderEmergency();
+}
+function toggleEmgSection(id){
+  const s=(state.emergency||[]).find(x=>x.id===id);
+  if(s){s.collapsed=!s.collapsed;save();renderEmergency();}
+}
+function saveEmgContent(id,content){
+  const s=(state.emergency||[]).find(x=>x.id===id);
+  if(s){s.content=content;save();}
+}
+function renameEmgSection(id,title){
+  const s=(state.emergency||[]).find(x=>x.id===id);
+  if(s&&title.trim()){s.title=title.trim();save();renderEmergency();}
+}
+function copyEmgSection(id){
+  const s=(state.emergency||[]).find(x=>x.id===id);if(!s)return;
+  navigator.clipboard.writeText(`=== ${s.title} ===\n${s.content||'(brak treści)'}`).catch(()=>{});
+}
+function copyAllEmg(){
+  const secs=(state.emergency||[]).filter(s=>s.content&&s.content.trim());
+  if(!secs.length)return;
+  const n=new Date();
+  const d=`${p2(n.getDate())}/${p2(n.getMonth()+1)}/${n.getFullYear()}`;
+  navigator.clipboard.writeText(`🆘 EMERGENCY HANDOUT — ${d}\n\n${secs.map(s=>`━━━ ${s.title} ━━━\n${s.content.trim()}`).join('\n\n')}`).catch(()=>{});
+}
+
 let gallerySortable=null;
 function renderGallery(){
   const grid=document.getElementById('galleryGrid');if(!grid)return;
@@ -2601,6 +2706,45 @@ function initListeners(){
   });
   document.getElementById('sbNotesToggle').addEventListener('click',()=>{
     document.getElementById('sbNotes').classList.toggle('collapsed');
+  });
+  document.getElementById('sbEmgToggle').addEventListener('click',()=>{
+    document.getElementById('sbEmg').classList.toggle('collapsed');
+  });
+  document.getElementById('emgCopyAll').addEventListener('click',e=>{
+    e.stopPropagation();copyAllEmg();
+  });
+  document.getElementById('emgAddInp').addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();addEmgSection(e.target.value);e.target.value='';}
+  });
+  // Emergency container delegation
+  document.getElementById('emgContainer').addEventListener('click',e=>{
+    if(e.target.closest('.emg-sec-copy')){
+      copyEmgSection(e.target.closest('.emg-sec-copy').dataset.emgId);return;
+    }
+    if(e.target.closest('.emg-sec-del')){
+      deleteEmgSection(e.target.closest('.emg-sec-del').dataset.emgId);return;
+    }
+    const hdr=e.target.closest('.emg-sec-hdr');
+    if(hdr){toggleEmgSection(hdr.closest('.emg-section').dataset.emgId);}
+  });
+  document.getElementById('emgContainer').addEventListener('dblclick',e=>{
+    const titleEl=e.target.closest('.emg-sec-title');if(!titleEl)return;
+    const id=titleEl.closest('.emg-section').dataset.emgId;
+    const raw=titleEl.textContent;
+    const inp=document.createElement('input');
+    inp.value=raw;
+    inp.style.cssText='font-size:11px;font-weight:600;background:transparent;border:none;border-bottom:1px solid rgba(247,118,142,.6);outline:none;color:var(--dark2);flex:1;min-width:0;padding:0;font-family:inherit;width:100%;';
+    titleEl.replaceWith(inp);inp.focus();inp.select();
+    const commit=()=>renameEmgSection(id,inp.value||raw);
+    inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();commit();}if(ev.key==='Escape')renderEmergency();});
+    inp.addEventListener('blur',commit,{once:true});
+  });
+  document.getElementById('emgContainer').addEventListener('input',e=>{
+    if(e.target.classList.contains('emg-ta')){
+      autoResize(e.target);
+      clearTimeout(e.target._t);
+      e.target._t=setTimeout(()=>saveEmgContent(e.target.dataset.emgId,e.target.value),400);
+    }
   });
 
   document.getElementById('qlIconGrid').addEventListener('click',e=>{
