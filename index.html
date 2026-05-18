@@ -1893,9 +1893,12 @@ function renderEmergency(){
     const dbRow=s.dropboxLink
       ?`<div class="emg-db-row"><a class="emg-db-link" href="${esc(s.dropboxLink)}" target="_blank" rel="noopener">📁 Dropbox folder</a><button class="emg-db-edit" data-emg-id="${s.id}" title="Zmień link">✏️</button></div>`
       :`<div class="emg-db-row"><button class="emg-db-set" data-emg-id="${s.id}">📁 + dodaj link do folderu Dropbox</button></div>`;
+    const _emgGameName=s.title.replace(/^[\p{Emoji}\s]+/u,'').trim();
+    const gameIcon=gameCfg(_emgGameName)?gameIconHtml(_emgGameName,18,4):'';
     return`<div class="emg-section${s.collapsed?' collapsed':''}" data-emg-id="${s.id}">
   <div class="emg-sec-hdr">
     <span class="emg-sec-arrow">▾</span>
+    ${gameIcon}
     <span class="emg-sec-title">${esc(s.title)}</span>
     <button class="emg-sec-copy" data-emg-id="${s.id}" title="Kopiuj sekcję">📋</button>
     <button class="emg-sec-del" data-emg-id="${s.id}" title="Usuń sekcję">✕</button>
@@ -1933,10 +1936,10 @@ function saveEmgDropbox(id,url){
 function seedEmergencySections(){
   if(state.emergency&&state.emergency.length)return;
   state.emergency=[
-    {id:uid(),title:'🍳 Cooking Wars', content:'',collapsed:false,dropboxLink:''},
-    {id:uid(),title:'🎭 Mafia Rivals',  content:'',collapsed:false,dropboxLink:''},
-    {id:uid(),title:'🌴 The Gang',      content:'',collapsed:false,dropboxLink:''},
-    {id:uid(),title:'⚙️ Ogólne',        content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'Cooking Wars', content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'Mafia Rivals',  content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'The Gang',      content:'',collapsed:false,dropboxLink:''},
+    {id:uid(),title:'Ogólne',        content:'',collapsed:false,dropboxLink:''},
   ];
 }
 function renameEmgSection(id,title){
