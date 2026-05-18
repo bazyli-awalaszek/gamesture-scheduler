@@ -236,11 +236,15 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .cal-entry.this-week-entry:not(.prio-entry):hover{background:rgba(122,162,247,.14);}
 .cal-entry.this-week-entry:not(.prio-entry) .cal-ttl{color:var(--dark);}
 /* ── GAME SCHEDULE TABLE ── */
-.sb-tge{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:38%;}
+.sb-tge{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
 .sb-tge.collapsed .tge-body{display:none;}
 .sb-tge.collapsed{max-height:none;}
 .sb-tge.collapsed .sb-arrow{transform:rotate(-90deg);}
 .tge-body{flex:1;overflow:auto;}
+.tge-game-section{margin-bottom:10px;}
+.tge-game-section:last-child{margin-bottom:0;}
+.tge-game-hdr{display:flex;align-items:center;gap:5px;padding:5px 0 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:4px;}
+.tge-cw-note{font-size:11px;color:var(--dark2);padding:5px 0 2px;line-height:1.5;}
 .tge-table{border-collapse:collapse;font-size:12px;white-space:nowrap;}
 .tge-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);padding:4px 6px 4px 2px;border-bottom:1px solid var(--border);text-align:left;}
 .tge-table td{padding:3px 6px 3px 2px;color:var(--dark2);border-bottom:1px solid rgba(255,255,255,.04);}
@@ -249,6 +253,11 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .tge-merged{color:var(--border2);font-size:10px;letter-spacing:.02em;}
 .tge-arr{color:var(--muted);font-size:12px;font-weight:700;line-height:1;}
 .tge-time{font-size:12px;}
+#tgeLegend{position:fixed;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--dark2);line-height:1.55;width:290px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.55);display:none;pointer-events:none;}
+#tgeLegend.show{display:block;}
+#tgeLegend p{margin:0 0 8px;}
+#tgeLegend p:last-child{margin:0;}
+#tgeLegend strong{color:var(--fg);display:block;margin-bottom:2px;}
 .sb-notes{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:10px 12px 8px;min-height:32px;}
 .sb-notes.collapsed .notes-scroll{display:none;}
 .sb-notes.collapsed{flex:0 0 auto;}
@@ -547,13 +556,6 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .btn-emg-activate{background:rgba(231,72,86,.1);border:1px solid rgba(231,72,86,.4);border-radius:4px;color:var(--red);font-size:9px;font-weight:700;letter-spacing:.1em;padding:4px 10px;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s;text-transform:uppercase;flex-shrink:0;}
 .btn-emg-activate:hover{background:rgba(231,72,86,.2);border-color:rgba(231,72,86,.7);box-shadow:0 0 10px rgba(231,72,86,.25);}
 .btn-emg-activate.active{background:rgba(231,72,86,.25);border-color:rgba(231,72,86,.8);}
-#emgActivatedModal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99999;background:rgba(0,0,0,.6);}
-#emgActivatedModal.open{display:flex;}
-.emg-modal-card{background:#1c1e2e;border:1px solid rgba(231,72,86,.25);border-radius:16px;padding:40px 48px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 60px rgba(231,72,86,.1);max-width:320px;width:90%;animation:emgModalIn .22s ease;}
-@keyframes emgModalIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
-.emg-modal-emoji{font-size:48px;margin-bottom:16px;}
-.emg-modal-msg{font-size:21px;color:var(--fg);font-weight:700;margin:0 0 8px;}
-.emg-modal-sub{font-size:14px;color:var(--muted);}
 #emgNotePanel{position:fixed;top:46px;right:12px;width:280px;max-height:calc(100vh - 60px);overflow-y:auto;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:9999;padding:12px 14px 14px;display:none;}
 #emgNotePanel.open{display:block;}
 #emgNotePanel::-webkit-scrollbar{width:4px;}
@@ -847,13 +849,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 </div>
 
 
-<!-- EMG ACTIVATED MODAL -->
-<div id="emgActivatedModal">
-  <div class="emg-modal-card">
-    <div class="emg-modal-emoji">🆘</div>
-    <div class="emg-modal-msg">it's gonna be allright</div>
-    <div class="emg-modal-sub">I gotcha</div>
-  </div>
+<!-- TGE LEGEND TOOLTIP -->
+<div id="tgeLegend">
+  <p>Rozpiska godzin, o których zazwyczaj startują eventy.</p>
+  <p><strong>[ ← ] godzina poprzedniego dnia</strong>np. w kalendarzu 6 dzień sezonu jest 18.05. jeśli Hit3 zaczyna się 6 dnia sezonu, to w rzeczywistości będzie to 21:00 17.05 dla Europy i 6:00 18.05 dla Azji/Ameryki</p>
+  <p><strong>[ merged ] merge Azji i Ameryki</strong>dla większości eventów (szczególnie tych z rankingami) Azja i Ameryka mają połączony region</p>
 </div>
 
 <!-- EMG NOTE PANEL -->
@@ -867,8 +867,8 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="sb-emg collapsed" id="sbEmg">
     <div class="emg-top-row">
       <div class="sb-title" style="margin-bottom:0;flex:1">🆘 FOR EMERGENCIES</div>
-      <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
       <button class="btn-emg-activate" id="btnEmgActivate">CLICK HERE</button>
+      <button class="emg-note-btn" id="emgNoteBtn" title="Notatka / info ogólne">?</button>
     </div>
     <div class="emg-body" id="emgBody">
       <div id="emgContainer"></div>
@@ -881,22 +881,29 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="sb-tge collapsed" id="sbTge">
     <div class="sb-title sb-title-toggle" id="sbTgeToggle">🎮 Game Schedule <span class="sb-arrow">▾</span></div>
     <div class="tge-body">
-      <table class="tge-table">
-        <thead><tr><th>Game Event</th><th>Panel Calendar</th><th>Asia</th><th>Europe</th><th>America</th></tr></thead>
-        <tbody>
-          <tr><td class="tge-ev">Hit3</td><td>Hit3</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Lucky Vault</td><td>Lucky Vault</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Bank Robbery Express</td><td>Bank Event Season_End</td><td><span class="tge-arr">←</span>21:00</td><td>03:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Wheel Of Fortune</td><td>–</td><td><span class="tge-arr">←</span>15:00</td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Combo Suits</td><td>Overlay</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Tournament</td><td>Gang Tournament</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td><span class="tge-arr">←</span>22:30</td></tr>
-          <tr><td class="tge-ev">Rising Stars Tournament</td><td>Rising Star Tourney</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>14:30</td><td><span class="tge-arr">←</span>22:30</td></tr>
-          <tr><td class="tge-ev">World Gang Championship</td><td>Global Gang Tournament</td><td>07:30</td><td>07:30</td><td>07:30</td></tr>
-          <tr><td class="tge-ev">Gang Nations Cup</td><td>Continental Tournament</td><td>07:30</td><td>07:30</td><td>07:30</td></tr>
-          <tr><td class="tge-ev">Bank Robbery</td><td>Bank Event</td><td><span class="tge-arr">←</span>15:00</td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
-          <tr><td class="tge-ev">Cartel Rush</td><td>Cartel Rush</td><td>03:00</td><td>03:00</td><td>03:00</td></tr>
-        </tbody>
-      </table>
+      <div class="tge-game-section">
+        <div class="tge-game-hdr"><span id="tgeGangIcon"></span><span>The Gang</span></div>
+        <table class="tge-table">
+          <thead><tr><th>Game Event</th><th>Panel Calendar</th><th>Asia</th><th>Europe</th><th>America</th></tr></thead>
+          <tbody>
+            <tr><td class="tge-ev">Hit3</td><td>Hit3</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Lucky Vault</td><td>Lucky Vault</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Bank Robbery Express</td><td>Bank Event Season_End</td><td><span class="tge-arr">←</span>21:00</td><td>03:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Wheel Of Fortune</td><td>Chest</td><td><span class="tge-arr">←</span>15:00</td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Combo Suits</td><td>Overlay</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Tournament</td><td>Gang Tournament</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>21:00</td><td><span class="tge-arr">←</span>22:30</td></tr>
+            <tr><td class="tge-ev">Rising Stars Tournament</td><td>Rising Star Tourney</td><td><span class="tge-merged">merged</span></td><td><span class="tge-arr">←</span>14:30</td><td><span class="tge-arr">←</span>22:30</td></tr>
+            <tr><td class="tge-ev">World Gang Championship</td><td>Global Gang Tournament</td><td>07:30</td><td>07:30</td><td>07:30</td></tr>
+            <tr><td class="tge-ev">Gang Nations Cup</td><td>Continental Tournament</td><td>07:30</td><td>07:30</td><td>07:30</td></tr>
+            <tr><td class="tge-ev">Bank Robbery</td><td>Bank Event</td><td><span class="tge-arr">←</span>15:00</td><td><span class="tge-arr">←</span>21:00</td><td>06:00</td></tr>
+            <tr><td class="tge-ev">Cartel Rush</td><td>Cartel Rush</td><td>03:00</td><td>03:00</td><td>03:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tge-game-section">
+        <div class="tge-game-hdr"><span id="tgeCwIcon"></span><span>Cooking Wars</span></div>
+        <div class="tge-cw-note">New events, recipes, etc. start at 13:00 (UTC)</div>
+      </div>
     </div>
   </div>
   <div class="sb-cal" id="sbCal">
@@ -2791,9 +2798,21 @@ function initListeners(){
   document.getElementById('sbGalleryToggle').addEventListener('click',()=>{
     document.getElementById('sbGallery').classList.toggle('collapsed');
   });
-  document.getElementById('sbTgeToggle').addEventListener('click',()=>{
-    document.getElementById('sbTge').classList.toggle('collapsed');
+  const sbTgeToggle=document.getElementById('sbTgeToggle');
+  sbTgeToggle.addEventListener('click',()=>{document.getElementById('sbTge').classList.toggle('collapsed');});
+  // Game section icons
+  document.getElementById('tgeGangIcon').innerHTML=gameIconHtml('The Gang',16,3);
+  document.getElementById('tgeCwIcon').innerHTML=gameIconHtml('Cooking Wars',16,3);
+  // TGE legend tooltip on hover
+  const tgeLegend=document.getElementById('tgeLegend');
+  sbTgeToggle.addEventListener('mouseenter',()=>{
+    const r=sbTgeToggle.getBoundingClientRect();
+    tgeLegend.style.top=(r.bottom+6)+'px';
+    tgeLegend.style.right=(window.innerWidth-r.right)+'px';
+    tgeLegend.style.left='auto';
+    tgeLegend.classList.add('show');
   });
+  sbTgeToggle.addEventListener('mouseleave',()=>tgeLegend.classList.remove('show'));
   document.getElementById('sbNotesToggle').addEventListener('click',()=>{
     document.getElementById('sbNotes').classList.toggle('collapsed');
   });
@@ -2810,19 +2829,7 @@ function initListeners(){
   if(emgHighlight){setEmgMode(true);}
   btnEmgActivate.addEventListener('click',e=>{
     e.stopPropagation();
-    if(!emgHighlight){
-      setEmgMode(true);
-      const modal=document.getElementById('emgActivatedModal');
-      modal.classList.add('open');
-      clearTimeout(modal._t);
-      modal._t=setTimeout(()=>modal.classList.remove('open'),3500);
-    } else {
-      setEmgMode(false);
-    }
-  });
-  document.getElementById('emgActivatedModal').addEventListener('click',e=>{
-    if(!e.target.closest('.emg-modal-card'))
-      document.getElementById('emgActivatedModal').classList.remove('open');
+    setEmgMode(!emgHighlight);
   });
   // Note ? panel (floating, like helpPanel)
   const emgNotePanel=document.getElementById('emgNotePanel');
@@ -3134,7 +3141,7 @@ function initListeners(){
       document.getElementById('btnHelp').classList.remove('active');
   });
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');document.getElementById('emgActivatedModal').classList.remove('open');}
+    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');}
   });
 
   // Board change
