@@ -656,6 +656,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpc93uzvewx5",
+      "game": "Ogólne",
+      "title": "GamePulse AI config tab - check out",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C0ANFAF1058/p1779171600957039",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
