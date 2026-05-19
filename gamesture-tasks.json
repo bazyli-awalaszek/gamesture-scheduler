@@ -884,6 +884,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpchv9f4bqa0",
+      "game": "The Gang",
+      "title": "SPECIAL EVENTS: Spring Festival",
+      "date": "2026-05-25",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 13,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
