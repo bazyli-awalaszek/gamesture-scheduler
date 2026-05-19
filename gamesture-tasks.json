@@ -855,7 +855,13 @@
       "weekKey": "2026-W21",
       "order": 0,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpch3mj1k5te",
+          "title": "new season news",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
