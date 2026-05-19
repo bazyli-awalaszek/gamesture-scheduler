@@ -974,6 +974,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpckr4tcm2d5",
+      "game": "The Gang",
+      "title": "R Hitmans 20:00",
+      "date": "2026-05-26",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 15,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
