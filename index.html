@@ -1500,7 +1500,7 @@ function cardHtml(t){
   const _td=todayStr();
   const subsItemsHtml=subs.map(s=>{
     const sd=s.date||'';
-    const sCls=sd===_td?'today':sd&&sd<_td?'late':sd&&isHoliday(sd)?'holiday':sd&&isMyVacation(sd)?'my-vac':'';
+    const sCls=sd===_td?'today':sd&&sd<_td&&!s.done?'late':sd&&isHoliday(sd)?'holiday':sd&&isMyVacation(sd)?'my-vac':'';
     const dateEl=sd
       ?`<span class="sub-date-chip ${sCls}" data-action="edit-sub-date" data-subtask-id="${s.id}" data-id="${t.id}">${fmtDate(sd)}</span>`
       :`<button class="sub-date-btn" data-action="add-sub-date" data-subtask-id="${s.id}" data-id="${t.id}" title="Dodaj datę">📅</button>`;
