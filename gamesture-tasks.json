@@ -1015,6 +1015,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpcl8dzdgp71",
+      "game": "Ogólne",
+      "title": "task manager - godziny eventów",
+      "date": null,
+      "note": "sprawdzić i poprawić godziny eventów w GAME SCHEDULE na podstawie season calendar z panelu https://the-gang.admin-gamesture.com/gameplay/season-calendar?__game=Gang",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 10,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
