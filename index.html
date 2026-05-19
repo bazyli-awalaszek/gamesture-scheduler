@@ -79,7 +79,7 @@ body{
 .clock-widget{display:flex;flex-direction:column;gap:1px;font-family:monospace;font-size:10px;line-height:1.4;flex-shrink:0;border-left:1px solid var(--border);padding-left:10px;margin-left:2px;}
 .clock-row{display:flex;align-items:baseline;gap:5px;}
 .clock-tz{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--border2);min-width:28px;}
-.clock-time{color:var(--muted);letter-spacing:.03em;}
+.clock-time{color:var(--muted);letter-spacing:.03em;font-weight:700;}
 
 /* ── BOARD ── */
 .board{
@@ -460,7 +460,7 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .task-card.expanded .card-expand{display:block;}
 /* Subtasks always visible */
 .card-subs-always{padding-left:28px;margin-top:3px;}
-.sub-drag{color:transparent;cursor:grab;font-size:11px;line-height:1;flex-shrink:0;user-select:none;padding:0 1px;}
+.sub-drag{color:transparent;cursor:grab;font-size:11px;line-height:1;flex-shrink:0;user-select:none;padding:0 1px;margin-top:3px;}
 .subtask:hover .sub-drag{color:var(--faint);}
 .sub-drag:hover{color:var(--muted)!important;}
 .sub-drag:active{cursor:grabbing;}
@@ -506,8 +506,8 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .subtask-date-new{background:transparent;border:none;border-bottom:1px dashed var(--border2);outline:none;font-size:10px;color:var(--dark2);padding:1px 2px;width:70px;flex-shrink:0;}
 .subtask-date-new:focus{border-bottom-color:var(--blue);}
 .subtask-date-new::placeholder{color:var(--faint);font-style:italic;}
-.subtask{display:flex;align-items:center;gap:5px;padding:2px 0;}
-.subtask-cb{width:13px;height:13px;border:2px solid var(--border2);border-radius:2px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;transition:all .1s;}
+.subtask{display:flex;align-items:flex-start;gap:5px;padding:2px 0;}
+.subtask-cb{width:13px;height:13px;border:2px solid var(--border2);border-radius:2px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:transparent;transition:all .1s;margin-top:2px;}
 .subtask-cb:hover{border-color:var(--green);}
 .subtask-cb.done{background:var(--green);border-color:var(--green);}
 .subtask-cb.done::after{content:'✓';color:#1a1b26;font-size:8px;font-weight:700;line-height:1;}
@@ -1477,7 +1477,7 @@ function cardHtml(t){
   const td=todayStr(),ds=t.date||'';
   let chipCls='';
   if(ds===td) chipCls='today';
-  else if(ds&&ds<td) chipCls='late';
+  else if(ds&&ds<td&&t.status!=='done') chipCls='late';
   else if(ds&&isHoliday(ds)) chipCls='holiday';
   else if(ds&&isMyVacation(ds)) chipCls='my-vac';
   const dateArea=ds
