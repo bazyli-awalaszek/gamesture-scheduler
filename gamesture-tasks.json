@@ -438,7 +438,7 @@
       "title": "Community Mini-Event",
       "date": null,
       "note": "nagrody dla TOP5: \n- 2x 242 (EPIC STICKER PACK)\n- 10x 271 (RECIPE Grilled Sausages)\n\nWINNERS:\n838191, 770328, 761270, 714408, 842385",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 5,
@@ -483,12 +483,12 @@
         {
           "id": "mpb6n4tb455h",
           "title": "inG winners msg",
-          "done": false
+          "done": true
         },
         {
           "id": "mpb6nfkr90p3",
           "title": "inG winners msg sent",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
