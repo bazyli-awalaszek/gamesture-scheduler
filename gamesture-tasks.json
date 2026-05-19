@@ -850,7 +850,7 @@
       "title": "new season posts",
       "date": "2026-05-27",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 0,
@@ -864,7 +864,7 @@
         {
           "id": "mpch3png5wob",
           "title": "SP promo",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
