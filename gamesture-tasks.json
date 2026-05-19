@@ -641,7 +641,13 @@
       "weekKey": "2026-W21",
       "order": 6,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpc7chitk6dn",
+          "title": "ask @pslaby for conflab",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
