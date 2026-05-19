@@ -676,6 +676,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpcaakqi8f3o",
+      "game": "The Gang",
+      "title": "NC Win 8:00",
+      "date": "2026-05-21",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
