@@ -788,6 +788,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpcfqwmqdsvh",
+      "game": "The Gang",
+      "title": "info o osiągnięciach dla WeDo",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 11,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
