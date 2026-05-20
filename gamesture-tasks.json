@@ -1090,7 +1090,7 @@
       "subtasks": [
         {
           "id": "mpdqu2nqv2wc",
-          "title": "zmiana: reset kluczy TYLKO po LVN",
+          "title": "zmiana: reset kluczy TYLKO po LVN albo jak nie ukończysz LV",
           "done": false
         },
         {
@@ -1111,6 +1111,11 @@
         {
           "id": "mpdtcujm236s",
           "title": "nowy string dla LV/LVN",
+          "done": true
+        },
+        {
+          "id": "mpdy6ptnxhhk",
+          "title": "nowy news inG",
           "done": true
         }
       ],
