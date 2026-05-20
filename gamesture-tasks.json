@@ -1082,7 +1082,7 @@
       "title": "Zarke Keys c.d.2",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C037NQHHQBB/p1779259945309469?thread_ts=1779168954.005469&cid=C037NQHHQBB",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W21",
       "order": 17,
@@ -1126,7 +1126,7 @@
         {
           "id": "mpe2y7qhw1sp",
           "title": "PRZEŁOZONE",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
