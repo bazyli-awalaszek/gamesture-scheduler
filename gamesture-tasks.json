@@ -1087,7 +1087,13 @@
       "weekKey": "2026-W21",
       "order": 17,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpdqu2nqv2wc",
+          "title": "zmiana: reset kluczy TYLKO po LVN",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
