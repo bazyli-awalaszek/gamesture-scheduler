@@ -1260,7 +1260,13 @@
       "weekKey": "2026-W21",
       "order": 21,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpf8xinvroxx",
+          "title": "inG msg informing that it's getting ready",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
