@@ -1037,7 +1037,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-20",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 0,
@@ -1061,17 +1061,17 @@
         {
           "id": "mpdon4zkykul",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpdon4zkezzu",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpdon4zkao9e",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
