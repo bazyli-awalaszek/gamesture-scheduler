@@ -1317,6 +1317,11 @@
   ],
   "notes": [
     {
+      "id": "mpf2trlz19r4",
+      "text": "",
+      "color": "#1e0806"
+    },
+    {
       "id": "mp6rhvl729a7",
       "text": "TG:\n- maile dla powracających graczy\n- wystylować [i] w różnych miejscach w TG jeśli nadmiar czasu\n- \"straszące\" maile dla nieaktywnych (https://gamesture.slack.com/archives/C092XLTFQKX/p1771411171841839)\n\nCW:\n- sprawdzić czy @pkozak dodał recurring messages\n- poprawić spooky kitchen info\n- universal news for lottery event?\n\nMR:",
       "color": "#060f22"
