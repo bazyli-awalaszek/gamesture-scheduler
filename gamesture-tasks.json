@@ -1192,6 +1192,21 @@
         }
       ],
       "link": null
+    },
+    {
+      "id": "mpf2xim5z0rw",
+      "game": "The Gang",
+      "title": "dmg stats for BamBam",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 19,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
