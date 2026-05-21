@@ -136,7 +136,13 @@
       "weekKey": "2026-W21",
       "order": 1,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpfbw18cvnvl",
+          "title": "10+ pomysłów na eventy z vanity rewards",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
