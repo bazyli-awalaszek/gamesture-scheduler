@@ -1218,6 +1218,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpf7vuyz4fuj",
+      "game": "The Gang",
+      "title": "Nations Cup Winners - new graphic",
+      "date": null,
+      "note": "ranking z nowym, bardziej epickim tłem to match WGC",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 20,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
