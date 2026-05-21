@@ -217,7 +217,7 @@
       "title": "New Uncommon: Potato Pancakes With Salmon",
       "date": "2026-05-20",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 2,
@@ -258,7 +258,7 @@
         {
           "id": "mpcgyvs6vqc5",
           "title": "inG msg sent 14:30",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
