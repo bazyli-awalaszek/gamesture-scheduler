@@ -1336,6 +1336,21 @@
         }
       ],
       "link": null
+    },
+    {
+      "id": "mpgp6f0auhv3",
+      "game": "Ogólne",
+      "title": "GamePulse instrukcje dla Cookingu",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 15,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
