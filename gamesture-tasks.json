@@ -1363,7 +1363,13 @@
       "weekKey": "2026-W21",
       "order": 22,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpgsop4pok7p",
+          "title": "inG msg",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
