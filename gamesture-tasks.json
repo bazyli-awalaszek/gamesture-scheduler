@@ -1007,7 +1007,7 @@
       "title": "Tournament News 20:00",
       "date": "2026-05-24",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 16,
@@ -1021,7 +1021,7 @@
         {
           "id": "mpckuhqca31g",
           "title": "SM",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
