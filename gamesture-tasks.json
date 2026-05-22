@@ -1491,6 +1491,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpgwtsragfv5",
+      "game": "The Gang",
+      "title": "special event characters names",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 26,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
