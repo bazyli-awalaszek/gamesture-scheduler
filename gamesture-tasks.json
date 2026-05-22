@@ -1396,6 +1396,12 @@
       "icon": "📖",
       "url": "http://knowledge/tutorials",
       "label": "Knowledge Base"
+    },
+    {
+      "id": "mpgkkxjj0qkr",
+      "icon": "🗂️",
+      "url": "https://www.dropbox.com/home",
+      "label": "Dropbox"
     }
   ],
   "gallery": [
