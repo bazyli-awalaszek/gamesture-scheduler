@@ -1517,6 +1517,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpgxicjv1frp",
+      "game": "The Gang",
+      "title": "check connections of players who asked for stats",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 26,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
