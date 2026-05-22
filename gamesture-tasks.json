@@ -1358,7 +1358,7 @@
       "title": "Special Events Promo",
       "date": null,
       "note": "La Dolce Vita\n- LVN\n- WoF\n- Hit3\n- Card Heist\n- 4x Quests\n",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 22,
@@ -1397,7 +1397,7 @@
         {
           "id": "mpgsoy9vnq3e",
           "title": "SM msg 20:00",
-          "done": false,
+          "done": true,
           "date": "2026-05-23"
         }
       ],
