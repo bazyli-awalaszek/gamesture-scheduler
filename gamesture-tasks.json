@@ -134,7 +134,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W21",
-      "order": 1,
+      "order": 0,
       "attachments": [],
       "subtasks": [
         {
@@ -511,7 +511,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W21",
-      "order": 3,
+      "order": 1,
       "attachments": [],
       "subtasks": [
         {
