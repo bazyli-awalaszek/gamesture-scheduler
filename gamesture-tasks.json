@@ -1176,7 +1176,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-21",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 0,
@@ -1205,12 +1205,12 @@
         {
           "id": "mpf2qg466q74",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpf2qg464cud",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
