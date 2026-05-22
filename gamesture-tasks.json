@@ -1351,6 +1351,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpgp6rtsw9bp",
+      "game": "The Gang",
+      "title": "Special Events Promo",
+      "date": null,
+      "note": "La Dolce Vita",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W21",
+      "order": 22,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
