@@ -1267,7 +1267,7 @@
       "title": "NC Winners Prize",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W21",
       "order": 21,
@@ -1286,7 +1286,7 @@
         {
           "id": "mpf8xv2yzzqn",
           "title": "inG msg z postacią",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
