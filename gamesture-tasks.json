@@ -118,7 +118,7 @@
       "note": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -133,7 +133,7 @@
       "note": "https://gamesture.slack.com/archives/C09JD89FCBV/p1779357380687599",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -159,7 +159,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 0,
       "attachments": [],
       "subtasks": [],
@@ -174,7 +174,7 @@
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -189,7 +189,7 @@
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -510,7 +510,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 1,
       "attachments": [],
       "subtasks": [
@@ -658,7 +658,7 @@
       "note": "https://gamesture.slack.com/archives/C0ANFAF1058/p1779171600957039",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 2,
       "attachments": [],
       "subtasks": [],
@@ -934,7 +934,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 14,
       "attachments": [],
       "subtasks": [],
@@ -964,7 +964,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -979,7 +979,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 1.5,
       "attachments": [],
       "subtasks": [],
@@ -1035,7 +1035,7 @@
       "note": "sprawdzić i poprawić godziny eventów w GAME SCHEDULE na podstawie season calendar z panelu https://the-gang.admin-gamesture.com/gameplay/season-calendar?__game=Gang",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -1254,7 +1254,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 5,
       "attachments": [],
       "subtasks": [],
@@ -1335,7 +1335,8 @@
           "done": true
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     },
     {
       "id": "mpgp6f0auhv3",
@@ -1345,7 +1346,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -1526,12 +1527,57 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W21",
+      "weekKey": "2026-W22",
       "order": 26,
       "attachments": [],
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpktakgf2tw0",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-05-25",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpktakgfqskk",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpktakgf1spl",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpktakgfndxb",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpktakgf32yd",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpktakgf0348",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpktakgfsh5h",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
