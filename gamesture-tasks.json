@@ -543,6 +543,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpl7tvr3klrk",
+      "game": "Mafia Rivals",
+      "title": "new season scheduling do 23.06.2026",
+      "weekKey": "2026-W22",
+      "status": "active",
+      "priority": false,
+      "date": "2026-05-27",
+      "note": "",
+      "order": 1,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
