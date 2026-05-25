@@ -85,7 +85,7 @@
       "title": "temat VIP - cd.",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 1,
@@ -104,7 +104,7 @@
         {
           "id": "mpl61ugl8dwy",
           "title": "zapostować na #vip-support",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
