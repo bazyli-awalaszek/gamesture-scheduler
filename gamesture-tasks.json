@@ -431,7 +431,7 @@
       "game": "The Gang",
       "title": "La Dolce Vita char names",
       "weekKey": "2026-W22",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -446,7 +446,7 @@
         {
           "id": "mpl11ft77wwq8t",
           "title": "add to cosmetics //waiting for them to appear in panel",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
