@@ -2627,16 +2627,30 @@ async function saveToGitHub(){
         if(r2.ok){const d2=await r2.json();ghSha=d2.sha;scheduleGhSave();}
       }
       setGhDot('error');
+      showSaveFailToast();
       return false;
     }
-  }catch(e){console.warn('GH save:',e);setGhDot('error');return false;}
+  }catch(e){console.warn('GH save:',e);setGhDot('error');showSaveFailToast();return false;}
+}
+let _saveFailToastTimer=null;
+function showSaveFailToast(){
+  let t=document.getElementById('saveFailToast');
+  if(!t){
+    t=document.createElement('div');t.id='saveFailToast';
+    t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2d1a1a;border:1px solid rgba(247,118,142,.5);color:#f7768e;font-size:12px;padding:7px 16px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.5);pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent='⚠ Zapis nie powiódł się — zmiany mogą nie być zapisane na GitHub';
+  t.style.display='block';
+  clearTimeout(_saveFailToastTimer);
+  _saveFailToastTimer=setTimeout(()=>{t.style.display='none';},6000);
 }
 
 function scheduleGhSave(immediate=false){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
   clearTimeout(ghSaveTimer);
-  if(immediate) saveToGitHub();
-  else ghSaveTimer=setTimeout(saveToGitHub,800);
+  if(immediate){ghSaveTimer=null;saveToGitHub();}
+  else ghSaveTimer=setTimeout(()=>{ghSaveTimer=null;saveToGitHub();},800);
 }
 
 let _lastAutoPull=0;
@@ -2644,7 +2658,7 @@ async function autoPullFromGitHub(){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo||!ghConfig.path) return;
   if(ghSaveTimer) return; // don't pull while a save is queued
   const now=Date.now();
-  if(now-_lastAutoPull<30000) return; // cooldown 30s
+  if(now-_lastAutoPull<15000) return; // cooldown 15s
   _lastAutoPull=now;
   try{
     const headers={'Accept':'application/vnd.github.v3+json','Authorization':`token ${ghConfig.token}`};
@@ -2660,7 +2674,7 @@ async function autoPullFromGitHub(){
     setGhDot('syncing');setTimeout(()=>setGhDot('synced'),600);
   }catch(_){}
 }
-setInterval(autoPullFromGitHub,120000);
+setInterval(autoPullFromGitHub,30000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')autoPullFromGitHub();});
 
 function openGhModal(){
