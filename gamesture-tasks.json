@@ -644,5 +644,87 @@
       "collapsed": false,
       "dropboxLink": ""
     }
-  ]
+  ],
+  "gameSchedule": {
+    "gang": [
+      {
+        "ev": "Hit3",
+        "panel": "Hit3",
+        "asia": "merged",
+        "eu": "←21:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Lucky Vault",
+        "panel": "Lucky Vault",
+        "asia": "merged",
+        "eu": "←21:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Bank Robbery Express",
+        "panel": "Bank Event Season_End",
+        "asia": "←21:00",
+        "eu": "03:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Wheel Of Fortune",
+        "panel": "Chest",
+        "asia": "←15:00",
+        "eu": "←21:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Combo Suits",
+        "panel": "Overlay",
+        "asia": "merged",
+        "eu": "←21:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Tournament",
+        "panel": "Gang Tournament",
+        "asia": "merged",
+        "eu": "←21:00",
+        "am": "←22:30"
+      },
+      {
+        "ev": "Rising Stars Tournament",
+        "panel": "Rising Star Tourney",
+        "asia": "merged",
+        "eu": "←14:30",
+        "am": "←22:30"
+      },
+      {
+        "ev": "World Gang Championship",
+        "panel": "Global Gang Tournament",
+        "asia": "07:30",
+        "eu": "07:30",
+        "am": "07:30"
+      },
+      {
+        "ev": "Gang Nations Cup",
+        "panel": "Continental Tournament",
+        "asia": "07:30",
+        "eu": "07:30",
+        "am": "07:30"
+      },
+      {
+        "ev": "Bank Robbery",
+        "panel": "Bank Event",
+        "asia": "←15:00",
+        "eu": "←21:00",
+        "am": "06:00"
+      },
+      {
+        "ev": "Cartel Rush",
+        "panel": "Cartel Rush",
+        "asia": "03:00",
+        "eu": "03:00",
+        "am": "03:00"
+      }
+    ],
+    "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
+  }
 }
