@@ -799,7 +799,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="help-item"><span class="hi-key">Klik tytułu</span><span class="hi-desc">rozwiń/zwiń kartę (notka + subtaski)</span></div>
     <div class="help-item"><span class="hi-key">2× klik notki</span><span class="hi-desc">edytuj notatkę taska</span></div>
     <div class="help-item"><span class="hi-key">Hover na kartę</span><span class="hi-desc">⭐ priorytet · ⎘ duplikuj · ⏪ poprzedni tydzień · ✕ usuń</span></div>
-    <div class="help-item"><span class="hi-key">PPM na task</span><span class="hi-desc">edytuj tytuł / przenieś na następny, poprzedni lub bieżący tydzień</span></div>
+    <div class="help-item"><span class="hi-key">PPM na task</span><span class="hi-desc">edytuj tytuł · dodaj/edytuj datę · przenieś na następny, poprzedni lub bieżący tydzień</span></div>
     <div class="help-item"><span class="hi-key">Przeciąganie ⠿</span><span class="hi-desc">zmień kolejność kart w kolumnie</span></div>
     <div class="help-item"><span class="hi-key">Upuść plik / Ctrl+V</span><span class="hi-desc">dodaj obrazek jako załącznik do taska</span></div>
   </div>
@@ -808,7 +808,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <div class="help-section-title">Subtaski</div>
     <div class="help-item"><span class="hi-key">Hover na subtask</span><span class="hi-desc">✕ usuń</span></div>
     <div class="help-item"><span class="hi-key">PPM na subtask</span><span class="hi-desc">edytuj tytuł przez menu kontekstowe</span></div>
-    <div class="help-item"><span class="hi-key">📅 przy subtasku</span><span class="hi-desc">dodaj datę do istniejącego subtaska</span></div>
+    <div class="help-item"><span class="hi-key">PPM → 📅 Dodaj datę</span><span class="hi-desc">dodaj / edytuj datę subtaska przez menu kontekstowe</span></div>
     <div class="help-item"><span class="hi-key">Klik chipu z datą</span><span class="hi-desc">edytuj datę subtaska</span></div>
     <div class="help-item"><span class="hi-key">Pole daty przy "+ Dodaj"</span><span class="hi-desc">ustaw datę już przy tworzeniu subtaska</span></div>
   </div>
@@ -1053,6 +1053,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div id="ctxMenu" class="ctx-menu">
   <div class="ctx-item" id="ctxEditTitle">✏️ Edytuj tytuł</div>
   <div class="ctx-item" id="ctxEditSubtask">✏️ Edytuj subtask</div>
+  <div class="ctx-item" id="ctxDate">📅 Dodaj datę</div>
   <div class="ctx-item" id="ctxMoveNext">⏩ Przenieś na następny tydzień</div>
   <div class="ctx-item" id="ctxMovePrev">⏪ Cofnij do poprzedniego tygodnia</div>
   <div class="ctx-item" id="ctxMoveCurrent">⏮ Przenieś do bieżącego tygodnia</div>
@@ -1489,7 +1490,6 @@ function cardHtml(t){
         <input type="text" class="date-input" data-f="date" data-id="${t.id}" value="${toDisplayDate(ds)}" placeholder="DD/MM/RRRR" maxlength="10" style="display:none" oninput="formatDateInput(this)">
       </div>`
     :`<div class="card-date">
-        <button class="btn-add-date" data-action="show-date" data-id="${t.id}" title="Dodaj datę">📅</button>
         <input type="text" class="date-input" data-f="date" data-id="${t.id}" value="" placeholder="DD/MM/RRRR" maxlength="10" style="display:none" oninput="formatDateInput(this)">
       </div>`;
   const atts=(t.attachments||[]);
@@ -1506,7 +1506,7 @@ function cardHtml(t){
     const sCls=sd===_td?'today':sd&&sd<_td&&!s.done?'late':sd&&isHoliday(sd)?'holiday':sd&&isMyVacation(sd)?'my-vac':'';
     const dateEl=sd
       ?`<span class="sub-date-chip ${sCls}" data-action="edit-sub-date" data-subtask-id="${s.id}" data-id="${t.id}">${fmtDate(sd)}</span>`
-      :`<button class="sub-date-btn" data-action="add-sub-date" data-subtask-id="${s.id}" data-id="${t.id}" title="Dodaj datę">📅</button>`;
+      :'';
     return`<div class="subtask" data-subtask-id="${s.id}" data-id="${t.id}">
   <span class="sub-drag">⠿</span>
   <div class="subtask-cb ${s.done?'done':''}" data-action="toggle-subtask" data-subtask-id="${s.id}" data-id="${t.id}"></div>
@@ -2192,14 +2192,34 @@ function showDateInput(el){
   const id=card.dataset.id;
   const inp=card.querySelector('.date-input');
   const chip=card.querySelector('.date-chip');
-  const addBtn=card.querySelector('[data-action="show-date"]');
   if(chip) chip.style.display='none';
-  if(addBtn) addBtn.style.display='none';
   if(inp){
     const t=taskById(id);
     if(t&&t.date&&!inp.value) inp.value=toDisplayDate(t.date);
     inp.style.display='';inp.focus();
   }
+}
+function showDateInputById(taskId){
+  const card=document.querySelector(`.task-card[data-id="${taskId}"]`);if(!card)return;
+  card.classList.add('expanded');expandedCards.add(taskId);
+  const inp=card.querySelector('.date-input');
+  const chip=card.querySelector('.date-chip');
+  if(chip) chip.style.display='none';
+  if(inp){
+    const t=taskById(taskId);
+    if(t&&t.date&&!inp.value) inp.value=toDisplayDate(t.date);
+    inp.style.display='';requestAnimationFrame(()=>{inp.focus();inp.select();});
+  }
+}
+function showSubDateInputById(taskId,subId){
+  const sub=document.querySelector(`.subtask[data-subtask-id="${subId}"]`);if(!sub)return;
+  const card=sub.closest('.task-card');if(card){card.classList.add('expanded');expandedCards.add(taskId);}
+  const chip=sub.querySelector('.sub-date-chip');
+  if(chip) chip.style.display='none';
+  const inp=sub.querySelector('.sub-date-inp');if(!inp)return;
+  const s=(taskById(taskId)?.subtasks||[]).find(x=>x.id===subId);
+  if(s?.date&&!inp.value) inp.value=toDisplayDate(s.date);
+  inp.style.display='';requestAnimationFrame(()=>{inp.focus();inp.select();});
 }
 
 // ═══════════════════════════════════════
@@ -2431,6 +2451,10 @@ function showCtxMenu(x,y,taskId,subId=null){
   isSub?hide('ctxMoveNext'):show('ctxMoveNext');
   isSub?hide('ctxMovePrev'):show('ctxMovePrev');
   (isSub||isCurrentWk)?hide('ctxMoveCurrent'):show('ctxMoveCurrent');
+  const ctxDateEl=document.getElementById('ctxDate');
+  if(isSub){const s=(t?.subtasks||[]).find(x=>x.id===subId);ctxDateEl.textContent=s?.date?'📅 Edytuj datę subtasku':'📅 Dodaj datę subtasku';}
+  else{ctxDateEl.textContent=t?.date?'📅 Edytuj datę':'📅 Dodaj datę';}
+  show('ctxDate');
   const menu=document.getElementById('ctxMenu');
   menu.style.display='block';
   const items=[...menu.querySelectorAll('.ctx-item')].filter(el=>el.style.display!=='none').length;
@@ -3274,6 +3298,11 @@ function initListeners(){
   });
   document.getElementById('ctxEditTitle').addEventListener('click',()=>{if(ctxTaskId)startEditTaskTitle(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxEditSubtask').addEventListener('click',()=>{if(ctxTaskId&&ctxSubtaskId)startEditSubtaskTitle(ctxTaskId,ctxSubtaskId);hideCtxMenu();});
+  document.getElementById('ctxDate').addEventListener('click',()=>{
+    if(ctxSubtaskId) showSubDateInputById(ctxTaskId,ctxSubtaskId);
+    else if(ctxTaskId) showDateInputById(ctxTaskId);
+    hideCtxMenu();
+  });
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMovePrev').addEventListener('click',()=>{if(ctxTaskId)moveTaskToPrevWeek(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveCurrent').addEventListener('click',()=>{if(ctxTaskId)moveTaskToCurrentWeek(ctxTaskId);hideCtxMenu();});
