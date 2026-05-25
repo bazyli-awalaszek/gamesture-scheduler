@@ -232,7 +232,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-25",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 0,
@@ -261,7 +261,7 @@
         {
           "id": "mpky07ba6lr1",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpky07ba9fbx",
