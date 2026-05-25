@@ -293,6 +293,11 @@
           "id": "mpl11ft7qpwgop",
           "title": "sekcja urlop-edycja subtasków/placement rzeczy",
           "done": true
+        },
+        {
+          "id": "mpl1jtr7iufh",
+          "title": "sync dla innych użytkowników",
+          "done": false
         }
       ],
       "link": null,
