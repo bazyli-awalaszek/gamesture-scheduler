@@ -298,6 +298,11 @@
           "id": "mpl1jtr7iufh",
           "title": "sync dla innych użytkowników",
           "done": false
+        },
+        {
+          "id": "mpl1jzirf2cw",
+          "title": "dodanie praw edycji? logowania?",
+          "done": false
         }
       ],
       "link": null,
