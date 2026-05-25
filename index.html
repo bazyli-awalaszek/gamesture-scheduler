@@ -2639,6 +2639,30 @@ function scheduleGhSave(immediate=false){
   else ghSaveTimer=setTimeout(saveToGitHub,800);
 }
 
+let _lastAutoPull=0;
+async function autoPullFromGitHub(){
+  if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo||!ghConfig.path) return;
+  if(ghSaveTimer) return; // don't pull while a save is queued
+  const now=Date.now();
+  if(now-_lastAutoPull<30000) return; // cooldown 30s
+  _lastAutoPull=now;
+  try{
+    const headers={'Accept':'application/vnd.github.v3+json','Authorization':`token ${ghConfig.token}`};
+    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{headers});
+    if(!res.ok) return;
+    const data=await res.json();
+    if(data.sha===ghSha) return; // no remote changes
+    const parsed=JSON.parse(_b64decode(data.content));
+    state=migrateData(parsed);
+    ghSha=data.sha;
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    renderApp();renderGameSchedule();
+    setGhDot('syncing');setTimeout(()=>setGhDot('synced'),600);
+  }catch(_){}
+}
+setInterval(autoPullFromGitHub,120000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')autoPullFromGitHub();});
+
 function openGhModal(){
   document.getElementById('ghToken').value=ghConfig.token;
   document.getElementById('ghStatusMsg').textContent='';
