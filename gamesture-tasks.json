@@ -890,6 +890,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpml686pet8v",
+      "game": "Ogólne",
+      "title": "VIP Group for TG",
+      "date": null,
+      "note": "poczekać na listę, przyopomnieć się jeśli dopiero w przyszłym tyg. dalsze kroki z @Sean Sikora",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 11,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
