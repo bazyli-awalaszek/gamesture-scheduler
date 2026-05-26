@@ -558,6 +558,51 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpm7c97l9lk5",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-05-26",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpm7c97lx1j2",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpm7c97lufpw",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpm7c97l8fq1",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpm7c97l912d",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpm7c97l94pj",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpm7c97l1e1v",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
