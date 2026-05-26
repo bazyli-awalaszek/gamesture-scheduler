@@ -73,7 +73,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W22",
-      "order": 1,
+      "order": 0,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -213,7 +213,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W22",
-      "order": 4,
+      "order": 2,
       "attachments": [
         {
           "id": "mp6rfmv0hwqu",
@@ -337,7 +337,7 @@
       "priority": false,
       "date": null,
       "note": "",
-      "order": 0,
+      "order": 4,
       "attachments": [],
       "subtasks": [
         {
