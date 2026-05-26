@@ -768,6 +768,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpmg9dwwfd0d",
+      "game": "Mafia Rivals",
+      "title": "scheduling until 27.06.2026",
+      "date": "2026-06-08",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 4,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
