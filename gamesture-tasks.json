@@ -121,7 +121,13 @@
       "weekKey": "2026-W22",
       "order": 0,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpm9eihtpzxg",
+          "title": "dodać brakujące nazwy postaci",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
