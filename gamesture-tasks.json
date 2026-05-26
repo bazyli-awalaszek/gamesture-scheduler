@@ -851,7 +851,13 @@
       "weekKey": "2026-W22",
       "order": 7,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpmkaiit5bx7",
+          "title": "graphics",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
