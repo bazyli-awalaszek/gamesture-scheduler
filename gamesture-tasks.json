@@ -938,7 +938,13 @@
     }
   ],
   "vacations": {
-    "sean": [],
+    "sean": [
+      {
+        "id": "mpmgcl5s3ltw",
+        "from": "2026-05-29",
+        "to": "2026-05-29"
+      }
+    ],
     "yahu": []
   },
   "myVacations": [
