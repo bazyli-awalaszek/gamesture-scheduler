@@ -687,7 +687,13 @@
       "weekKey": "2026-W22",
       "order": 8,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpmdtnfpl3j3",
+          "title": "poprosić patryka",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
