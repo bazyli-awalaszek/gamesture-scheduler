@@ -711,6 +711,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpmebfzu98rf",
+      "game": "Cooking Wars",
+      "title": "new WoF 15:00",
+      "date": "2026-05-26",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 5,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
