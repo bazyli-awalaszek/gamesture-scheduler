@@ -2651,23 +2651,32 @@ async function saveToGitHub(){
         if(r2.ok){const d2=await r2.json();ghSha=d2.sha;scheduleGhSave();}
       }
       setGhDot('error');
-      showSaveFailToast();
+      showSavedLocallyToast();
+      scheduleGhRetry();
       return false;
     }
-  }catch(e){console.warn('GH save:',e);setGhDot('error');showSaveFailToast();return false;}
+  }catch(e){console.warn('GH save:',e);setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;}
 }
-let _saveFailToastTimer=null;
-function showSaveFailToast(){
-  let t=document.getElementById('saveFailToast');
-  if(!t){
-    t=document.createElement('div');t.id='saveFailToast';
-    t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2d1a1a;border:1px solid rgba(247,118,142,.5);color:#f7768e;font-size:12px;padding:7px 16px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.5);pointer-events:none;';
-    document.body.appendChild(t);
+let _syncToast=null,_retryTimer=null,_retryCount=0;
+function showSavedLocallyToast(){
+  if(!_syncToast){
+    _syncToast=document.createElement('div');_syncToast.id='syncToast';
+    _syncToast.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#1a1e2e;border:1px solid rgba(122,162,247,.35);color:#a9b1d6;font-size:12px;padding:7px 16px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.5);pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(_syncToast);
   }
-  t.textContent='⚠ Zapis nie powiódł się — zmiany mogą nie być zapisane na GitHub';
-  t.style.display='block';
-  clearTimeout(_saveFailToastTimer);
-  _saveFailToastTimer=setTimeout(()=>{t.style.display='none';},6000);
+  _syncToast.textContent='💾 Dane zapisane lokalnie — synchronizacja z GitHub w tle...';
+  _syncToast.style.display='block';
+}
+function hideSyncToast(){if(_syncToast)_syncToast.style.display='none';}
+function scheduleGhRetry(){
+  clearTimeout(_retryTimer);
+  if(_retryCount>=8){_retryCount=0;return;}
+  const delay=[5,10,20,30,60,120,180,300][_retryCount]||300;
+  _retryTimer=setTimeout(async()=>{
+    _retryCount++;
+    const ok=await saveToGitHub();
+    if(ok){_retryCount=0;hideSyncToast();}
+  },delay*1000);
 }
 
 function scheduleGhSave(immediate=false){
