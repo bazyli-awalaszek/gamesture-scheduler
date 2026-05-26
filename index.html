@@ -2642,6 +2642,7 @@ async function saveToGitHub(){
       const data=await res.json();
       ghSha=data.content.sha;
       setGhDot('synced');
+      showSyncedToast();
       return true;
     }else{
       const err=await res.json().catch(()=>({}));
@@ -2675,8 +2676,21 @@ function scheduleGhRetry(){
   _retryTimer=setTimeout(async()=>{
     _retryCount++;
     const ok=await saveToGitHub();
-    if(ok){_retryCount=0;hideSyncToast();}
+    if(ok){_retryCount=0;hideSyncToast();showSyncedToast();}
   },delay*1000);
+}
+let _syncedToastTimer=null;
+function showSyncedToast(){
+  clearTimeout(_syncedToastTimer);
+  let el=document.getElementById('syncedToast');
+  if(!el){
+    el=document.createElement('div');el.id='syncedToast';
+    el.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#1a1e2e;border:1px solid rgba(158,206,106,.45);color:#9ece6a;font-size:12px;padding:7px 16px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,.5);pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(el);
+  }
+  el.textContent='✅ Zapisano na GitHub — możesz bezpiecznie odświeżyć';
+  el.style.display='block';
+  _syncedToastTimer=setTimeout(()=>{el.style.display='none';},3000);
 }
 
 function scheduleGhSave(immediate=false){
