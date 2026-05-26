@@ -776,6 +776,11 @@
   ],
   "notes": [
     {
+      "id": "mpm9igoirdrh",
+      "text": "",
+      "color": "#1e0806"
+    },
+    {
       "id": "mpm7xslo2ola",
       "text": "- DROPBOX CLASHING WITH CLAUDE VS -\n=== OBJAWY ===\n\n- Claude VS Code wyrzuca: \"Subprocess initialization did not complete within 60000ms\"\n- Problem znika po zabiciu Dropboxa z Task Managera\n- Wstrzymanie synchronizacji Dropboxa NIE pomaga\n\n\n\n=== ROZWIĄZANIE ===\n\n1. Naciśnij klawisz Windows, wpisz \"powershell\", kliknij prawym → Uruchom jako administrator\n2. Wklej i naciśnij Enter:\n\n   Set-ProcessMitigation -Name \"bash.exe\" -Enable DisableExtensionPoints\n\n3. Zrestartuj VS Code\n\nUstawienie jest trwałe — nie trzeba tego powtarzać po restarcie komputera.",
       "color": "#121a10",
