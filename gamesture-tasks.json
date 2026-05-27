@@ -627,7 +627,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-26",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 0,
@@ -646,7 +646,7 @@
         {
           "id": "mpm7c97l8fq1",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mpm7c97l912d",
@@ -656,7 +656,7 @@
         {
           "id": "mpm7c97l94pj",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpm7c97l1e1v",
