@@ -950,6 +950,21 @@
         }
       ],
       "link": null
+    },
+    {
+      "id": "mpnrbaofbvyn",
+      "game": "Ogólne",
+      "title": "GamePulse reviews rules verification",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 13,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
