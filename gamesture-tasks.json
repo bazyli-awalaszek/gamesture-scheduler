@@ -226,7 +226,7 @@
       "title": "New Rare: Moussaka with Lamb",
       "date": "2026-05-27",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 2,
@@ -247,7 +247,7 @@
         {
           "id": "mpmedezmwmag",
           "title": "sm News",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
