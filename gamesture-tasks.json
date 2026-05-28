@@ -335,6 +335,11 @@
           "id": "mpl1jzirf2cw",
           "title": "dodanie praw edycji? logowania?",
           "done": false
+        },
+        {
+          "id": "mpp53e6puldc",
+          "title": "dodanie możliwości eksportu do pdf",
+          "done": false
         }
       ],
       "link": null,
