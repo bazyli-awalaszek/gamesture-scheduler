@@ -1066,7 +1066,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-28",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 0,
@@ -1100,7 +1100,7 @@
         {
           "id": "mpp44ycwnjt7",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
