@@ -714,7 +714,16 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .gh-dot.synced{background:var(--green);}
 .gh-dot.syncing{background:var(--gold);animation:gh-blink .7s infinite;}
 .gh-dot.error{background:var(--red);}
+.gh-dot.stale{background:var(--gold);}
 @keyframes gh-blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.gh-sync-info{font-size:9px;color:var(--muted);margin-left:2px;opacity:.8;}
+.btn-force-refresh{background:none;border:none;color:var(--muted);font-size:15px;cursor:pointer;padding:0 1px;line-height:1;opacity:.4;transition:opacity .1s,color .1s,transform .2s;flex-shrink:0;}
+.btn-force-refresh:hover{opacity:1;color:var(--blue);}
+.btn-force-refresh:disabled{opacity:.15;cursor:not-allowed;}
+.btn-force-refresh.spinning{animation:gh-spin .7s linear infinite;}
+@keyframes gh-spin{to{transform:rotate(360deg);}}
+#cacheWarning{display:none;position:sticky;top:0;left:0;right:0;background:rgba(224,175,104,.1);border-bottom:1px solid rgba(224,175,104,.28);color:var(--gold);font-size:11px;padding:5px 16px;z-index:90;text-align:center;grid-column:1/-1;}
+#cacheWarning.show{display:block;}
 #ghModal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:2000;align-items:center;justify-content:center;}
 #ghModal.open{display:flex;}
 .gh-modal-inner{background:var(--card);border-radius:8px;padding:20px;width:370px;border:1px solid var(--border2);box-shadow:0 8px 32px rgba(0,0,0,.5);}
@@ -786,10 +795,12 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     </div>
 
     <button class="btn-pdf-export" id="btnExportPdf" title="Eksportuj raport tygodniowy do PDF">📄 PDF</button>
-    <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
+    <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub<span class="gh-sync-info" id="ghSyncInfo"></span></button>
+    <button class="btn-force-refresh" id="btnForceRefresh" title="Wymuś odświeżenie z GitHuba">⟳</button>
     <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
   </div>
 </div>
+<div id="cacheWarning"></div>
 
 <!-- HELP PANEL -->
 <div id="helpPanel">
@@ -1270,6 +1281,7 @@ function migrateData(s){
     {ev:"Bank Robbery",panel:"Bank Event",asia:"←15:00",eu:"←21:00",am:"06:00"},
     {ev:"Cartel Rush",panel:"Cartel Rush",asia:"03:00",eu:"03:00",am:"03:00"}
   ],cwNote:"New events, recipes, etc. start at 13:00 (UTC)"};
+  if(!s._meta||typeof s._meta!=='object') s._meta={version:0,updatedAt:null,updatedBy:null,sessionId:null};
   return s;
 }
 function loadAndMigrate(){
@@ -2568,6 +2580,8 @@ const GH_REPO='gamesture-scheduler';
 const GH_PATH='gamesture-tasks.json';
 let ghConfig={owner:GH_OWNER,repo:GH_REPO,path:GH_PATH,token:''};
 let ghSha=null,ghSaveTimer=null;
+let ghLastSyncAt=0;
+const ghSessionId='tab-'+Math.random().toString(36).slice(2,8);
 
 function loadGhConfig(){
   try{const c=JSON.parse(localStorage.getItem(GH_CONFIG_KEY)||'null');if(c&&c.token)ghConfig.token=c.token;}catch(_){}
@@ -2589,6 +2603,7 @@ function setGhDot(s){
   dot.className='gh-dot'+(s&&s!=='off'?' '+s:'');
   const btn=document.getElementById('btnGhSync');
   if(btn) btn.classList.toggle('active',s!=='off'&&s!=='');
+  updateSyncStatus();
 }
 
 function _b64encode(str){
@@ -2631,7 +2646,9 @@ async function saveToGitHub(){
   if(!ghConfig.owner||!ghConfig.repo||!ghConfig.path||!ghConfig.token) return false;
   setGhDot('syncing');
   try{
-    const content=_b64encode(JSON.stringify(state,null,2));
+    const metaVersion=((state._meta&&state._meta.version)||0)+1;
+    const stateToSave={...state,_meta:{version:metaVersion,updatedAt:new Date().toISOString(),updatedBy:ghConfig.owner||'unknown',sessionId:ghSessionId}};
+    const content=_b64encode(JSON.stringify(stateToSave,null,2));
     const body={message:'Update tasks',content};
     if(ghSha) body.sha=ghSha;
     const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{
@@ -2642,6 +2659,10 @@ async function saveToGitHub(){
     if(res.ok){
       const data=await res.json();
       ghSha=data.content.sha;
+      state._meta=stateToSave._meta;
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+      ghLastSyncAt=Date.now();
+      hideCacheWarning();
       setGhDot('synced');
       showSyncedToast();
       return true;
@@ -2717,13 +2738,62 @@ async function autoPullFromGitHub(){
     const parsed=JSON.parse(_b64decode(data.content));
     state=migrateData(parsed);
     ghSha=data.sha;
+    ghLastSyncAt=Date.now();
     localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    hideCacheWarning();
     renderApp();renderGameSchedule();
-    setGhDot('syncing');setTimeout(()=>setGhDot('synced'),600);
+    setGhDot('syncing');setTimeout(()=>{setGhDot('synced');updateSyncStatus();},600);
   }catch(_){}
 }
 setInterval(autoPullFromGitHub,30000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')autoPullFromGitHub();});
+window.addEventListener('focus',autoPullFromGitHub);
+window.addEventListener('online',()=>{_lastAutoPull=0;autoPullFromGitHub();});
+
+function updateSyncStatus(){
+  const el=document.getElementById('ghSyncInfo');
+  if(!el)return;
+  if(!ghLastSyncAt){el.textContent='';return;}
+  const diff=Math.floor((Date.now()-ghLastSyncAt)/1000);
+  const timeStr=diff<60?`${diff}s`:diff<3600?`${Math.floor(diff/60)}m`:`${Math.floor(diff/3600)}h`;
+  const ver=(state&&state._meta&&state._meta.version)?` · v${state._meta.version}`:'';
+  const stale=diff>300;
+  el.textContent=` · ${timeStr}${ver}`;
+  el.style.color=stale?'var(--gold)':'';
+  const dot=document.getElementById('ghDot');
+  if(dot){
+    if(stale&&dot.className==='gh-dot synced') dot.classList.add('stale');
+    else if(!stale) dot.classList.remove('stale');
+  }
+}
+setInterval(updateSyncStatus,30000);
+
+async function forceRefreshFromGitHub(){
+  if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo)return;
+  if(ghSaveTimer)return;
+  _lastAutoPull=0;
+  const btn=document.getElementById('btnForceRefresh');
+  if(btn){btn.disabled=true;btn.classList.add('spinning');}
+  const result=await loadFromGitHub();
+  if(result.ok&&!result.isNew&&result.state){
+    state=result.state;
+    ghLastSyncAt=Date.now();
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    hideCacheWarning();
+    renderApp();renderGameSchedule();
+    updateSyncStatus();
+  }
+  if(btn){btn.disabled=false;btn.classList.remove('spinning');}
+}
+
+function showCacheWarning(msg){
+  const el=document.getElementById('cacheWarning');
+  if(el){el.textContent=msg;el.classList.add('show');}
+}
+function hideCacheWarning(){
+  const el=document.getElementById('cacheWarning');
+  if(el) el.classList.remove('show');
+}
 
 function openGhModal(){
   document.getElementById('ghToken').value=ghConfig.token;
@@ -2937,6 +3007,7 @@ function initListeners(){
   document.getElementById('btnFileDisconnect')?.addEventListener('click',disconnectFile);
   document.getElementById('btnExportPdf')?.addEventListener('click',exportToPdf);
   document.getElementById('btnGhSync').addEventListener('click',openGhModal);
+  document.getElementById('btnForceRefresh')?.addEventListener('click',forceRefreshFromGitHub);
     document.getElementById('ghModalSave').addEventListener('click',connectGitHub);
   document.getElementById('ghModalClose').addEventListener('click',closeGhModal);
   document.getElementById('ghModalDisconnect').addEventListener('click',disconnectGitHub);
@@ -3568,11 +3639,12 @@ async function init(){
     const result=await loadFromGitHub();
     if(result.ok&&!result.isNew&&result.state){
       state=result.state;
+      ghLastSyncAt=Date.now();
       if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));}
       rolloverIncompleteTasks();seedDailyTasks();seedNinjaVacationTasks();seedEmergencySections();
       const _needsOrderSave=migrateEmergencyOrder();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-      updateFileUI();initListeners();renderApp();
+      updateFileUI();initListeners();renderApp();updateSyncStatus();
       if(_needsOrderSave)save();
       return;
     }
@@ -3602,6 +3674,12 @@ async function init(){
   updateFileUI();
   initListeners();
   renderApp();
+  if(ghConfig.token&&ghConfig.owner&&ghConfig.repo){
+    const lastSync=state._meta&&state._meta.updatedAt
+      ?new Date(state._meta.updatedAt).toLocaleString('pl-PL')
+      :'nieznana';
+    showCacheWarning(`⚠️ GitHub niedostępny — pracujesz na lokalnym cache. Ostatni sync: ${lastSync}. Kliknij ⟳ aby ponowić połączenie.`);
+  }
 }
 init();
 
