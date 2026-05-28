@@ -1033,6 +1033,51 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpp44ycwm25n",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-05-28",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpp44ycweatz",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpp44ycwxyrg",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpp44ycwy6vn",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpp44ycwaxl1",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpp44ycw1hxn",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpp44ycwnjt7",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -1142,7 +1187,7 @@
       "id": "mpm7xslo2ola",
       "text": "- DROPBOX CLASHING WITH CLAUDE VS -\n=== OBJAWY ===\n\n- Claude VS Code wyrzuca: \"Subprocess initialization did not complete within 60000ms\"\n- Problem znika po zabiciu Dropboxa z Task Managera\n- Wstrzymanie synchronizacji Dropboxa NIE pomaga\n\n\n\n=== ROZWIĄZANIE ===\n\n1. Naciśnij klawisz Windows, wpisz \"powershell\", kliknij prawym → Uruchom jako administrator\n2. Wklej i naciśnij Enter:\n\n   Set-ProcessMitigation -Name \"bash.exe\" -Enable DisableExtensionPoints\n\n3. Zrestartuj VS Code\n\nUstawienie jest trwałe — nie trzeba tego powtarzać po restarcie komputera.",
       "color": "#121a10",
-      "collapsed": true
+      "collapsed": false
     },
     {
       "id": "mp6rhvl729a7",
