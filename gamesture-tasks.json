@@ -1325,7 +1325,18 @@
       "to": "2026-09-02"
     }
   ],
-  "ninjaItems": [],
+  "ninjaItems": [
+    {
+      "id": "mppjtcav8e8o",
+      "person": "sean",
+      "date": "2026-05-28",
+      "title": "dev > prod news at 10:00 am",
+      "link": null,
+      "note": "",
+      "done": false,
+      "seeded": false
+    }
+  ],
   "emergency": [
     {
       "id": "mpky07blbqjr",
