@@ -909,14 +909,14 @@
       "attachments": [],
       "subtasks": [
         {
-          "id": "mpp99i4px371",
-          "title": "zaproponować pipeline",
-          "done": false
-        },
-        {
           "id": "mpp98r3cnk95",
           "title": "plan działania - do opracowania na #vip-support",
           "done": false
+        },
+        {
+          "id": "mpp99i4px371",
+          "title": "zaproponować pipeline",
+          "done": true
         },
         {
           "id": "mpp995m7y4i1",
