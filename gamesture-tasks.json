@@ -1084,6 +1084,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpp5sw7u847j",
+      "game": "The Gang",
+      "title": "Seasonal Gems Promo",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 11,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
