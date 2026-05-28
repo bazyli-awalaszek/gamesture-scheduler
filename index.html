@@ -785,6 +785,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
       <div class="clock-row"><span class="clock-tz">UTC</span><span class="clock-time" id="clockUtc">--:--:--</span></div>
     </div>
 
+    <button class="btn-pdf-export" id="btnExportPdf" title="Eksportuj raport tygodniowy do PDF">📄 PDF</button>
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub</button>
     <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
   </div>
@@ -2787,114 +2788,143 @@ async function pushLocalToGitHub(){
 // ═══════════════════════════════════════
 // PDF EXPORT
 // ═══════════════════════════════════════
-function exportToPdf(){
-  const GAME_ORDER=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
+async function exportToPdf(){
+  const btn=document.getElementById('btnExportPdf');
+  if(btn){btn.disabled=true;btn.textContent='⏳ Generuję...';}
+
+  const GAME_ORDER_PDF=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
   const week=fmtWeek(currentWeekKey);
-  const orderedGames=[...GAME_ORDER,...state.games.map(g=>g.name).filter(n=>!GAME_ORDER.includes(n))];
+  const orderedGames=[...GAME_ORDER_PDF,...state.games.map(g=>g.name).filter(n=>!GAME_ORDER_PDF.includes(n))];
   const usedGames=orderedGames.filter(name=>state.games.find(g=>g.name===name));
+
+  const today=new Date();
+  const dd=String(today.getDate()).padStart(2,'0');
+  const mm=String(today.getMonth()+1).padStart(2,'0');
+  const yyyy=today.getFullYear();
+  const filename=`COMMUNITY_TASKS_BAZI_${dd}.${mm}.${yyyy}`;
 
   function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+  const S={
+    wrap:'padding:7px 9px;margin-bottom:5px;border-radius:5px;background:#f7f8fc;border:1px solid #e4e7f2;',
+    wrapDone:'padding:7px 9px;margin-bottom:5px;border-radius:5px;background:#fafafa;border:1px solid #e4e7f2;opacity:.45;',
+    hdr:'display:flex;align-items:baseline;gap:6px;',
+    cbEmpty:'width:13px;height:13px;border:2px solid #b8bedd;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#5a9e72;flex-shrink:0;line-height:1;',
+    cbDone:'width:13px;height:13px;border:2px solid #5a9e72;border-radius:3px;background:#5a9e72;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;line-height:1;',
+    title:'font-size:12px;font-weight:600;flex:1;line-height:1.4;',
+    titleDone:'font-size:12px;font-weight:600;flex:1;line-height:1.4;text-decoration:line-through;color:#999;',
+    date:'font-size:10px;color:#888;white-space:nowrap;flex-shrink:0;',
+    note:'font-size:10.5px;color:#555;margin-top:5px;padding:4px 8px;border-left:2px solid #c8cde8;background:#eef0f8;border-radius:0 3px 3px 0;white-space:pre-wrap;font-style:italic;line-height:1.5;',
+    subList:'list-style:none;padding-left:18px;margin:5px 0 0;',
+    divider:'font-size:10px;color:#aaa;text-align:center;margin:8px 0 6px;letter-spacing:.05em;',
+    secTitle:'font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#1a1b26;padding:3px 0 3px 10px;margin-bottom:10px;',
+  };
+
   function subtaskHtml(s){
-    return`<li class="${s.done?'done-sub':''}"><span class="sub-cb">${s.done?'✓':''}</span>${escH(s.title)}</li>`;
+    const dateStr=s.date?`<span style="font-size:9px;color:#aaa;margin-left:4px;">${fmtDate(s.date)}</span>`:'';
+    return`<li style="font-size:11px;color:${s.done?'#bbb':'#444'};padding:2px 0;display:flex;align-items:baseline;gap:5px;${s.done?'text-decoration:line-through;':''}">`+
+      `<span style="font-size:8px;color:${s.done?'#5a9e72':'#ccc'};flex-shrink:0;width:10px;">${s.done?'✓':''}</span>`+
+      escH(s.title)+dateStr+`</li>`;
   }
 
   function taskItemHtml(t,isDone){
     const subs=(t.subtasks||[]);
-    const subsHtml=subs.length?`<ul class="subtasks">${subs.map(subtaskHtml).join('')}</ul>`:'';
-    const noteHtml=(t.note&&t.note.trim())?`<div class="task-note">${escH(t.note)}</div>`:'';
-    const dateStr=t.date?` <span class="task-date">${fmtDate(t.date)}</span>`:'';
-    return`<div class="task-item${isDone?' task-done':''}">
-      <div class="task-header"><span class="task-cb">${isDone?'✓':''}</span><span class="task-title">${escH(t.title)}</span>${dateStr}</div>
-      ${subsHtml}${noteHtml}
-    </div>`;
+    const subsHtml=subs.length?`<ul style="${S.subList}">${subs.map(subtaskHtml).join('')}</ul>`:'';
+    const noteHtml=(t.note&&t.note.trim())?`<div style="${S.note}">${escH(t.note)}</div>`:'';
+    const dateStr=t.date?`<span style="${S.date}">${fmtDate(t.date)}</span>`:'';
+    const starHtml=t.priority?`<span style="color:#ff9e64;font-size:10px;flex-shrink:0;">★</span>`:'';
+    const imgs=(t.attachments||[]).filter(a=>a.type&&a.type.startsWith('image/'));
+    const imgsHtml=imgs.length
+      ?`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;">`+imgs.map(a=>
+          `<div style="display:inline-flex;flex-direction:column;align-items:center;gap:2px;">`+
+          `<img src="${a.data}" style="width:76px;height:76px;object-fit:cover;border-radius:4px;border:1px solid #e0e3f0;" alt="">`+
+          `<span style="font-size:8px;color:#999;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;">${escH(a.name||'')}</span>`+
+          `</div>`).join('')+`</div>`
+      :'';
+    return`<div style="${isDone?S.wrapDone:S.wrap}">`+
+      `<div style="${S.hdr}"><span style="${isDone?S.cbDone:S.cbEmpty}">${isDone?'✓':''}</span>${starHtml}`+
+      `<span style="${isDone?S.titleDone:S.title}">${escH(t.title)}</span>${dateStr}</div>`+
+      subsHtml+noteHtml+imgsHtml+`</div>`;
   }
 
   let sectionsHtml='';
   usedGames.forEach(gameName=>{
     const wkTasks=state.tasks.filter(t=>t.game===gameName&&t.weekKey===currentWeekKey);
-    if(!wkTasks.length) return;
+    if(!wkTasks.length)return;
     const active=wkTasks.filter(t=>t.status==='active'||t.status==='ongoing').sort((a,b)=>{
       const ad=a.date||'',bd=b.date||'';
-      if(!ad&&!bd) return (a.order||0)-(b.order||0);
-      if(!ad) return -1; if(!bd) return 1;
+      if(!ad&&!bd)return(a.order||0)-(b.order||0);
+      if(!ad)return-1;if(!bd)return 1;
       return ad.localeCompare(bd);
     });
     const done=wkTasks.filter(t=>t.status==='done').sort((a,b)=>(a.order||0)-(b.order||0));
-    if(!active.length&&!done.length) return;
+    if(!active.length&&!done.length)return;
     const col=gameColor(gameName);
-    sectionsHtml+=`<div class="section">
-      <h2 class="section-title" style="border-left-color:${escH(col)}">${escH(gameName)}</h2>
-      ${active.map(t=>taskItemHtml(t,false)).join('')}
-      ${done.length?`<div class="done-divider">— Ukończone (${done.length}) —</div>${done.map(t=>taskItemHtml(t,true)).join('')}`:''}
-    </div>`;
+    sectionsHtml+=`<div style="margin-bottom:26px;">`+
+      `<h2 style="${S.secTitle}border-left:4px solid ${escH(col)};">${escH(gameName)}</h2>`+
+      active.map(t=>taskItemHtml(t,false)).join('')+
+      (done.length?`<div style="${S.divider}">— Ukończone (${done.length}) —</div>`+done.map(t=>taskItemHtml(t,true)).join(''):'')+
+      `</div>`;
   });
 
-  // Ninja vacation section
   const ninjaItems=(state.ninjaItems||[]).filter(i=>isInWeek(i.date,currentWeekKey));
   if(ninjaItems.length){
     const byPerson={};
-    ninjaItems.forEach(i=>{
-      if(!byPerson[i.person])byPerson[i.person]=[];
-      byPerson[i.person].push(i);
-    });
+    ninjaItems.forEach(i=>{if(!byPerson[i.person])byPerson[i.person]=[];byPerson[i.person].push(i);});
     Object.entries(byPerson).forEach(([person,items])=>{
       const cfg=NINJA_PERSONS[person]||{name:person,color:'#888'};
-      const active=items.filter(i=>!i.done);
-      const done=items.filter(i=>i.done);
-      sectionsHtml+=`<div class="section">
-        <h2 class="section-title" style="border-left-color:${escH(cfg.color)}">🥷 ${escH(cfg.name)}'s urlop</h2>
-        ${active.map(i=>`<div class="task-item"><div class="task-header"><span class="task-cb"></span><span class="task-title">${escH(i.title)}</span>${i.date?`<span class="task-date">${fmtDate(i.date)}</span>`:''}</div>${i.note?`<div class="task-note">${escH(i.note)}</div>`:''}</div>`).join('')}
-        ${done.length?`<div class="done-divider">— Ukończone (${done.length}) —</div>${done.map(i=>`<div class="task-item task-done"><div class="task-header"><span class="task-cb">✓</span><span class="task-title">${escH(i.title)}</span>${i.date?`<span class="task-date">${fmtDate(i.date)}</span>`:''}</div>${i.note?`<div class="task-note">${escH(i.note)}</div>`:''}</div>`).join('')}`:''}
-      </div>`;
+      const active=items.filter(i=>!i.done),done=items.filter(i=>i.done);
+      const mkNinja=(i,isDone)=>`<div style="${isDone?S.wrapDone:S.wrap}">`+
+        `<div style="${S.hdr}"><span style="${isDone?S.cbDone:S.cbEmpty}">${isDone?'✓':''}</span>`+
+        `<span style="${isDone?S.titleDone:S.title}">${escH(i.title)}</span>`+
+        (i.date?`<span style="${S.date}">${fmtDate(i.date)}</span>`:'')+`</div>`+
+        (i.note?`<div style="${S.note}">${escH(i.note)}</div>`:'')+`</div>`;
+      sectionsHtml+=`<div style="margin-bottom:26px;">`+
+        `<h2 style="${S.secTitle}border-left:4px solid ${escH(cfg.color)};">🥷 ${escH(cfg.name)}'s urlop</h2>`+
+        active.map(i=>mkNinja(i,false)).join('')+
+        (done.length?`<div style="${S.divider}">— Ukończone (${done.length}) —</div>`+done.map(i=>mkNinja(i,true)).join(''):'')+
+        `</div>`;
     });
   }
 
-  if(!sectionsHtml){alert('Brak zadań w bieżącym tygodniu.');return;}
+  if(!sectionsHtml){
+    if(btn){btn.disabled=false;btn.textContent='📄 PDF';}
+    alert('Brak zadań w bieżącym tygodniu.');return;
+  }
 
-  const html=`<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<title>Task Manager — ${escH(week)}</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;color:#1a1b26;background:#fff;padding:24px 32px;max-width:820px;margin:0 auto;}
-h1{font-size:20px;font-weight:800;color:#1a1b26;margin-bottom:2px;}
-.week-range{font-size:12px;color:#666;margin-bottom:24px;padding-bottom:12px;border-bottom:2px solid #e8eaf2;}
-.section{margin-bottom:28px;}
-.section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#1a1b26;border-left:4px solid #7aa2f7;padding:3px 0 3px 10px;margin-bottom:10px;}
-.task-item{padding:7px 9px;margin-bottom:5px;border-radius:5px;background:#f7f8fc;border:1px solid #e4e7f2;}
-.task-done{opacity:.45;}
-.task-header{display:flex;align-items:baseline;gap:6px;}
-.task-cb{width:14px;height:14px;border:2px solid #b8bedd;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#5a9e72;flex-shrink:0;line-height:1;margin-top:1px;}
-.task-done .task-cb{background:#5a9e72;border-color:#5a9e72;color:#fff;}
-.task-title{font-size:12px;font-weight:600;flex:1;line-height:1.4;}
-.task-done .task-title{text-decoration:line-through;color:#999;}
-.task-date{font-size:10px;color:#888;white-space:nowrap;flex-shrink:0;}
-.subtasks{list-style:none;padding-left:18px;margin-top:5px;}
-.subtasks li{font-size:11px;color:#444;padding:2px 0;display:flex;align-items:baseline;gap:5px;line-height:1.4;}
-.sub-cb{font-size:8px;color:#b8bedd;flex-shrink:0;width:10px;}
-.done-sub .sub-cb{color:#5a9e72;}
-.subtasks li.done-sub{color:#aaa;text-decoration:line-through;}
-.task-note{font-size:10.5px;color:#666;margin-top:5px;padding:4px 8px;border-left:2px solid #d8ddf0;background:#f0f2fa;border-radius:0 3px 3px 0;white-space:pre-wrap;font-style:italic;line-height:1.5;}
-.done-divider{font-size:10px;color:#aaa;text-align:center;margin:8px 0 6px;letter-spacing:.05em;}
-@media print{
-  body{padding:15px 20px;}
-  .section{page-break-inside:avoid;}
-}
-</style>
-</head>
-<body>
-<h1>📋 Task Manager</h1>
-<div class="week-range">Tydzień: ${escH(week)}</div>
-${sectionsHtml}
-<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script>
-</body>
-</html>`;
+  const wrapper=document.createElement('div');
+  wrapper.style.cssText='position:fixed;left:-9999px;top:0;width:794px;background:#fff;font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;color:#1a1b26;padding:24px 30px;';
+  wrapper.innerHTML=
+    `<div style="margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #e8eaf2;">`+
+    `<div style="font-size:19px;font-weight:800;color:#1a1b26;margin-bottom:3px;">📋 Community Tasks — Bazi</div>`+
+    `<div style="font-size:12px;color:#555;">Tydzień: ${escH(week)}</div>`+
+    `<div style="font-size:11px;color:#999;margin-top:2px;">Wygenerowano: ${dd}.${mm}.${yyyy}</div></div>`+
+    sectionsHtml;
+  document.body.appendChild(wrapper);
 
-  const w=window.open('','_blank');
-  if(w){w.document.write(html);w.document.close();}
+  try{
+    if(!window.html2pdf){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        s.onload=res;s.onerror=rej;
+        document.head.appendChild(s);
+      });
+    }
+    await html2pdf().set({
+      margin:[12,14,12,14],
+      filename:filename+'.pdf',
+      html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#fff'},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+      pagebreak:{mode:'avoid-all'}
+    }).from(wrapper).save();
+  }catch(e){
+    console.error('PDF export error:',e);
+    alert('Błąd podczas generowania PDF. Spróbuj jeszcze raz.');
+  }finally{
+    document.body.removeChild(wrapper);
+    if(btn){btn.disabled=false;btn.textContent='📄 PDF';}
+  }
 }
 
 // ═══════════════════════════════════════
