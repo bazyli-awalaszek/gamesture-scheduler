@@ -907,7 +907,13 @@
       "weekKey": "2026-W22",
       "order": 11,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpp98r3cnk95",
+          "title": "plan działania - do opracowania na #vip-support",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
