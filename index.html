@@ -1396,9 +1396,27 @@ function fmtWeek(wk){
 // TASK UTILS
 // ═══════════════════════════════════════
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-function patchTask(id,patch){const i=state.tasks.findIndex(t=>t.id===id);if(i>=0){Object.assign(state.tasks[i],patch);save(true);}}
-function removeTask(id){state.tasks=state.tasks.filter(t=>t.id!==id);save(true);}
-function pushTask(task){state.tasks.push(task);save(true);}
+function patchTask(id,patch){
+  const i=state.tasks.findIndex(t=>t.id===id);
+  if(i>=0){
+    Object.assign(state.tasks[i],patch);
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    if(fileHandle)saveToFile();
+    scheduleIntentSave({op:'task.patch',id,patch});
+  }
+}
+function removeTask(id){
+  state.tasks=state.tasks.filter(t=>t.id!==id);
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle)saveToFile();
+  scheduleIntentSave({op:'task.remove',id});
+}
+function pushTask(task){
+  state.tasks.push(task);
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle)saveToFile();
+  scheduleIntentSave({op:'task.add',task:{...task}});
+}
 function taskById(id){return state.tasks.find(t=>t.id===id);}
 
 // ═══════════════════════════════════════
@@ -2697,8 +2715,13 @@ function scheduleGhRetry(){
   const delay=[5,10,20,30,60,120,180,300][_retryCount]||300;
   _retryTimer=setTimeout(async()=>{
     _retryCount++;
-    const ok=await saveToGitHub();
-    if(ok){_retryCount=0;hideSyncToast();showSyncedToast();}
+    if(pendingIntents.length>0){
+      await drainIntentQueue();
+      if(!pendingIntents.length){_retryCount=0;hideSyncToast();showSyncedToast();}
+    }else{
+      const ok=await saveToGitHub();
+      if(ok){_retryCount=0;hideSyncToast();showSyncedToast();}
+    }
   },delay*1000);
 }
 let _syncedToastTimer=null;
@@ -2725,7 +2748,7 @@ function scheduleGhSave(immediate=false){
 let _lastAutoPull=0;
 async function autoPullFromGitHub(){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo||!ghConfig.path) return;
-  if(ghSaveTimer) return; // don't pull while a save is queued
+  if(ghSaveTimer||ghIntentTimer||ghSaveInProgress) return;
   const now=Date.now();
   if(now-_lastAutoPull<15000) return; // cooldown 15s
   _lastAutoPull=now;
@@ -2793,6 +2816,176 @@ function showCacheWarning(msg){
 function hideCacheWarning(){
   const el=document.getElementById('cacheWarning');
   if(el) el.classList.remove('show');
+}
+
+// ═══════════════════════════════════════
+// INTENT SYSTEM
+// ═══════════════════════════════════════
+
+function applyIntent(s,intent){
+  const ns=structuredClone(s);
+  switch(intent.op){
+    case'task.add':
+      if(!ns.tasks.find(t=>t.id===intent.task.id)) ns.tasks.push(intent.task);
+      break;
+    case'task.remove':
+      ns.tasks=ns.tasks.filter(t=>t.id!==intent.id);
+      break;
+    case'task.patch':{
+      const t=ns.tasks.find(t=>t.id===intent.id);
+      if(t) Object.assign(t,intent.patch);
+      break;
+    }
+    case'task.status':{
+      const t=ns.tasks.find(t=>t.id===intent.id);
+      if(t) t.status=intent.status;
+      break;
+    }
+    case'task.move':{
+      const t=ns.tasks.find(t=>t.id===intent.id);
+      if(t) t.weekKey=intent.weekKey;
+      break;
+    }
+    case'task.reorder':
+      intent.orders.forEach(o=>{const t=ns.tasks.find(t=>t.id===o.id);if(t)t.order=o.order;});
+      break;
+    case'subtask.add':{
+      const t=ns.tasks.find(t=>t.id===intent.taskId);
+      if(t&&!t.subtasks.find(s=>s.id===intent.sub.id)) t.subtasks.push(intent.sub);
+      break;
+    }
+    case'subtask.patch':{
+      const t=ns.tasks.find(t=>t.id===intent.taskId);
+      if(t){const sub=t.subtasks.find(s=>s.id===intent.subId);if(sub)Object.assign(sub,intent.patch);}
+      break;
+    }
+    case'subtask.remove':{
+      const t=ns.tasks.find(t=>t.id===intent.taskId);
+      if(t) t.subtasks=t.subtasks.filter(s=>s.id!==intent.subId);
+      break;
+    }
+    case'task.attach.add':{
+      const t=ns.tasks.find(t=>t.id===intent.taskId);
+      if(t&&!t.attachments.find(a=>a.id===intent.att.id)) t.attachments.push(intent.att);
+      break;
+    }
+    case'task.attach.remove':{
+      const t=ns.tasks.find(t=>t.id===intent.taskId);
+      if(t) t.attachments=t.attachments.filter(a=>a.id!==intent.attId);
+      break;
+    }
+    case'note.add':
+      if(!ns.notes.find(n=>n.id===intent.note.id)) ns.notes.push(intent.note);
+      break;
+    case'note.patch':{
+      const n=ns.notes.find(n=>n.id===intent.id);
+      if(n) Object.assign(n,intent.patch);
+      break;
+    }
+    case'note.remove':
+      ns.notes=ns.notes.filter(n=>n.id!==intent.id);
+      break;
+    case'gameSchedule.replace':
+      ns.gameSchedule=intent.gameSchedule;
+      break;
+    default:
+      console.warn('applyIntent: unknown op',intent.op);
+  }
+  return ns;
+}
+
+function mergeIntents(a,b){
+  if(a.op==='task.patch'&&b.op==='task.patch'&&a.id===b.id)
+    return{op:'task.patch',id:a.id,patch:{...a.patch,...b.patch}};
+  if(a.op==='task.add'&&b.op==='task.patch'&&a.task.id===b.id)
+    return{op:'task.add',task:{...a.task,...b.patch}};
+  if(a.op==='note.patch'&&b.op==='note.patch'&&a.id===b.id)
+    return{op:'note.patch',id:a.id,patch:{...a.patch,...b.patch}};
+  return null; // cannot merge — enqueue separately
+}
+
+let pendingIntents=[],ghIntentTimer=null,ghSaveInProgress=false;
+
+function scheduleIntentSave(intent){
+  if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
+  if(pendingIntents.length>0){
+    const last=pendingIntents[pendingIntents.length-1];
+    const merged=mergeIntents(last,intent);
+    if(merged!==null) pendingIntents[pendingIntents.length-1]=merged;
+    else pendingIntents.push(intent);
+  }else{
+    pendingIntents.push(intent);
+  }
+  clearTimeout(ghIntentTimer);
+  ghIntentTimer=setTimeout(()=>{ghIntentTimer=null;drainIntentQueue();},800);
+}
+
+async function drainIntentQueue(){
+  if(!pendingIntents.length||ghSaveInProgress) return;
+  ghSaveInProgress=true;
+  const intent=pendingIntents[0]; // peek — shift only on success
+  const ok=await saveWithIntent(intent);
+  ghSaveInProgress=false;
+  if(ok){
+    pendingIntents.shift();
+    if(pendingIntents.length) drainIntentQueue();
+  }
+  // on failure: intent stays at [0], scheduleGhRetry will call drainIntentQueue again
+}
+
+async function saveWithIntent(intent){
+  if(!ghConfig.owner||!ghConfig.repo||!ghConfig.path||!ghConfig.token) return false;
+  setGhDot('syncing');
+  for(let attempt=0;attempt<3;attempt++){
+    // Step 1: GET current remote state + SHA
+    let remoteSha,remoteData;
+    try{
+      const headers={'Accept':'application/vnd.github.v3+json','Authorization':`token ${ghConfig.token}`};
+      const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{headers});
+      if(!res.ok){
+        if(res.status===401||res.status===403){setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;}
+        throw new Error(`GET ${res.status}`);
+      }
+      const data=await res.json();
+      remoteSha=data.sha;
+      remoteData=JSON.parse(_b64decode(data.content));
+    }catch(e){console.warn('saveWithIntent GET:',e);setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;}
+    // Step 2: Apply intent to remote state (not to local cache)
+    const remoteState=migrateData(remoteData);
+    const newState=applyIntent(remoteState,intent);
+    const metaVersion=((newState._meta&&newState._meta.version)||0)+1;
+    const stateToSave={...newState,_meta:{version:metaVersion,updatedAt:new Date().toISOString(),updatedBy:ghConfig.owner||'unknown',sessionId:ghSessionId}};
+    // Step 3: PUT with the remote SHA we just fetched
+    try{
+      const putRes=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{
+        method:'PUT',
+        headers:{'Authorization':`token ${ghConfig.token}`,'Content-Type':'application/json'},
+        body:JSON.stringify({message:'Update tasks',content:_b64encode(JSON.stringify(stateToSave,null,2)),sha:remoteSha})
+      });
+      if(putRes.ok){
+        const putData=await putRes.json();
+        ghSha=putData.content.sha;
+        state=stateToSave;
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+        ghLastSyncAt=Date.now();
+        hideCacheWarning();
+        _retryCount=0;
+        setGhDot('synced');
+        showSyncedToast();
+        return true;
+      }
+      if(putRes.status===409){
+        // Race condition between our GET and PUT — redo GET with fresh SHA and reapply intent
+        console.warn(`saveWithIntent 409, attempt ${attempt+1}/3 — fresh GET`);
+        continue;
+      }
+      const err=await putRes.json().catch(()=>({}));
+      console.warn('saveWithIntent PUT error:',putRes.status,err);
+      setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;
+    }catch(e){console.warn('saveWithIntent PUT:',e);setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;}
+  }
+  console.warn('saveWithIntent: 3 attempts exhausted');
+  setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;
 }
 
 function openGhModal(){
