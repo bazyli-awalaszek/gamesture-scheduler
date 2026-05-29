@@ -144,8 +144,11 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .ninja-item-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:10px;padding:0 2px;opacity:0;line-height:1;}
 .ninja-item:hover .ninja-item-del{opacity:1;}
 .ninja-item-del:hover{color:var(--red);}
+.ninja-edit-inp{font-size:11px;color:var(--dark2);background:transparent;border:none;border-bottom:1px solid var(--blue);outline:none;flex:1;padding:0 1px;min-width:0;}
+.ninja-vac-edit-btn{font-size:10px;background:none;border:1px solid var(--blue);border-radius:3px;padding:1px 5px;cursor:pointer;color:var(--blue);flex-shrink:0;margin-right:4px;}
+.ninja-vac-edit-btn:hover{background:rgba(122,162,247,.15);}
 /* Vacation modal */
-#ninjaVacModal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:2000;align-items:center;justify-content:center;}
+#ninjaVacModal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:100000;align-items:center;justify-content:center;}
 #ninjaVacModal.open{display:flex;}
 .ninja-vac-inner{background:var(--card);border-radius:8px;padding:18px;width:300px;border:1px solid var(--border2);box-shadow:0 8px 32px rgba(0,0,0,.4);}
 .ninja-vac-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:12px;}
@@ -1340,12 +1343,21 @@ function renderMyVacList(){
   if(!vacs.length){list.innerHTML='<div class="myvac-empty">Brak urlopów</div>';return;}
   list.innerHTML=vacs.map(v=>`<div class="myvac-list-item"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`).join('');
 }
+let myVacEditId=null;
 function addMyVacation(){
   const from=parseDisplayDate(document.getElementById('myVacFrom').value.trim());
   const to=parseDisplayDate(document.getElementById('myVacTo').value.trim());
   if(!from||!to||from>to) return;
   if(!state.myVacations) state.myVacations=[];
-  state.myVacations.push({id:uid(),from,to});
+  if(myVacEditId){
+    const idx=state.myVacations.findIndex(v=>v.id===myVacEditId);
+    if(idx>=0) state.myVacations[idx]={...state.myVacations[idx],from,to};
+    else state.myVacations.push({id:uid(),from,to});
+    myVacEditId=null;
+    const btn=document.getElementById('btnMyVacAdd');if(btn)btn.textContent='+ Dodaj';
+  }else{
+    state.myVacations.push({id:uid(),from,to});
+  }
   state.myVacations.sort((a,b)=>a.from.localeCompare(b.from));
   document.getElementById('myVacFrom').value='';
   document.getElementById('myVacTo').value='';
@@ -1617,7 +1629,7 @@ function renderNinja(){
       const done=item.done;
       const titleHtml=item.link
         ?`<a class="ninja-item-title ${done?'done-text':''}" href="${esc(item.link)}" target="_blank" rel="noopener" title="${esc(item.note||item.title)}">${esc(item.title)}</a>`
-        :`<span class="ninja-item-title ${done?'done-text':''}">${esc(item.title)}</span>`;
+        :`<span class="ninja-item-title ${done?'done-text':''}" data-ninja-id="${item.id}">${esc(item.title)}</span>`;
       return`<div class="ninja-item">
   <div class="ninja-cb ${done?'done':''}" data-action="ninja-toggle" data-ninja-id="${item.id}"></div>
   <span class="ninja-item-date">${fmtDate(item.date)}</span>
@@ -1646,7 +1658,7 @@ function renderNinja(){
   const activeMyVacs=myVacs.filter(v=>v.to>=_today);
   const expiredMyVacs=myVacs.filter(v=>v.to<_today);
   const myVacItems=activeMyVacs.map(v=>
-    `<div class="myvac-list-item"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`
+    `<div class="myvac-list-item"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="ninja-vac-edit-btn" data-action="edit-my-vac" data-vac-id="${v.id}" data-from="${toDisplayDate(v.from)}" data-to="${toDisplayDate(v.to)}">✎</button><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`
   ).join('')||'<div class="myvac-empty">Brak urlopów</div>';
   const expiredMyVacHtml=expiredMyVacs.length
     ?`<details class="old-vac-sec"><summary>🕓 stare urlopy (${expiredMyVacs.length})</summary><div class="old-vac-items">${expiredMyVacs.map(v=>`<div class="myvac-list-item old-vac"><span>🏖️ ${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span><button class="btn-myvac-del" data-action="del-my-vac" data-vac-id="${v.id}">Usuń</button></div>`).join('')}</div></details>`
@@ -1672,8 +1684,18 @@ function renderNinja(){
   if(myVacToEl) myVacToEl.addEventListener('keydown',e=>{if(e.key==='Enter')addMyVacation();});
   if(btnAdd) btnAdd.addEventListener('click',addMyVacation);
   document.getElementById('myVacList')?.addEventListener('click',e=>{
-    const btn=e.target.closest('[data-action="del-my-vac"]');
-    if(btn)delMyVacation(btn.dataset.vacId);
+    const btn=e.target.closest('[data-action]');if(!btn)return;
+    if(btn.dataset.action==='del-my-vac') delMyVacation(btn.dataset.vacId);
+    else if(btn.dataset.action==='edit-my-vac'){
+      myVacEditId=btn.dataset.vacId;
+      const fromEl=document.getElementById('myVacFrom');
+      const toEl=document.getElementById('myVacTo');
+      const addBtn=document.getElementById('btnMyVacAdd');
+      if(fromEl) fromEl.value=btn.dataset.from;
+      if(toEl) toEl.value=btn.dataset.to;
+      if(addBtn) addBtn.textContent='Zaktualizuj';
+      fromEl?.focus();
+    }
   });
 }
 
@@ -1722,24 +1744,32 @@ function seedNinjaVacationTasks(){
   save();
 }
 
-let ninjaVacPerson=null;
+let ninjaVacPerson=null,ninjaVacEditId=null;
 function openNinjaVacModal(person){
   ninjaVacPerson=person;
+  ninjaVacEditId=null;
   document.getElementById('ninjaVacTitle').textContent=`Urlop: ${NINJA_PERSONS[person].name}`;
   document.getElementById('ninjaVacFrom').value='';
   document.getElementById('ninjaVacTo').value='';
+  document.getElementById('ninjaVacSave').textContent='Dodaj urlop';
   renderNinjaVacList();
   document.getElementById('ninjaVacModal').classList.add('open');
   setTimeout(()=>document.getElementById('ninjaVacFrom').focus(),60);
 }
-function closeNinjaVacModal(){document.getElementById('ninjaVacModal').classList.remove('open');ninjaVacPerson=null;}
+function closeNinjaVacModal(){
+  document.getElementById('ninjaVacModal').classList.remove('open');
+  ninjaVacPerson=null;
+  ninjaVacEditId=null;
+  document.getElementById('ninjaVacSave').textContent='Dodaj urlop';
+}
 function renderNinjaVacList(){
   const listEl=document.getElementById('ninjaVacList');if(!listEl||!ninjaVacPerson)return;
   const periods=(state.vacations||{})[ninjaVacPerson]||[];
   if(!periods.length){listEl.innerHTML='<div style="font-size:11px;color:var(--faint);font-style:italic;padding:4px 0 6px">Brak urlopów</div>';return;}
   listEl.innerHTML=periods.map(v=>`<div class="ninja-vac-list-item">
     <span>${toDisplayDate(v.from)} – ${toDisplayDate(v.to)}</span>
-    <button class="ninja-del-vac-btn" data-action="del-vac" data-vac-id="${v.id}">Usuń urlop</button>
+    <button class="ninja-vac-edit-btn" data-action="edit-vac" data-vac-id="${v.id}" data-from="${toDisplayDate(v.from)}" data-to="${toDisplayDate(v.to)}">✎</button>
+    <button class="ninja-del-vac-btn" data-action="del-vac" data-vac-id="${v.id}">Usuń</button>
   </div>`).join('');
 }
 function saveNinjaVac(){
@@ -1748,7 +1778,15 @@ function saveNinjaVac(){
   if(!from||!to){alert('Podaj poprawne daty (DD/MM/RRRR).');return;}
   if(!state.vacations)state.vacations={sean:[],yahu:[]};
   if(!Array.isArray(state.vacations[ninjaVacPerson]))state.vacations[ninjaVacPerson]=[];
-  state.vacations[ninjaVacPerson].push({id:uid(),from,to});
+  if(ninjaVacEditId){
+    const idx=state.vacations[ninjaVacPerson].findIndex(v=>v.id===ninjaVacEditId);
+    if(idx>=0) state.vacations[ninjaVacPerson][idx]={...state.vacations[ninjaVacPerson][idx],from,to};
+    else state.vacations[ninjaVacPerson].push({id:uid(),from,to});
+    ninjaVacEditId=null;
+    document.getElementById('ninjaVacSave').textContent='Dodaj urlop';
+  }else{
+    state.vacations[ninjaVacPerson].push({id:uid(),from,to});
+  }
   document.getElementById('ninjaVacFrom').value='';
   document.getElementById('ninjaVacTo').value='';
   save();seedNinjaVacationTasks();renderNinjaVacList();renderNinja();
@@ -3468,6 +3506,13 @@ function initListeners(){
   document.getElementById('ninjaVacList').addEventListener('click',e=>{
     const btn=e.target.closest('[data-action]');if(!btn)return;
     if(btn.dataset.action==='del-vac') delNinjaVacPeriod(btn.dataset.vacId);
+    else if(btn.dataset.action==='edit-vac'){
+      ninjaVacEditId=btn.dataset.vacId;
+      document.getElementById('ninjaVacFrom').value=btn.dataset.from;
+      document.getElementById('ninjaVacTo').value=btn.dataset.to;
+      document.getElementById('ninjaVacSave').textContent='Zaktualizuj urlop';
+      document.getElementById('ninjaVacFrom').focus();
+    }
   });
   document.getElementById('ninjaVacFrom').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('ninjaVacTo').focus();}if(e.key==='Escape')closeNinjaVacModal();});
   document.getElementById('ninjaVacTo').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveNinjaVac();}if(e.key==='Escape')closeNinjaVacModal();});
@@ -3489,6 +3534,32 @@ function initListeners(){
     if(!e.target.classList.contains('ninja-add-inp'))return;
     if(e.key==='Enter'){e.preventDefault();const person=e.target.dataset.person;const title=e.target.value.trim();if(title&&person){ninjaAdd(person,title);e.target.value='';}}
     if(e.key==='Escape'){e.target.value='';e.target.blur();}
+  });
+  document.getElementById('ninjaBody').addEventListener('dblclick',e=>{
+    const span=e.target.closest('.ninja-item-title:not(a)');
+    if(!span||!span.dataset.ninjaId)return;
+    const ninjaId=span.dataset.ninjaId;
+    const origTitle=span.textContent;
+    const inp=document.createElement('input');
+    inp.className='ninja-edit-inp';
+    inp.value=origTitle;
+    span.replaceWith(inp);
+    inp.focus();inp.select();
+    let committed=false;
+    const commit=()=>{
+      if(committed)return;committed=true;
+      const newTitle=inp.value.trim();
+      if(newTitle&&newTitle!==origTitle){
+        const item=(state.ninjaItems||[]).find(i=>i.id===ninjaId);
+        if(item){item.title=newTitle;save();}
+      }
+      renderNinja();
+    };
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.preventDefault();commit();}
+      if(e.key==='Escape'){committed=true;renderNinja();}
+    });
+    inp.addEventListener('blur',commit);
   });
 
   // Track last clicked task card
