@@ -365,7 +365,7 @@
       "game": "Cooking Wars",
       "title": "GamePulse instrukcje dla Cookingu",
       "weekKey": "2026-W22",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -386,11 +386,6 @@
           "id": "mpl1oxxky52b",
           "title": "5-6 done",
           "done": true
-        },
-        {
-          "id": "mpl1p80d4ejd",
-          "title": "7 done",
-          "done": false
         }
       ],
       "link": null,
@@ -1127,7 +1122,7 @@
       "title": "co robiy z gangiem cracovia?",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C08D7JEDJFJ/p1779863151853969\n\n1. zmieniamy treść kampanii -> NIE trzeba mieć nowego konta w innej grze\n2. wysyłamy nową wiadomość do wybranych wcześniej płatników + do gangu Cracovia\n3. odpowiadamy na tickety dot. transferu kont osobom, które już napisały",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 6,
@@ -1143,7 +1138,7 @@
         {
           "id": "mppfep4doa4s",
           "title": "napisać do członków Cracovii i odpisać na tickety https://gamesture.slack.com/archives/C08D7JEDJFJ/p1779968030653169?thread_ts=1779863151.853969&cid=C08D7JEDJFJ",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -1235,6 +1230,66 @@
       "priority": true,
       "weekKey": "2026-W22",
       "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpqwimdhu0d7",
+      "game": "The Gang",
+      "title": "Weekluy Store Promo",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 13,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpqwiw2kwou1",
+      "game": "The Gang",
+      "title": "H3 Special soon!",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 14,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpqwj3igqmke",
+      "game": "The Gang",
+      "title": "CRH soon!",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 15,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpqwjir02rag",
+      "game": "The Gang",
+      "title": "H3 Masterplan soon!",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 16,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1355,7 +1410,7 @@
       "id": "mpm7xslo2ola",
       "text": "- DROPBOX CLASHING WITH CLAUDE VS -\n=== OBJAWY ===\n\n- Claude VS Code wyrzuca: \"Subprocess initialization did not complete within 60000ms\"\n- Problem znika po zabiciu Dropboxa z Task Managera\n- Wstrzymanie synchronizacji Dropboxa NIE pomaga\n\n\n\n=== ROZWIĄZANIE ===\n\n1. Naciśnij klawisz Windows, wpisz \"powershell\", kliknij prawym → Uruchom jako administrator\n2. Wklej i naciśnij Enter:\n\n   Set-ProcessMitigation -Name \"bash.exe\" -Enable DisableExtensionPoints\n\n3. Zrestartuj VS Code\n\nUstawienie jest trwałe — nie trzeba tego powtarzać po restarcie komputera.",
       "color": "#121a10",
-      "collapsed": false
+      "collapsed": true
     },
     {
       "id": "mp6rhvl729a7",
@@ -1567,8 +1622,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 16,
-    "updatedAt": "2026-05-29T10:13:17.587Z",
+    "version": 17,
+    "updatedAt": "2026-05-29T12:34:08.700Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-39pq8x"
   }
