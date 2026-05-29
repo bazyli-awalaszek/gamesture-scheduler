@@ -1331,6 +1331,11 @@
   ],
   "notes": [
     {
+      "id": "mpqrdfthpvg1",
+      "text": "",
+      "color": "#1e0806"
+    },
+    {
       "id": "mpm9igoirdrh",
       "text": "CHARACTER NAMES\n\n- Gang Nations Cup -\nG_S50_NC_GermanChampion\nGerman Champion: S50\n\n- General -\nG_S50_CharacterNickname\nCharacter Nickname\n\n- Special Events - \nG_S50_SPECIAL_EventName2026_CharacterNickname\nCharacter Nickname\n\n- Level Milestone Reward -\nG_LVL2K_GoldenQueen\nGolden Queen\n",
       "color": "#1e0806",
@@ -1552,8 +1557,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 10,
-    "updatedAt": "2026-05-29T09:43:05.655Z",
+    "version": 11,
+    "updatedAt": "2026-05-29T10:07:46.569Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-u8lv93"
   }
