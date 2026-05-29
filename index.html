@@ -207,10 +207,9 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .sb-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px;}
 .sb-title-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:5px;}
 .sb-title-toggle:hover{color:var(--dark2);}
-#sbTge>.sb-title-toggle,#sbCal>.sb-title-toggle,#sbNotes>.sb-title-toggle,#sbGallery>.sb-title-toggle{background:#0f0f17;margin:-8px -12px 6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);}
-#sbTge.collapsed>.sb-title-toggle,#sbCal.collapsed>.sb-title-toggle,#sbNotes.collapsed>.sb-title-toggle,#sbGallery.collapsed>.sb-title-toggle{margin-bottom:-8px;}
-#sbTge.collapsed,#sbCal.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
-#sbTge.emg-active>.sb-title-toggle{color:rgba(231,72,86,.9)!important;background:rgba(231,72,86,.08)!important;border-bottom-color:rgba(231,72,86,.2)!important;text-shadow:0 0 10px rgba(231,72,86,.5);transition:color .2s,background .2s,text-shadow .2s;}
+#sbCal>.sb-title-toggle,#sbNotes>.sb-title-toggle,#sbGallery>.sb-title-toggle{background:#0f0f17;margin:-8px -12px 6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);}
+#sbCal.collapsed>.sb-title-toggle,#sbNotes.collapsed>.sb-title-toggle,#sbGallery.collapsed>.sb-title-toggle{margin-bottom:-8px;}
+#sbCal.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
 .sb-arrow{font-size:10px;transition:transform .18s;margin-left:auto;}
 .sb-cal.collapsed .sb-arrow{transform:rotate(-90deg);}
 .sb-cal.collapsed .cal-scroll{display:none;}
@@ -246,43 +245,6 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .cal-entry.this-week-entry:not(.prio-entry){background:rgba(122,162,247,.07);}
 .cal-entry.this-week-entry:not(.prio-entry):hover{background:rgba(122,162,247,.14);}
 .cal-entry.this-week-entry:not(.prio-entry) .cal-ttl{color:var(--dark);}
-/* ── GAME SCHEDULE TABLE ── */
-.sb-tge{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
-.sb-tge.collapsed .tge-body{display:none;}
-.sb-tge.collapsed{max-height:none;}
-.sb-tge.collapsed .sb-arrow{transform:rotate(-90deg);}
-.tge-body{flex:1;overflow:auto;}
-.tge-game-section{margin-bottom:10px;}
-.tge-game-section:last-child{margin-bottom:0;}
-.tge-game-hdr{display:flex;align-items:center;gap:5px;padding:5px 0 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:4px;}
-.tge-cw-note{font-size:11px;color:var(--dark2);padding:5px 0 2px;line-height:1.5;white-space:pre-wrap;}
-.tge-table{border-collapse:collapse;font-size:12px;white-space:nowrap;}
-.tge-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);padding:4px 6px 4px 2px;border-bottom:1px solid var(--border);text-align:left;}
-.tge-table td{padding:3px 6px 3px 2px;color:var(--dark2);border-bottom:1px solid rgba(255,255,255,.04);}
-.tge-table tr:last-child td{border-bottom:none;}
-.tge-ev{font-weight:600;color:var(--dark);padding-right:8px;}
-.tge-merged{color:var(--border2);font-size:10px;letter-spacing:.02em;}
-.tge-arr{color:var(--muted);font-size:12px;font-weight:700;line-height:1;}
-.tge-time{font-size:12px;}
-.tge-edit-btn{background:transparent;border:1px solid transparent;border-radius:3px;color:var(--border2);font-size:10px;padding:1px 5px;cursor:pointer;margin-left:4px;flex-shrink:0;transition:all .12s;line-height:1.4;}
-.tge-edit-btn:hover{color:var(--muted);border-color:rgba(255,255,255,.2);}
-.tge-edit-btn.active{color:var(--orange);border-color:rgba(255,158,100,.4);background:rgba(255,158,100,.08);}
-.tge-edit-actions{display:flex;gap:6px;padding:8px 0 2px;justify-content:flex-end;}
-.tge-save-btn,.tge-cancel-btn{border-radius:3px;font-size:11px;padding:3px 10px;cursor:pointer;border:1px solid;}
-.tge-save-btn{background:rgba(158,206,106,.12);border-color:rgba(158,206,106,.5);color:#9ece6a;}
-.tge-save-btn:hover{background:rgba(158,206,106,.22);}
-.tge-cancel-btn{background:transparent;border-color:rgba(255,255,255,.15);color:var(--muted);}
-.tge-cancel-btn:hover{color:var(--dark);}
-.tge-cell-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:2px;color:var(--dark2);font-size:12px;padding:1px 4px;width:100%;min-width:40px;outline:none;font-family:inherit;box-sizing:border-box;}
-.tge-cell-input:focus{border-color:rgba(122,162,247,.5);background:rgba(122,162,247,.05);}
-.tge-ev .tge-cell-input{font-weight:600;color:var(--dark);}
-.tge-cw-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:2px;color:var(--dark2);font-size:11px;padding:3px 5px;resize:vertical;font-family:inherit;outline:none;box-sizing:border-box;}
-.tge-cw-input:focus{border-color:rgba(122,162,247,.5);}
-#tgeLegend{position:fixed;background:#1c1e2e;border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--dark2);line-height:1.55;width:290px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.55);display:none;pointer-events:none;}
-#tgeLegend.show{display:block;}
-#tgeLegend p{margin:0 0 8px;}
-#tgeLegend p:last-child{margin:0;}
-#tgeLegend strong{color:var(--fg);display:block;margin-bottom:2px;}
 .sb-notes{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:8px 12px;min-height:32px;}
 .sb-notes.collapsed .notes-scroll{display:none;}
 .sb-notes.collapsed{flex:0 0 auto;}
@@ -897,12 +859,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 </div>
 
 
-<!-- TGE LEGEND TOOLTIP -->
-<div id="tgeLegend">
-  <p>Rozpiska godzin, o których zazwyczaj startują eventy.</p>
-  <p><strong>[ ← ] godzina poprzedniego dnia</strong>np. w kalendarzu 6 dzień sezonu jest 18.05. jeśli Hit3 zaczyna się 6 dnia sezonu, to w rzeczywistości będzie to 21:00 17.05 dla Europy i 6:00 18.05 dla Azji/Ameryki</p>
-  <p><strong>[ merged ] merge Azji i Ameryki</strong>dla większości eventów (szczególnie tych z rankingami) Azja i Ameryka mają połączony region</p>
-</div>
 
 <!-- EMG NOTE PANEL -->
 <div id="emgNotePanel">
@@ -930,10 +886,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     </div>
   </div>
 
-  <div class="sb-tge collapsed" id="sbTge">
-    <div class="sb-title sb-title-toggle" id="sbTgeToggle">🎮 Game Schedule <button id="btnTgeEdit" class="tge-edit-btn" title="Edytuj">✎</button><span class="sb-arrow">▾</span></div>
-    <div class="tge-body" id="tgeBody"></div>
-  </div>
   <div class="sb-cal" id="sbCal">
     <div class="sb-title sb-title-toggle" id="sbCalToggle">📆 Harmonogram <span class="sb-arrow">▾</span></div>
     <div class="cal-scroll" id="calView"></div>
@@ -1271,19 +1223,6 @@ function migrateData(s){
     s.notes=merged;
   }
   s.notes.forEach(n=>{if(!n.color)n.color='#1e0806';});
-  if(!s.gameSchedule) s.gameSchedule={gang:[
-    {ev:"Hit3",panel:"Hit3",asia:"merged",eu:"←21:00",am:"06:00"},
-    {ev:"Lucky Vault",panel:"Lucky Vault",asia:"merged",eu:"←21:00",am:"06:00"},
-    {ev:"Bank Robbery Express",panel:"Bank Event Season_End",asia:"←21:00",eu:"03:00",am:"06:00"},
-    {ev:"Wheel Of Fortune",panel:"Chest",asia:"←15:00",eu:"←21:00",am:"06:00"},
-    {ev:"Combo Suits",panel:"Overlay",asia:"merged",eu:"←21:00",am:"06:00"},
-    {ev:"Tournament",panel:"Gang Tournament",asia:"merged",eu:"←21:00",am:"←22:30"},
-    {ev:"Rising Stars Tournament",panel:"Rising Star Tourney",asia:"merged",eu:"←14:30",am:"←22:30"},
-    {ev:"World Gang Championship",panel:"Global Gang Tournament",asia:"07:30",eu:"07:30",am:"07:30"},
-    {ev:"Gang Nations Cup",panel:"Continental Tournament",asia:"07:30",eu:"07:30",am:"07:30"},
-    {ev:"Bank Robbery",panel:"Bank Event",asia:"←15:00",eu:"←21:00",am:"06:00"},
-    {ev:"Cartel Rush",panel:"Cartel Rush",asia:"03:00",eu:"03:00",am:"03:00"}
-  ],cwNote:"New events, recipes, etc. start at 13:00 (UTC)"};
   if(!s._meta||typeof s._meta!=='object') s._meta={version:0,updatedAt:null,updatedBy:null,sessionId:null};
   return s;
 }
@@ -1799,65 +1738,6 @@ function delNinjaVacPeriod(vacId){
 }
 
 // ── SIDEBAR ────────────────────────────────────────
-let tgeEditing=false;
-function renderGameSchedule(){
-  const tgeBody=document.getElementById('tgeBody');
-  if(!tgeBody)return;
-  const gs=state.gameSchedule||{};
-  const gang=gs.gang||[];
-  const cwNote=gs.cwNote||'';
-  function cellHtml(v,ri,field){
-    if(!tgeEditing){
-      if(v==='merged')return`<span class="tge-merged">merged</span>`;
-      if(v&&v.startsWith('←'))return`<span class="tge-arr">←</span>${esc(v.slice(1))}`;
-      return esc(v);
-    }
-    return`<input class="tge-cell-input" data-ri="${ri}" data-field="${field}" value="${esc(v)}" autocomplete="off" spellcheck="false">`;
-  }
-  const rows=gang.map((r,i)=>`<tr>
-    <td class="tge-ev">${cellHtml(r.ev,i,'ev')}</td>
-    <td>${cellHtml(r.panel,i,'panel')}</td>
-    <td>${cellHtml(r.asia,i,'asia')}</td>
-    <td>${cellHtml(r.eu,i,'eu')}</td>
-    <td>${cellHtml(r.am,i,'am')}</td>
-  </tr>`).join('');
-  const cwNoteHtml=tgeEditing
-    ?`<textarea class="tge-cw-input" id="tgeCwInput" rows="2" spellcheck="false">${esc(cwNote)}</textarea>`
-    :`<div class="tge-cw-note">${esc(cwNote)}</div>`;
-  const actionsHtml=tgeEditing
-    ?`<div class="tge-edit-actions"><button class="tge-cancel-btn" id="btnTgeCancel">Anuluj</button><button class="tge-save-btn" id="btnTgeSave">✓ Zapisz</button></div>`
-    :'';
-  tgeBody.innerHTML=`<div class="tge-game-section">
-    <div class="tge-game-hdr"><span id="tgeGangIcon"></span><span>The Gang</span></div>
-    <table class="tge-table"><thead><tr><th>Game Event</th><th>Panel Calendar</th><th>Asia</th><th>Europe</th><th>America</th></tr></thead><tbody>${rows}</tbody></table>
-  </div>
-  <div class="tge-game-section">
-    <div class="tge-game-hdr"><span id="tgeCwIcon"></span><span>Cooking Wars</span></div>
-    ${cwNoteHtml}
-  </div>${actionsHtml}`;
-  document.getElementById('tgeGangIcon').innerHTML=gameIconHtml('The Gang',16,3);
-  document.getElementById('tgeCwIcon').innerHTML=gameIconHtml('Cooking Wars',16,3);
-  if(tgeEditing){
-    document.getElementById('btnTgeSave').addEventListener('click',()=>{
-      const gs2=state.gameSchedule;
-      tgeBody.querySelectorAll('input.tge-cell-input').forEach(inp=>{
-        const ri=parseInt(inp.dataset.ri);
-        const f=inp.dataset.field;
-        if(!isNaN(ri)&&gs2.gang[ri])gs2.gang[ri][f]=inp.value.trim();
-      });
-      const cwInput=document.getElementById('tgeCwInput');
-      if(cwInput)gs2.cwNote=cwInput.value;
-      tgeEditing=false;
-      document.getElementById('btnTgeEdit').classList.remove('active');
-      save();renderGameSchedule();
-    });
-    document.getElementById('btnTgeCancel').addEventListener('click',()=>{
-      tgeEditing=false;
-      document.getElementById('btnTgeEdit').classList.remove('active');
-      renderGameSchedule();
-    });
-  }
-}
 function renderSidebar(){renderCalendar();renderNotes();renderGallery();renderEmergency();}
 
 function renderCalendar(){
@@ -2802,7 +2682,7 @@ async function autoPullFromGitHub(){
     ghLastSyncAt=Date.now();
     localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
     hideCacheWarning();
-    renderApp();renderGameSchedule();
+    renderApp();
     setGhDot('syncing');setTimeout(()=>{setGhDot('synced');updateSyncStatus();},600);
   }catch(_){}
 }
@@ -2841,7 +2721,7 @@ async function forceRefreshFromGitHub(){
     ghLastSyncAt=Date.now();
     localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
     hideCacheWarning();
-    renderApp();renderGameSchedule();
+    renderApp();
     updateSyncStatus();
   }
   if(btn){btn.disabled=false;btn.classList.remove('spinning');}
@@ -2922,9 +2802,6 @@ function applyIntent(s,intent){
     }
     case'note.remove':
       ns.notes=ns.notes.filter(n=>n.id!==intent.id);
-      break;
-    case'gameSchedule.replace':
-      ns.gameSchedule=intent.gameSchedule;
       break;
     default:
       console.warn('applyIntent: unknown op',intent.op);
@@ -3301,26 +3178,6 @@ function initListeners(){
   document.getElementById('sbGalleryToggle').addEventListener('click',()=>{
     document.getElementById('sbGallery').classList.toggle('collapsed');
   });
-  const sbTgeToggle=document.getElementById('sbTgeToggle');
-  sbTgeToggle.addEventListener('click',e=>{if(e.target.closest('#btnTgeEdit'))return;document.getElementById('sbTge').classList.toggle('collapsed');});
-  document.getElementById('btnTgeEdit').addEventListener('click',e=>{
-    e.stopPropagation();
-    tgeEditing=!tgeEditing;
-    e.currentTarget.classList.toggle('active',tgeEditing);
-    document.getElementById('sbTge').classList.remove('collapsed');
-    renderGameSchedule();
-  });
-  renderGameSchedule();
-  // TGE legend tooltip on hover
-  const tgeLegend=document.getElementById('tgeLegend');
-  sbTgeToggle.addEventListener('mouseenter',()=>{
-    const r=sbTgeToggle.getBoundingClientRect();
-    tgeLegend.style.top=(r.bottom+6)+'px';
-    tgeLegend.style.right=(window.innerWidth-r.right)+'px';
-    tgeLegend.style.left='auto';
-    tgeLegend.classList.add('show');
-  });
-  sbTgeToggle.addEventListener('mouseleave',()=>tgeLegend.classList.remove('show'));
   document.getElementById('sbNotesToggle').addEventListener('click',()=>{
     document.getElementById('sbNotes').classList.toggle('collapsed');
   });
@@ -3334,7 +3191,6 @@ function initListeners(){
     sbEmgEl.classList.toggle('mode-on',on);
     document.getElementById('emgNoteBtn').classList.toggle('emg-alert',on);
     btnEmgActivate.classList.toggle('active',on);
-    document.getElementById('sbTge').classList.toggle('emg-active',on);
     renderGlobalQlBar();
   }
   if(emgHighlight){setEmgMode(true);}
