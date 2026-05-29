@@ -489,7 +489,7 @@
         {
           "id": "mpm8wov2skf4",
           "title": "przekazanie propozycji zarke",
-          "done": false
+          "done": true
         },
         {
           "id": "mpm8wv4xw5io",
@@ -556,7 +556,7 @@
       "game": "Mafia Rivals",
       "title": "czy znowu oferujemy transfery kont?",
       "weekKey": "2026-W22",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -1224,6 +1224,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpqrdtz6ypji",
+      "game": "Mafia Rivals",
+      "title": "MR New Migration Event",
+      "date": "2026-07-01",
+      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W22",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -1376,11 +1391,6 @@
     ]
   },
   "myVacations": [
-    {
-      "id": "mp6o8bqipl8x",
-      "from": "2026-07-06",
-      "to": "2026-07-07"
-    },
     {
       "id": "mp6o96w21z3f",
       "from": "2026-08-25",
@@ -1552,8 +1562,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 12,
-    "updatedAt": "2026-05-29T10:07:49.178Z",
+    "version": 13,
+    "updatedAt": "2026-05-29T10:10:53.271Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-u8lv93"
   }
