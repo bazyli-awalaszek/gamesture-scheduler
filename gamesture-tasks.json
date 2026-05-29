@@ -113,7 +113,7 @@
     {
       "id": "mp6r0nwib9fv",
       "game": "The Gang",
-      "title": "check character names in Panel",
+      "title": "check character names in Panel (ONGOING)\n",
       "date": null,
       "note": "",
       "status": "active",
@@ -1165,7 +1165,7 @@
       "title": "DAILY BREAD",
       "date": "2026-05-29",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W22",
       "order": 0,
@@ -1174,32 +1174,32 @@
         {
           "id": "mpqiuns4451e",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpqiuns4ueug",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpqiuns44id5",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mpqiuns4be7t",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpqiuns4a7qe",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpqiuns4dww9",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -1225,7 +1225,7 @@
       "game": "Mafia Rivals",
       "title": "MR New Migration Event",
       "date": "2026-07-01",
-      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses",
+      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\nstatus z wcześniejszych:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0",
       "status": "active",
       "priority": true,
       "weekKey": "2026-W22",
@@ -1689,9 +1689,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 20,
-    "updatedAt": "2026-05-29T12:43:33.954Z",
+    "version": 21,
+    "updatedAt": "2026-05-29T12:46:35.665Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-39pq8x"
+    "sessionId": "tab-lzft75"
   }
 }
