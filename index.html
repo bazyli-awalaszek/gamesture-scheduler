@@ -199,53 +199,14 @@ a.ninja-item-title:hover{text-decoration:underline;}
   background:#16161e;border-left:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;
 }
-.sb-cal{
-  flex:0 0 auto;max-height:42%;
-  display:flex;flex-direction:column;overflow:hidden;
-  border-bottom:1px solid var(--border);padding:8px 12px;
-}
 .sb-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px;}
 .sb-title-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:5px;}
 .sb-title-toggle:hover{color:var(--dark2);}
-#sbTge>.sb-title-toggle,#sbCal>.sb-title-toggle,#sbNotes>.sb-title-toggle,#sbGallery>.sb-title-toggle{background:#0f0f17;margin:-8px -12px 6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);}
-#sbTge.collapsed>.sb-title-toggle,#sbCal.collapsed>.sb-title-toggle,#sbNotes.collapsed>.sb-title-toggle,#sbGallery.collapsed>.sb-title-toggle{margin-bottom:-8px;}
-#sbTge.collapsed,#sbCal.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
+#sbTge>.sb-title-toggle,#sbNotes>.sb-title-toggle,#sbGallery>.sb-title-toggle{background:#0f0f17;margin:-8px -12px 6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);}
+#sbTge.collapsed>.sb-title-toggle,#sbNotes.collapsed>.sb-title-toggle,#sbGallery.collapsed>.sb-title-toggle{margin-bottom:-8px;}
+#sbTge.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
 #sbTge.emg-active>.sb-title-toggle{color:rgba(231,72,86,.9)!important;background:rgba(231,72,86,.08)!important;border-bottom-color:rgba(231,72,86,.2)!important;text-shadow:0 0 10px rgba(231,72,86,.5);transition:color .2s,background .2s,text-shadow .2s;}
 .sb-arrow{font-size:10px;transition:transform .18s;margin-left:auto;}
-.sb-cal.collapsed .sb-arrow{transform:rotate(-90deg);}
-.sb-cal.collapsed .cal-scroll{display:none;}
-.sb-cal.collapsed{max-height:none;}
-.cal-scroll{flex:1;overflow-y:auto;}
-.cal-scroll::-webkit-scrollbar{width:4px;}
-.cal-scroll::-webkit-scrollbar-track{background:transparent;}
-.cal-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-.cal-day-hdr{
-  font-size:10px;font-weight:700;color:var(--muted);
-  padding:4px 0 2px;border-bottom:1px solid var(--border);
-  margin-bottom:3px;margin-top:6px;
-}
-.cal-day-hdr:first-child{margin-top:0;}
-.cal-day-hdr.today-hdr{color:var(--blue);}
-.cal-day-hdr.late-hdr{color:var(--red);}
-.cal-entry.late-entry .cal-ttl{color:var(--red);opacity:.85;}
-.cal-entry.late-entry{opacity:.9;}
-.cal-day-hdr.holiday-hdr{color:#c97070;}
-.cal-entry{
-  display:flex;align-items:center;gap:5px;
-  padding:4px 5px;border-radius:4px;cursor:pointer;
-  transition:background .1s;
-}
-.cal-entry:hover{background:var(--col);}
-.cal-entry.prio-entry{background:rgba(224,175,104,.1);border-left:2px solid var(--gold);padding-left:4px;}
-.cal-entry.prio-entry:hover{background:rgba(224,175,104,.18);}
-.cal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.cal-ttl{font-size:11px;color:var(--dark2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.cal-entry.prio-entry .cal-ttl{font-weight:600;color:var(--gold);}
-.cal-star{font-size:10px;flex-shrink:0;}
-.cal-day-hdr.this-week-hdr{color:var(--blue);}
-.cal-entry.this-week-entry:not(.prio-entry){background:rgba(122,162,247,.07);}
-.cal-entry.this-week-entry:not(.prio-entry):hover{background:rgba(122,162,247,.14);}
-.cal-entry.this-week-entry:not(.prio-entry) .cal-ttl{color:var(--dark);}
 /* ── GAME SCHEDULE TABLE ── */
 .sb-tge{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
 .sb-tge.collapsed .tge-body{display:none;}
@@ -933,10 +894,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <div class="sb-tge collapsed" id="sbTge">
     <div class="sb-title sb-title-toggle" id="sbTgeToggle">🎮 Game Schedule <button id="btnTgeEdit" class="tge-edit-btn" title="Edytuj">✎</button><span class="sb-arrow">▾</span></div>
     <div class="tge-body" id="tgeBody"></div>
-  </div>
-  <div class="sb-cal" id="sbCal">
-    <div class="sb-title sb-title-toggle" id="sbCalToggle">📆 Harmonogram <span class="sb-arrow">▾</span></div>
-    <div class="cal-scroll" id="calView"></div>
   </div>
   <div class="sb-notes" id="sbNotes">
     <div class="sb-title sb-title-toggle" id="sbNotesToggle">📝 Notatki tygodnia <span class="sb-arrow">▾</span></div>
@@ -1858,38 +1815,7 @@ function renderGameSchedule(){
     });
   }
 }
-function renderSidebar(){renderCalendar();renderNotes();renderGallery();renderEmergency();}
-
-function renderCalendar(){
-  const calView=document.getElementById('calView');
-  const tasks=state.tasks.filter(t=>t.date&&t.status!=='done').sort((a,b)=>a.date.localeCompare(b.date));
-  if(!tasks.length){
-    calView.innerHTML='<div style="font-size:11px;color:var(--faint);font-style:italic;padding:4px 0">Brak zadań z datą</div>';return;
-  }
-  const td=todayStr(),thisWk=isoWeekKey(new Date()),byDate={};
-  tasks.forEach(t=>{if(!byDate[t.date])byDate[t.date]=[];byDate[t.date].push(t);});
-  let html='';
-  Object.keys(byDate).sort().forEach(ds=>{
-    const isToday=ds===td;
-    const isThisWk=dateStrToWk(ds)===thisWk;
-    const isLate=ds<td;
-    const isHol=isHoliday(ds);
-    html+=`<div class="cal-day-hdr ${isToday?'today-hdr':isLate?'late-hdr':isHol?'holiday-hdr':isThisWk?'this-week-hdr':''}">${fmtDate(ds)}${isToday?' ★':''}</div>`;
-    byDate[ds].forEach(t=>{
-      const col=gameColor(t.game);
-      const g=gameCfg(t.game);
-      const dotHtml=g?.icon&&g.icon.startsWith('data:')
-        ?`<img src="${g.icon}" style="width:12px;height:12px;border-radius:2px;object-fit:cover;flex-shrink:0" alt="">`
-        :`<span class="cal-dot" style="background:${col}"></span>`;
-      html+=`<div class="cal-entry ${t.priority?'prio-entry':''} ${isThisWk?'this-week-entry':''} ${isLate?'late-entry':''}" data-nav-id="${t.id}">
-        ${dotHtml}
-        <span class="cal-ttl">${esc(t.title)}</span>
-        ${t.priority?'<span class="cal-star">⭐</span>':''}
-      </div>`;
-    });
-  });
-  calView.innerHTML=html;
-}
+function renderSidebar(){renderNotes();renderGallery();renderEmergency();}
 
 function renderNotes(){
   const container=document.getElementById('notesContainer');
@@ -3792,22 +3718,6 @@ function initListeners(){
     if(addBtn) addBtn.style.display='';
   });
 
-  // Harmonogram collapse toggle
-  const sbCal=document.getElementById('sbCal');
-  if(localStorage.getItem('cal-collapsed')==='1') sbCal.classList.add('collapsed');
-  document.getElementById('sbCalToggle').addEventListener('click',()=>{
-    sbCal.classList.toggle('collapsed');
-    localStorage.setItem('cal-collapsed',sbCal.classList.contains('collapsed')?'1':'0');
-  });
-
-  // Calendar click → navigate + highlight
-  document.getElementById('calView').addEventListener('click',e=>{
-    const entry=e.target.closest('[data-nav-id]');if(!entry)return;
-    const t=taskById(entry.dataset.navId);if(!t)return;
-    currentWeekKey=t.weekKey;
-    renderApp();
-    highlightTask(t.id);
-  });
 
   // Notes
   document.getElementById('notesContainer').addEventListener('click',e=>{
