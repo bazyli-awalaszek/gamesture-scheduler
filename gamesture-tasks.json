@@ -1427,6 +1427,23 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mputuaoeyz3o",
+      "game": "Ogólne",
+      "title": "dev > prod news at 10:00 am",
+      "date": "2026-05-29",
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W22",
+      "order": 12,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": [],
+      "ninjaItemId": "mppjtcav8e8o",
+      "ninjaOf": "sean"
     }
   ],
   "quicklinks": [
@@ -1604,11 +1621,11 @@
     {
       "id": "mppjtm2tb0hd",
       "person": "sean",
-      "date": "2026-05-28",
+      "date": "2026-05-29",
       "title": "https://netto.admin-gamesture.com/tools/global-messages?__game=SoccerClash",
       "link": null,
       "note": "",
-      "done": true,
+      "done": false,
       "seeded": false
     },
     {
@@ -1618,7 +1635,7 @@
       "title": "SR/SC posts accept",
       "link": null,
       "note": "",
-      "done": true,
+      "done": false,
       "seeded": true
     },
     {
@@ -1670,6 +1687,16 @@
       "note": "",
       "done": false,
       "seeded": true
+    },
+    {
+      "id": "mputul1ddh0g",
+      "person": "yahu",
+      "date": "2026-06-01",
+      "title": "test",
+      "link": null,
+      "note": "",
+      "done": true,
+      "seeded": false
     }
   ],
   "emergency": [
@@ -1785,8 +1812,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 29,
-    "updatedAt": "2026-06-01T06:27:43.747Z",
+    "version": 30,
+    "updatedAt": "2026-06-01T06:28:37.285Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-o3smb3"
   }
