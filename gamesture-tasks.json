@@ -1580,6 +1580,23 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpv572vus941",
+      "game": "Ogólne",
+      "title": "emails check",
+      "date": "2026-06-01",
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
+      "links": [],
+      "ninjaItemId": "mpurzrmmoxrq",
+      "ninjaOf": "yahu"
     }
   ],
   "quicklinks": [
@@ -1817,7 +1834,7 @@
       "title": "emails check",
       "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
       "note": "",
-      "done": false,
+      "done": true,
       "seeded": true
     },
     {
@@ -1944,8 +1961,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 54,
-    "updatedAt": "2026-06-01T10:51:06.106Z",
+    "version": 55,
+    "updatedAt": "2026-06-01T11:45:49.217Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-b9wxta"
   }
