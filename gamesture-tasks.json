@@ -72,7 +72,7 @@
       "note": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 0,
       "attachments": [],
       "subtasks": [],
@@ -118,7 +118,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -149,7 +149,7 @@
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 1,
       "attachments": [],
       "subtasks": [],
@@ -164,7 +164,7 @@
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -179,7 +179,7 @@
       "note": "- mini passy 7/14d, które są trochę takimi evento/ofertami\n- Gstore dla CW",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 1,
       "attachments": [],
       "subtasks": [
@@ -205,7 +205,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 3,
       "attachments": [
         {
@@ -303,7 +303,7 @@
       "id": "mpl11ft7zq5t2r",
       "game": "Ogólne",
       "title": "dopracowanie Task Managera",
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "status": "active",
       "priority": false,
       "date": null,
@@ -349,7 +349,7 @@
       "id": "mpl11ft71paxn2",
       "game": "Ogólne",
       "title": "GamePulse AI config tab - check out",
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "status": "active",
       "priority": false,
       "date": null,
@@ -440,7 +440,7 @@
       "id": "mpl11ft7eriv4t",
       "game": "The Gang",
       "title": "WGC Winners LOGO",
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "status": "active",
       "priority": true,
       "date": null,
@@ -705,7 +705,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 8,
       "attachments": [],
       "subtasks": [
@@ -777,7 +777,7 @@
       "note": "czekam aż będzie można na tyle do przodu schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -792,7 +792,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 5,
       "attachments": [],
       "subtasks": [
@@ -818,7 +818,7 @@
       "note": "https://gamesture.slack.com/archives/C04TBKRSY4T/p1779789968067309",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 9,
       "attachments": [],
       "subtasks": [],
@@ -899,7 +899,7 @@
       "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 11,
       "attachments": [],
       "subtasks": [
@@ -1213,7 +1213,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 12,
       "attachments": [],
       "subtasks": [],
@@ -1228,7 +1228,7 @@
       "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\nstatus z wcześniejszych:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 7,
       "attachments": [],
       "subtasks": [],
@@ -1355,12 +1355,72 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W22",
+      "weekKey": "2026-W23",
       "order": 17,
       "attachments": [],
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpqx3g301a7y",
+      "game": "Cooking Wars",
+      "title": "uzupełnić knowledge dla CW",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 13,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpurzrlzbj86",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-01",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpurzrlz8izs",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpurzrlzmo4h",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpurzrlzj1c0",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpurzrlzc1sq",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpurzrlzka6l",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpurzrlz9srz",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -1574,6 +1634,36 @@
       "note": "",
       "done": true,
       "seeded": true
+    },
+    {
+      "id": "mpurzrmmic59",
+      "person": "yahu",
+      "date": "2026-06-01",
+      "title": "CW & MR Helpshift",
+      "link": null,
+      "note": "",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpurzrmm84a0",
+      "person": "yahu",
+      "date": "2026-06-01",
+      "title": "#gamesture-store-refunds",
+      "link": "https://gamesture.slack.com/archives/C07NHQ8C347",
+      "note": "copy new transaction IDs > mark with ✔ > paste at #gamesture-neon-refunds-chargeback2025116",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpurzrmmoxrq",
+      "person": "yahu",
+      "date": "2026-06-01",
+      "title": "emails check",
+      "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
+      "note": "",
+      "done": false,
+      "seeded": true
     }
   ],
   "emergency": [
@@ -1689,9 +1779,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 21,
-    "updatedAt": "2026-05-29T12:46:35.665Z",
+    "version": 22,
+    "updatedAt": "2026-06-01T05:36:13.050Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-lzft75"
+    "sessionId": "tab-7rndqz"
   }
 }
