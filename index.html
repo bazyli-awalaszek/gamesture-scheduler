@@ -339,6 +339,12 @@ a.ninja-item-title:hover{text-decoration:underline;}
 .task-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.5);}
 .task-card[data-status="done"]{opacity:.45;border-left-color:var(--green);}
 .task-card.priority{border-left-color:var(--gold);background:linear-gradient(to right,rgba(224,175,104,.08),var(--card));}
+.task-card.ninja-sean{border-left-color:#2463ae;background:linear-gradient(to right,rgba(36,99,174,.1),var(--card));}
+.task-card.ninja-yahu{border-left-color:#8B5CF6;background:linear-gradient(to right,rgba(139,92,246,.1),var(--card));}
+.ninja-person-tag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;letter-spacing:.04em;flex-shrink:0;line-height:1.6;}
+.ninja-person-tag.tag-sean{background:rgba(36,99,174,.25);color:#7aacef;border:1px solid rgba(36,99,174,.4);}
+.ninja-person-tag.tag-yahu{background:rgba(139,92,246,.25);color:#c4b5fd;border:1px solid rgba(139,92,246,.4);}
+.ninja-item-date-edit{font-size:9.5px;background:transparent;border:none;border-bottom:1px solid var(--blue);outline:none;color:var(--dark2);padding:0 1px;width:72px;font-family:inherit;}
 .task-card.sortable-ghost{opacity:.25;background:#2d3050;}
 .task-card.sortable-chosen{box-shadow:0 8px 24px rgba(0,0,0,.6);transform:rotate(1.5deg);}
 .task-card.hl{animation:pulse .35s ease 2;}
@@ -1522,8 +1528,9 @@ function cardHtml(t){
   const titleDisp=t.link
     ?`<div class="title-display ${noteClass}" data-action="expand" data-id="${t.id}">${formatWithTimes(t.title)}<span class="link-icon" data-action="open-link" data-link="${esc(t.link)}" data-id="${t.id}" title="Otwórz link">↗</span></div>`
     :`<div class="title-display ${noteClass}" data-action="expand" data-id="${t.id}">${formatWithTimes(t.title)}</div>`;
+  const ninjaClass=t.ninjaOf?`ninja-${t.ninjaOf}`:'';
   return`
-<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${hasNote?'has-note-content':''}" data-id="${t.id}" data-status="${t.status}">
+<div class="task-card ${t.priority?'priority':''} ${ninjaClass} ${isExp?'expanded':''} ${hasNote?'has-note-content':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
     <span class="drag-handle">⠿</span>
     <div class="cb ${t.status==='done'?'done':''}" data-action="toggle" data-id="${t.id}"></div>
@@ -1544,6 +1551,7 @@ function cardHtml(t){
   ${atts.length?`<div class="card-attach-always">${attHtml}</div>`:''}
   <div class="attach-hint">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
   <div class="card-footer">
+    ${t.ninjaOf?`<span class="ninja-person-tag tag-${t.ninjaOf}">${t.ninjaOf==='sean'?'Sean':'Yahu'}</span>`:''}
     <button class="btn-prio ${t.priority?'on':''}" data-action="priority" data-id="${t.id}" title="${t.priority?'Usuń priorytet':'Oznacz jako ważne'}">${t.priority?'⭐':'☆'}</button>
     <button class="btn-dup" data-action="dup" data-id="${t.id}" title="Duplikuj">⎘</button>
 <button class="del-btn" data-action="del" data-id="${t.id}" title="Usuń">✕</button>
@@ -1589,7 +1597,7 @@ function renderNinja(){
         :`<span class="ninja-item-title ${done?'done-text':''}" data-ninja-id="${item.id}">${esc(item.title)}</span>`;
       return`<div class="ninja-item">
   <div class="ninja-cb ${done?'done':''}" data-action="ninja-toggle" data-ninja-id="${item.id}"></div>
-  <span class="ninja-item-date">${fmtDate(item.date)}</span>
+  <span class="ninja-item-date" data-action="ninja-edit-date" data-ninja-id="${item.id}" title="Kliknij, aby zmienić datę" style="cursor:pointer">${fmtDate(item.date)}</span>
   ${titleHtml}
   <button class="ninja-item-del" data-action="ninja-del" data-ninja-id="${item.id}">✕</button>
 </div>`;
@@ -1658,7 +1666,18 @@ function renderNinja(){
 
 function ninjaToggle(ninjaId){
   const item=(state.ninjaItems||[]).find(i=>i.id===ninjaId);if(!item)return;
-  item.done=!item.done;save();renderNinja();
+  item.done=!item.done;
+  if(item.done){
+    if(!state.tasks.some(t=>t.ninjaItemId===ninjaId)){
+      const wk=item.date?dateStrToWk(item.date):currentWeekKey;
+      const order=state.tasks.filter(t=>t.game==='Ogólne'&&t.weekKey===wk).length;
+      state.tasks.push({id:uid(),game:'Ogólne',title:item.title,date:item.date||null,note:item.note||'',status:'done',priority:false,weekKey:wk,order,attachments:[],subtasks:[],link:item.link||null,links:[],ninjaItemId:ninjaId,ninjaOf:item.person});
+    }
+  }else{
+    const existing=state.tasks.find(t=>t.ninjaItemId===ninjaId);
+    if(existing) state.tasks=state.tasks.filter(t=>t.id!==existing.id);
+  }
+  save();renderNinja();renderBoard();
 }
 function ninjaDel(ninjaId){
   state.ninjaItems=(state.ninjaItems||[]).filter(i=>i.id!==ninjaId);save();renderNinja();
@@ -3447,6 +3466,31 @@ function initListeners(){
     const action=btn.dataset.action,ninjaId=btn.dataset.ninjaId;
     if(action==='ninja-toggle'&&ninjaId) ninjaToggle(ninjaId);
     else if(action==='ninja-del'&&ninjaId) ninjaDel(ninjaId);
+    else if(action==='ninja-edit-date'&&ninjaId){
+      const item=(state.ninjaItems||[]).find(i=>i.id===ninjaId);if(!item)return;
+      const span=btn;
+      const inp=document.createElement('input');
+      inp.className='ninja-item-date-edit';
+      inp.type='text';inp.maxLength=10;inp.placeholder='DD/MM/RRRR';
+      inp.value=toDisplayDate(item.date);
+      inp.addEventListener('input',()=>formatDateInput(inp));
+      span.replaceWith(inp);
+      inp.focus();inp.select();
+      let committed=false;
+      const commit=()=>{
+        if(committed)return;committed=true;
+        const newDate=parseDisplayDate(inp.value.trim());
+        if(newDate&&newDate!==item.date){
+          item.date=newDate;
+          // sync board task if it exists
+          const bt=state.tasks.find(t=>t.ninjaItemId===ninjaId);
+          if(bt){bt.date=newDate;bt.weekKey=dateStrToWk(newDate);}
+          save();renderNinja();renderBoard();
+        }else{renderNinja();}
+      };
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();commit();}if(e.key==='Escape'){committed=true;renderNinja();}});
+      inp.addEventListener('blur',commit);
+    }
     else if(action==='ninja-clear'){
       const person=btn.dataset.person;
       const cfg=NINJA_PERSONS[person];
