@@ -901,7 +901,7 @@
       "game": "Ogólne",
       "title": "VIP Group for TG",
       "date": null,
-      "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n",
+      "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n\nstatus z wcześniejszej komunikacji:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0\n",
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
@@ -1230,7 +1230,7 @@
       "game": "Mafia Rivals",
       "title": "MR New Migration Event",
       "date": "2026-07-01",
-      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\nstatus z wcześniejszych:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0",
+      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\n",
       "status": "active",
       "priority": true,
       "weekKey": "2026-W23",
@@ -1880,9 +1880,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 33,
-    "updatedAt": "2026-06-01T06:31:33.662Z",
+    "version": 34,
+    "updatedAt": "2026-06-01T06:34:17.226Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-1iq8ga"
+    "sessionId": "tab-1bfjbb"
   }
 }
