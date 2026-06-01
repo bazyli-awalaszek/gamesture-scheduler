@@ -489,7 +489,7 @@
         {
           "id": "mpm8wv4xw5io",
           "title": "potwierdzenie wyboru teamowi",
-          "done": false
+          "done": true
         },
         {
           "id": "mpm8wxvbykg9",
@@ -1529,6 +1529,57 @@
       "links": [],
       "ninjaItemId": "mpurzrmm84a0",
       "ninjaOf": "yahu"
+    },
+    {
+      "id": "mpuy6dii6ufp",
+      "game": "The Gang",
+      "title": "Mini Passy (+- data startu)",
+      "date": "2026-06-11",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpuy6jrh10nd",
+          "title": "grafiki od szosi",
+          "done": false
+        },
+        {
+          "id": "mpuy6przdvgg",
+          "title": "info od @mcieplik bliżej 11.06",
+          "done": false
+        },
+        {
+          "id": "mpuy6x3m6bly",
+          "title": "czy chcemy robić newsa? (info od pio)",
+          "done": false
+        },
+        {
+          "id": "mpuzj9p3yz71",
+          "title": "inne nazewnictwo (ustalić od @pmakarewicz)",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpuz10aphwnt",
+      "game": "The Gang",
+      "title": "info - WoF shortened time",
+      "date": "2026-06-01",
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780300182206979",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -1635,6 +1686,11 @@
     }
   ],
   "notes": [
+    {
+      "id": "mpv37ss27gb1",
+      "text": "",
+      "color": "#1e0806"
+    },
     {
       "id": "mpm9igoirdrh",
       "text": "CHARACTER NAMES\n\n- Gang Nations Cup -\nG_S50_NC_GermanChampion\nGerman Champion: S50\n\n- General -\nG_S50_CharacterNickname\nCharacter Nickname\n\n- Special Events - \nG_S50_SPECIAL_EventName2026_CharacterNickname\nCharacter Nickname\n\n- Level Milestone Reward -\nG_LVL2K_GoldenQueen\nGolden Queen\n",
@@ -1887,8 +1943,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 41,
-    "updatedAt": "2026-06-01T06:38:38.924Z",
+    "version": 42,
+    "updatedAt": "2026-06-01T10:50:23.550Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-b9wxta"
   }
