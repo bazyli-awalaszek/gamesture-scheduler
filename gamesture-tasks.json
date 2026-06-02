@@ -1397,12 +1397,12 @@
         {
           "id": "mpurzrlz8izs",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpurzrlzmo4h",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpurzrlzj1c0",
@@ -1417,7 +1417,7 @@
         {
           "id": "mpurzrlzka6l",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpurzrlz9srz",
@@ -1572,12 +1572,18 @@
       "title": "info - WoF shortened time",
       "date": "2026-06-01",
       "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780300182206979",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W23",
       "order": 7,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpv5xqlxpz0k",
+          "title": "inG message",
+          "done": true
+        }
+      ],
       "link": null,
       "links": []
     },
@@ -1614,6 +1620,81 @@
       "links": [],
       "ninjaItemId": "mpuu6kzd9s58",
       "ninjaOf": "yahu"
+    },
+    {
+      "id": "mpv5xf3jx3r3",
+      "game": "Cooking Wars",
+      "title": "reschedule hit3 news",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 4,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpv6kyepxlry",
+      "game": "Ogólne",
+      "title": "check ticket 69252",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780312299038119",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 9,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpw9hpqzkbxo",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-02",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpw9hpqzjdcy",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpw9hpqz0d1p",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpw9hpqzwo9y",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpw9hpqzgqen",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpw9hpqziok4",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpw9hpqzacdn",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -1863,6 +1944,36 @@
       "note": "",
       "done": true,
       "seeded": true
+    },
+    {
+      "id": "mpw9hprxfk6u",
+      "person": "yahu",
+      "date": "2026-06-02",
+      "title": "TG,CW,MR Helpshift",
+      "link": null,
+      "note": "",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpw9hprxyysl",
+      "person": "yahu",
+      "date": "2026-06-02",
+      "title": "#gamesture-store-refunds",
+      "link": "https://gamesture.slack.com/archives/C07NHQ8C347",
+      "note": "copy new transaction IDs > mark with ✔ > paste at #gamesture-neon-refunds-chargeback2025116",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpw9hprxc7pc",
+      "person": "yahu",
+      "date": "2026-06-02",
+      "title": "emails check",
+      "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
+      "note": "",
+      "done": false,
+      "seeded": true
     }
   ],
   "emergency": [
@@ -1978,9 +2089,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 56,
-    "updatedAt": "2026-06-01T12:02:32.991Z",
+    "version": 57,
+    "updatedAt": "2026-06-02T06:33:50.119Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-b9wxta"
+    "sessionId": "tab-39vztz"
   }
 }
