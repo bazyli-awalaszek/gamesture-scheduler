@@ -444,7 +444,7 @@
       "status": "active",
       "priority": true,
       "date": null,
-      "note": "https://gamesture.slack.com/archives/C058037C5QQ/p1779776231957219",
+      "note": "https://gamesture.slack.com/archives/C058037C5QQ/p1779776231957219\n\nhttps://gamesture.helpshift.com/admin/issue/69040/",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -1694,7 +1694,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -2089,9 +2090,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 57,
-    "updatedAt": "2026-06-02T06:33:50.119Z",
+    "version": 58,
+    "updatedAt": "2026-06-02T09:17:45.546Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-39vztz"
+    "sessionId": "tab-e6q9ks"
   }
 }
