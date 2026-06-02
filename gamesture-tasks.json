@@ -163,7 +163,7 @@
       "date": null,
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
-      "priority": true,
+      "priority": false,
       "weekKey": "2026-W23",
       "order": 3,
       "attachments": [],
@@ -1724,6 +1724,47 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpwhwnz3q89q",
+      "game": "The Gang",
+      "title": "ticket 69269",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 8,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpwhxs2oud8q",
+      "game": "The Gang",
+      "title": "nowa postać do continentala",
+      "date": null,
+      "note": "germany_3",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 9,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpwhy1netofo",
+          "title": "dodać postać do grafiki do newsów",
+          "done": false
+        },
+        {
+          "id": "mpwhy4qvf8mu",
+          "title": "dodać nazwę dla postaci",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -1830,6 +1871,11 @@
     }
   ],
   "notes": [
+    {
+      "id": "mpwi62adiwqz",
+      "text": "",
+      "color": "#1e0806"
+    },
     {
       "id": "mpv37ss27gb1",
       "text": "TECHNICAL INFO & KNOWLEDGE\n\nTG available multipliers: https://the-gang.admin-gamesture.com/settings/game-settings?__game=Gang&c_fil%5BKey_like%5D=multi\n",
@@ -2118,8 +2164,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 60,
-    "updatedAt": "2026-06-02T10:03:11.548Z",
+    "version": 61,
+    "updatedAt": "2026-06-02T10:36:42.955Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e6q9ks"
   }
