@@ -165,7 +165,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 3,
+      "order": 2,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -201,7 +201,7 @@
       "id": "mp6rbq00xthr",
       "game": "Cooking Wars",
       "title": "New Epic: Coq au Vin",
-      "date": "2026-06-10",
+      "date": "2026-06-03",
       "note": "",
       "status": "active",
       "priority": false,
@@ -441,7 +441,7 @@
       "game": "The Gang",
       "title": "WGC Winners LOGO",
       "weekKey": "2026-W23",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "date": null,
       "note": "https://gamesture.slack.com/archives/C058037C5QQ/p1779776231957219\n\nhttps://gamesture.helpshift.com/admin/issue/69040/",
@@ -494,12 +494,12 @@
         {
           "id": "mpm8wxvbykg9",
           "title": "dodanie logo do gry",
-          "done": false
+          "done": true
         },
         {
           "id": "mpm8x43x2xr4",
           "title": "prośba o sprawdzenie zarke czy logo im działa",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -1219,7 +1219,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 12,
+      "order": 6,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1361,7 +1361,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 17,
+      "order": 7,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1539,7 +1539,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 6,
+      "order": 8,
       "attachments": [],
       "subtasks": [
         {
@@ -1730,11 +1730,11 @@
       "game": "The Gang",
       "title": "ticket 69269",
       "date": null,
-      "note": "",
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780389488597339",
       "status": "active",
       "priority": true,
       "weekKey": "2026-W23",
-      "order": 8,
+      "order": 4,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1749,7 +1749,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 9,
+      "order": 5,
       "attachments": [],
       "subtasks": [
         {
@@ -1765,6 +1765,96 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpwj31st90si",
+      "game": "Ogólne",
+      "title": "SUPPORT chat verification",
+      "date": null,
+      "note": "SUPPORT\n\n324918 Kranky\nwulgarny fchuj\n   2.06.2026 3D Chat ban\n\n1803314 CK❣️Owca\nprowokuje niepotrzebnie\n   2.06.2026 3D Chat ban\n\n728818 Mex\nwulgarny\n   2.06.2026 3D chat ban\n\n685965 ᴄᴢᴀʀɴᴜʟᴀ71\nprowokuje niepotrzebnie\n   2.06.2026 3D chat ban\n\n316287 DZIADZIOR\nwulgarny\n   2.06.2026 3D chat ban\n",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 12,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpwm3va0t9is",
+      "game": "Cooking Wars",
+      "title": "scheduling eventów",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 5,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpwm8srf8gi6",
+      "game": "The Gang",
+      "title": "ticket 69294",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780399662020579",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 3,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpxrlem23nd4",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-03",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mpxrlem26yzl",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mpxrlem2g8ol",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mpxrlem275nx",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mpxrlem2tiem",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mpxrlem2nj3u",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mpxrlem2oxzj",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -2044,6 +2134,36 @@
       "note": "",
       "done": false,
       "seeded": true
+    },
+    {
+      "id": "mpxrlen5sefp",
+      "person": "yahu",
+      "date": "2026-06-03",
+      "title": "TG,CW,MR Helpshift",
+      "link": null,
+      "note": "",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpxrlen5ii6c",
+      "person": "yahu",
+      "date": "2026-06-03",
+      "title": "#gamesture-store-refunds",
+      "link": "https://gamesture.slack.com/archives/C07NHQ8C347",
+      "note": "copy new transaction IDs > mark with ✔ > paste at #gamesture-neon-refunds-chargeback2025116",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mpxrlen5eino",
+      "person": "yahu",
+      "date": "2026-06-03",
+      "title": "emails check",
+      "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
+      "note": "",
+      "done": false,
+      "seeded": true
     }
   ],
   "emergency": [
@@ -2159,9 +2279,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 106,
-    "updatedAt": "2026-06-02T11:02:12.425Z",
+    "version": 107,
+    "updatedAt": "2026-06-03T07:48:21.663Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-e6q9ks"
+    "sessionId": "tab-c8t6y8"
   }
 }
