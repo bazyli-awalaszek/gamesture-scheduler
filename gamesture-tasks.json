@@ -203,7 +203,7 @@
       "title": "New Epic: Coq au Vin",
       "date": "2026-06-03",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W23",
       "order": 3,
@@ -304,18 +304,13 @@
       "game": "Ogólne",
       "title": "dopracowanie Task Managera",
       "weekKey": "2026-W23",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
       "order": 0,
       "attachments": [],
       "subtasks": [
-        {
-          "id": "mpl11ft79c8xha",
-          "title": "sekcja for emergencies (in case of sudden absence)",
-          "done": false
-        },
         {
           "id": "mpl11ft7xhliln",
           "title": "small tweaks",
@@ -354,7 +349,7 @@
       "priority": false,
       "date": null,
       "note": "",
-      "order": 0,
+      "order": 1,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -706,7 +701,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 8,
+      "order": 2,
       "attachments": [],
       "subtasks": [
         {
@@ -824,7 +819,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 9,
+      "order": 3,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -903,9 +898,9 @@
       "date": null,
       "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n\nstatus z wcześniejszej komunikacji:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0\n",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W23",
-      "order": 11,
+      "order": 5,
       "attachments": [
         {
           "id": "mpxynujf87pf",
@@ -945,12 +940,18 @@
           "id": "mpxyh9xl93r7",
           "title": "wiadomość  1. do u want to participate? (not asked)",
           "done": false,
-          "date": "2026-06-03"
+          "date": "2026-06-05"
         },
         {
           "id": "mpxyoc0axmal",
           "title": "do zastanowienia: co z graczami którzy już odpowiedzieli ale nie są w kandydatach teraz?",
-          "done": false,
+          "done": true,
+          "date": "2026-06-03"
+        },
+        {
+          "id": "mpxyvvymcd1q",
+          "title": "bg check on 10 candidates",
+          "done": true,
           "date": "2026-06-03"
         }
       ],
@@ -1384,7 +1385,7 @@
       "date": "2026-06-06",
       "note": "",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W23",
       "order": 7,
       "attachments": [],
@@ -1674,10 +1675,10 @@
       "title": "check ticket 69252",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780312299038119",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 9,
+      "order": 4,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1748,7 +1749,7 @@
       "title": "@pkozak info nt. ograniczeń claude",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W23",
       "order": 11,
@@ -1763,7 +1764,7 @@
       "title": "ticket 69269",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1780389488597339",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W23",
       "order": 4,
@@ -1772,12 +1773,12 @@
         {
           "id": "mpxxod1ztkoz",
           "title": "msg z info dla graczy poszkodowanych",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxxofszvkt0",
           "title": "dosłać im nagrody",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -1860,7 +1861,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-03",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W23",
       "order": 0,
@@ -1869,48 +1870,60 @@
         {
           "id": "mpxrlem26yzl",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxrlem2g8ol",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxrlem275nx",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxrlem2tiem",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxrlem2nj3u",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mpxrlem2oxzj",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     },
     {
       "id": "mpxxjv7cw430",
       "game": "Ogólne",
-      "title": "support messages - cyzelowanie",
+      "title": "support messages remake",
       "date": null,
-      "note": "",
+      "note": "https://docs.google.com/document/d/1Lj8CtprlOA3sXcU7hqzlgRVbs38_RN4N4orLOBh1pZ8/edit?tab=t.0",
       "status": "active",
       "priority": false,
       "weekKey": "2026-W23",
-      "order": 14,
+      "order": 7,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mpxyzump037p",
+          "title": "wiad na ninja",
+          "done": true
+        },
+        {
+          "id": "mpxyzz29zrz6",
+          "title": "brainstorm z chłopakami",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
@@ -1928,6 +1941,156 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mpxz3nxetpe2",
+      "game": "The Gang",
+      "title": "poprawić stringi kart z autotranslate",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 12,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy008qu5808",
+      "game": "Cooking Wars",
+      "title": "check ticket 69338",
+      "date": null,
+      "note": "https://gamesture.helpshift.com/admin/issue/69338/\n\nhttps://gamesture.slack.com/archives/C09JPLL82FR/p1780487007477279",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy1sx3vx01z",
+      "game": "Ogólne",
+      "title": "setup auto reply for holidays",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 15,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy1zjgd699p",
+      "game": "Ogólne",
+      "title": "WYŁĄCZYĆ Holiday OFF auto reply na helpshift",
+      "date": "2026-06-05",
+      "note": "",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy2dn7n75ea",
+      "game": "Cooking Wars",
+      "title": "scheduling till 8.06",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy2pn0gyqfi",
+      "game": "The Gang",
+      "title": "newsy dot. nowości w gangu od Mcieplik",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 13,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mpy2xmdac7gb",
+      "game": "Cooking Wars",
+      "title": "ticket 69342",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C09JPLL82FR/p1780491820256999",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W23",
+      "order": 8,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq0r7e6ekpdr",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-05",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W23",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mq0r7e6e5k99",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mq0r7e6ehix4",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mq0r7e6en0h0",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mq0r7e6emvh6",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mq0r7e6e6a7a",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mq0r7e6ervvx",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -2237,6 +2400,36 @@
       "note": "",
       "done": false,
       "seeded": true
+    },
+    {
+      "id": "mq0r7e86mv2u",
+      "person": "yahu",
+      "date": "2026-06-05",
+      "title": "TG,CW,MR Helpshift",
+      "link": null,
+      "note": "",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mq0r7e86bhg9",
+      "person": "yahu",
+      "date": "2026-06-05",
+      "title": "#gamesture-store-refunds",
+      "link": "https://gamesture.slack.com/archives/C07NHQ8C347",
+      "note": "copy new transaction IDs > mark with ✔ > paste at #gamesture-neon-refunds-chargeback2025116",
+      "done": false,
+      "seeded": true
+    },
+    {
+      "id": "mq0r7e86e4gu",
+      "person": "yahu",
+      "date": "2026-06-05",
+      "title": "emails check",
+      "link": "https://gamesture.slack.com/archives/D03ELDMU7S6/p1756116908640109?thread_ts=1756114429.567589&cid=D03ELDMU7S6",
+      "note": "",
+      "done": false,
+      "seeded": true
     }
   ],
   "emergency": [
@@ -2352,9 +2545,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 110,
-    "updatedAt": "2026-06-03T11:08:15.166Z",
+    "version": 111,
+    "updatedAt": "2026-06-05T10:00:46.851Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-c8t6y8"
+    "sessionId": "tab-v3ko3t"
   }
 }
