@@ -117,7 +117,7 @@
       "date": null,
       "note": "",
       "status": "active",
-      "priority": true,
+      "priority": false,
       "weekKey": "2026-W24",
       "order": 2,
       "attachments": [],
@@ -136,6 +136,11 @@
           "id": "mpmduq7wy9tt",
           "title": "ujednolicić key name",
           "done": false
+        },
+        {
+          "id": "mq6a9nsx6kn3",
+          "title": "nazwy dla postaci z S51",
+          "done": true
         }
       ],
       "link": null,
@@ -698,7 +703,7 @@
       "title": "info od patryka nt tasków od nas",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 2,
@@ -712,12 +717,12 @@
         {
           "id": "mputqb39qtek",
           "title": "poprosić paryka o linki",
-          "done": false
+          "done": true
         },
         {
           "id": "mpmdtt095ucj",
           "title": "jak podlinkuje - przesłać yahu",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -919,7 +924,7 @@
         {
           "id": "mpp98r3cnk95",
           "title": "plan działania - do opracowania na #vip-support",
-          "done": false
+          "done": true
         },
         {
           "id": "mpp99i4px371",
@@ -928,8 +933,8 @@
         },
         {
           "id": "mpp995m7y4i1",
-          "title": "czekamy na doprecyzowanie @pmakarewicz",
-          "done": false
+          "title": "czekamy na doprecyzowanie @pmakarewicz //się nie doczekaliśmy, lecimy dalej",
+          "done": true
         },
         {
           "id": "mpp9x0vzm30o",
@@ -1811,7 +1816,7 @@
       "title": "nowa postać do continentala",
       "date": null,
       "note": "germany_3",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 5,
@@ -1820,12 +1825,12 @@
         {
           "id": "mpwhy1netofo",
           "title": "dodać postać do grafiki do newsów",
-          "done": false
+          "done": true
         },
         {
           "id": "mpwhy4qvf8mu",
           "title": "dodać nazwę dla postaci",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -1841,21 +1846,6 @@
       "priority": false,
       "weekKey": "2026-W23",
       "order": 12,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
-      "id": "mpwm3va0t9is",
-      "game": "Cooking Wars",
-      "title": "scheduling eventów",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W24",
-      "order": 5,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1984,7 +1974,7 @@
       "title": "check ticket 69338",
       "date": null,
       "note": "https://gamesture.helpshift.com/admin/issue/69338/\n\nhttps://gamesture.slack.com/archives/C09JPLL82FR/p1780487007477279",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 6,
@@ -2070,7 +2060,7 @@
       "title": "ticket 69342",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C09JPLL82FR/p1780491820256999",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 8,
@@ -2131,7 +2121,7 @@
       "title": "NEW SEASON: SCHEDULING",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2202,7 +2192,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-08",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 6,
@@ -2211,32 +2201,32 @@
         {
           "id": "mq4v964zaolg",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq4v964zbick",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq4v964zr37z",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mq4v964zdy9m",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq4v964z07cx",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq4v964z0qdn",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2263,7 +2253,7 @@
       "title": "odp. dla zarke odn. ofert",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C037NQHHQBB/p1780908174740699",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 6,
@@ -2316,6 +2306,51 @@
         }
       ],
       "link": null
+    },
+    {
+      "id": "mq6dop6b18sz",
+      "game": "The Gang",
+      "title": "mundial event news scheduling",
+      "date": "2026-06-12",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 11,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq6lhqewlsui",
+      "game": "Cooking Wars",
+      "title": "lucky lottery sm",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq6li69zdypu",
+      "game": "Cooking Wars",
+      "title": "poprosić arka o uzupełnienie info o nagrodach",
+      "date": null,
+      "note": "",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -2422,6 +2457,11 @@
     }
   ],
   "notes": [
+    {
+      "id": "mq6lj399gult",
+      "text": "",
+      "color": "#1e0806"
+    },
     {
       "id": "mpv37ss27gb1",
       "text": "TECHNICAL INFO & KNOWLEDGE\n\nTG available multipliers: https://the-gang.admin-gamesture.com/settings/game-settings?__game=Gang&c_fil%5BKey_like%5D=multi\n",
@@ -2770,8 +2810,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 113,
-    "updatedAt": "2026-06-09T06:48:30.855Z",
+    "version": 114,
+    "updatedAt": "2026-06-09T12:08:31.344Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-5uuav3"
   }
