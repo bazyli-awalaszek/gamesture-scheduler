@@ -117,9 +117,9 @@
       "date": null,
       "note": "",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 0,
+      "order": 2,
       "attachments": [],
       "subtasks": [
         {
@@ -148,9 +148,9 @@
       "date": null,
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 1,
+      "order": 3,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -163,9 +163,9 @@
       "date": null,
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 2,
+      "order": 4,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -898,9 +898,9 @@
       "date": null,
       "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n\nstatus z wcześniejszej komunikacji:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0\n",
       "status": "active",
-      "priority": true,
+      "priority": false,
       "weekKey": "2026-W24",
-      "order": 5,
+      "order": 4,
       "attachments": [
         {
           "id": "mpxynujf87pf",
@@ -939,7 +939,7 @@
         {
           "id": "mpxyh9xl93r7",
           "title": "wiadomość  1. do u want to participate? (not asked)",
-          "done": false,
+          "done": true,
           "date": "2026-06-05"
         },
         {
@@ -1245,7 +1245,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W24",
-      "order": 6,
+      "order": 7,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -1581,12 +1581,12 @@
       "id": "mpuy6dii6ufp",
       "game": "The Gang",
       "title": "Mini Passy (+- data startu)",
-      "date": "2026-06-18",
+      "date": null,
       "note": "Gamesture Dropbox\\Folder zespołu Gamesture\\theGANG\\GUI\\Weekly Pass\\",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 8,
+      "order": 1,
       "attachments": [
         {
           "id": "mpxrlwssg329",
@@ -1812,7 +1812,7 @@
       "date": null,
       "note": "germany_3",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
       "order": 5,
       "attachments": [],
@@ -1931,7 +1931,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W24",
-      "order": 7,
+      "order": 5,
       "attachments": [],
       "subtasks": [
         {
@@ -1972,7 +1972,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W24",
-      "order": 12,
+      "order": 8,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -2044,10 +2044,10 @@
       "title": "newsy dot. nowości w gangu od Mcieplik",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
-      "order": 13,
+      "order": 1,
       "attachments": [],
       "subtasks": [
         {
@@ -2058,7 +2058,7 @@
         {
           "id": "mq0r917vd4ee",
           "title": "inG sm Store Seasonal Milestones //czekam na info od mkorek",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2085,7 +2085,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-05",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2099,27 +2099,27 @@
         {
           "id": "mq0r7e6ehix4",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq0r7e6en0h0",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mq0r7e6emvh6",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq0r7e6e6a7a",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq0r7e6ervvx",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2132,9 +2132,9 @@
       "date": null,
       "note": "",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 7,
+      "order": 0,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -2146,7 +2146,7 @@
       "title": "QL tickety kompensacje",
       "date": null,
       "note": "10 k gemów\n\nWe're sorry for the inconvenience! The Wheel was showing and rewarding an item that will be used for the future event.\n\nThis has now been corrected — the current item is available on the Wheel.\n\nAny items you collected during this time will be usable in a future event, so they won't go to waste.\n\nAs an apology for the confusion, we're sending you a small compensation. Thank you for your patience!",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 14,
@@ -2172,10 +2172,10 @@
       "title": "SM \nbr express 15:00",
       "date": "2026-06-05",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
-      "order": 7,
+      "order": 9,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -2187,10 +2187,10 @@
       "title": "SUPPORT: brakujące starterpacki",
       "date": null,
       "note": "dosłać graczom:\n\n538254 - 2x legendary pack.\n563150 - 2x legendary pack\n772953 - 2x legendary pack\n2139876 - 2x legendary pack\n574069 - 4x legendary pack i 3x diamond pack",
-      "status": "active",
+      "status": "done",
       "priority": false,
-      "weekKey": "2026-W24",
-      "order": 8,
+      "weekKey": "2026-W23",
+      "order": 7,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -2203,9 +2203,9 @@
       "date": "2026-06-08",
       "note": "",
       "status": "active",
-      "priority": false,
+      "priority": true,
       "weekKey": "2026-W24",
-      "order": 0,
+      "order": 6,
       "attachments": [],
       "subtasks": [
         {
@@ -2235,6 +2235,82 @@
         },
         {
           "id": "mq4v964z0qdn",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq4xrg79pjqa",
+      "game": "Ogólne",
+      "title": "QL global compensations",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/CB50NJU8L/p1780646072283439",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W24",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq4yrpw5f67g",
+      "game": "The Gang",
+      "title": "odp. dla zarke odn. ofert",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C037NQHHQBB/p1780908174740699",
+      "status": "active",
+      "priority": true,
+      "weekKey": "2026-W24",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq6a3k0gwu77",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-09",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mq6a3k0g70qd",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mq6a3k0glwe7",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mq6a3k0grkag",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mq6a3k0gse40",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mq6a3k0go7pl",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mq6a3k0gwsct",
           "title": "Store Reviews",
           "done": false
         }
@@ -2694,9 +2770,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 112,
-    "updatedAt": "2026-06-08T07:05:12.642Z",
+    "version": 113,
+    "updatedAt": "2026-06-09T06:48:30.855Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-cwu1yp"
+    "sessionId": "tab-5uuav3"
   }
 }
