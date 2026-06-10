@@ -1587,7 +1587,7 @@
       "game": "The Gang",
       "title": "Mini Passy (+- data startu)",
       "date": null,
-      "note": "Gamesture Dropbox\\Folder zespołu Gamesture\\theGANG\\GUI\\Weekly Pass\\",
+      "note": "Gamesture Dropbox\\Folder zespołu Gamesture\\theGANG\\GUI\\Weekly Pass\\\n\nPayback Rush",
       "status": "active",
       "priority": true,
       "weekKey": "2026-W24",
@@ -2305,7 +2305,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     },
     {
       "id": "mq6dop6b18sz",
@@ -2351,6 +2352,51 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mq7rjm0hy4a2",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-10",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mq7rjm0heg15",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mq7rjm0h5m2h",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mq7rjm0h0dyq",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mq7rjm0h8ec2",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mq7rjm0hsvgo",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mq7rjm0htsxw",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -2811,9 +2857,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 121,
-    "updatedAt": "2026-06-09T12:09:00.214Z",
+    "version": 122,
+    "updatedAt": "2026-06-10T07:44:39.580Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-5uuav3"
+    "sessionId": "tab-cfv9eu"
   }
 }
