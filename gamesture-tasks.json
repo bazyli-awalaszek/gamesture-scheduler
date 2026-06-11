@@ -902,7 +902,7 @@
       "title": "VIP Group for TG",
       "date": null,
       "note": "- lista kandydatów gotowa\n- pipeline kolejnych kroków\n- content na min. 2 tyg.\n\nobecna propozycja:\n- przygotować wiadomości żeby były ready to send\n- wiadomości: \n   1. do u want to participate? (not asked)\n   2. join us here! (asked before)\n- wysłanie wiadomości do not asked before, czy wgl chcą być involved - tydzień na odp.\n- przygotowanie contentu na min. 2 tyg, żeby gracze weszli już na grupę jak coś zacznie się dziać + ustalenie schedulingu na przyszłość\n- wysłanie wiadomości do chętnych (join us here!) - tydzień na dołączenie\n- powitanie na grupie\n- pierwsze posty i eventy\n\nstatus z wcześniejszej komunikacji:\nhttps://docs.google.com/spreadsheets/d/1XSrnfm4nI5AKfPocSz3rqrXdz7uW37EUpC8UAz2rGmE/edit?gid=0#gid=0\n",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 4,
@@ -935,11 +935,6 @@
           "id": "mpp995m7y4i1",
           "title": "czekamy na doprecyzowanie @pmakarewicz //się nie doczekaliśmy, lecimy dalej",
           "done": true
-        },
-        {
-          "id": "mpp9x0vzm30o",
-          "title": "dowiedzieć się, czy będziemy mieć możliwość cutomowych ofert dla VIPów (może temat na weekly)",
-          "done": false
         },
         {
           "id": "mpxyh9xl93r7",
@@ -1261,13 +1256,34 @@
       "game": "Mafia Rivals",
       "title": "MR New Migration Event",
       "date": "2026-07-08",
-      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\n",
+      "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\nwątek: https://gamesture.slack.com/archives/C08D7JEDJFJ/p1781079224995259\n",
       "status": "active",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 7,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mq7slkt64tz6",
+          "title": "dowiedzieć się co dajemy dla TG",
+          "done": false
+        },
+        {
+          "id": "mq7slx5qohoq",
+          "title": "dać info seanowi",
+          "done": true
+        },
+        {
+          "id": "mq7smzyfga8e",
+          "title": "przygotować wiad dla graczy z TG",
+          "done": false
+        },
+        {
+          "id": "mq7smn8y5w3w",
+          "title": "8-12.06 - wysłać starterpacki graczom z TG",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     },
@@ -1614,12 +1630,12 @@
         {
           "id": "mpuy6x3m6bly",
           "title": "czy chcemy robić newsa? (info od pio)",
-          "done": false
+          "done": true
         },
         {
           "id": "mpuzj9p3yz71",
           "title": "inne nazewnictwo (ustalić od @pmakarewicz)",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2238,7 +2254,7 @@
       "title": "QL global compensations",
       "date": null,
       "note": "https://gamesture.slack.com/archives/CB50NJU8L/p1780646072283439",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2268,7 +2284,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-09",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2277,32 +2293,32 @@
         {
           "id": "mq6a3k0g70qd",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq6a3k0glwe7",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq6a3k0grkag",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mq6a3k0gse40",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq6a3k0go7pl",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq6a3k0gwsct",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2368,7 +2384,7 @@
         {
           "id": "mq7rjm0heg15",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq7rjm0h5m2h",
@@ -2392,6 +2408,80 @@
         },
         {
           "id": "mq7rjm0htsxw",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq7uyorlw9dj",
+      "game": "Ogólne",
+      "title": "VIP group for TG - c.d.",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 10,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mq7uz007svra",
+          "title": "przypominajki dla graczy",
+          "done": false,
+          "date": "2026-06-10"
+        },
+        {
+          "id": "mq7uzz0e9b9c",
+          "title": "wiadomości do kolejnych 10 graczy",
+          "done": false,
+          "date": "2026-06-15"
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq9518wh2c1z",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-11",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mq9518whbc7k",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mq9518whdo18",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mq9518whxj7e",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mq9518wh9w4z",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mq9518whwmvg",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mq9518wht2ao",
           "title": "Store Reviews",
           "done": false
         }
@@ -2857,9 +2947,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 122,
-    "updatedAt": "2026-06-10T07:44:39.580Z",
+    "version": 123,
+    "updatedAt": "2026-06-11T06:50:03.647Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-cfv9eu"
+    "sessionId": "tab-hd6wat"
   }
 }
