@@ -118,7 +118,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 2,
       "attachments": [],
       "subtasks": [
@@ -154,7 +154,7 @@
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -169,7 +169,7 @@
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -349,7 +349,7 @@
       "id": "mpl11ft71paxn2",
       "game": "Ogólne",
       "title": "GamePulse AI config tab - check out",
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "status": "active",
       "priority": false,
       "date": null,
@@ -1244,7 +1244,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 7,
       "attachments": [],
       "subtasks": [],
@@ -1620,7 +1620,7 @@
         {
           "id": "mpuy6jrh10nd",
           "title": "grafiki od szosi",
-          "done": false
+          "done": true
         },
         {
           "id": "mpuy6przdvgg",
@@ -1936,7 +1936,7 @@
       "note": "https://docs.google.com/document/d/1Lj8CtprlOA3sXcU7hqzlgRVbs38_RN4N4orLOBh1pZ8/edit?tab=t.0",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 5,
       "attachments": [],
       "subtasks": [
@@ -1977,7 +1977,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 8,
       "attachments": [],
       "subtasks": [],
@@ -2375,7 +2375,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-10",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2389,27 +2389,27 @@
         {
           "id": "mq7rjm0h5m2h",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq7rjm0h0dyq",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mq7rjm0h8ec2",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq7rjm0hsvgo",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mq7rjm0htsxw",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2423,14 +2423,14 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 10,
       "attachments": [],
       "subtasks": [
         {
           "id": "mq7uz007svra",
           "title": "przypominajki dla graczy",
-          "done": false,
+          "done": true,
           "date": "2026-06-10"
         },
         {
@@ -2482,6 +2482,67 @@
         },
         {
           "id": "mq9518wht2ao",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mq99q8b2qise",
+      "game": "The Gang",
+      "title": "odp dla zarke i pascala",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C037NQHHQBB/p1780908174740699",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mqanm4cvp8eg",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-12",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mqanm4cvvqhd",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mqanm4cv6l4s",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mqanm4cvmdza",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mqanm4cv8e4j",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mqanm4cv4dq2",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mqanm4cveoh1",
           "title": "Store Reviews",
           "done": false
         }
@@ -2947,9 +3008,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 123,
-    "updatedAt": "2026-06-11T06:50:03.647Z",
+    "version": 124,
+    "updatedAt": "2026-06-12T08:17:56.781Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-hd6wat"
+    "sessionId": "tab-nabrrx"
   }
 }
