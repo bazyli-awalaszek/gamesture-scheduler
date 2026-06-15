@@ -72,7 +72,7 @@
       "note": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 0,
       "attachments": [],
       "subtasks": [],
@@ -184,7 +184,7 @@
       "note": "- mini passy 7/14d, które są trochę takimi evento/ofertami\n- Gstore dla CW",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 1,
       "attachments": [],
       "subtasks": [
@@ -782,7 +782,7 @@
       "note": "czekam aż będzie można na tyle do przodu schedulować",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -797,7 +797,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 5,
       "attachments": [],
       "subtasks": [
@@ -823,7 +823,7 @@
       "note": "https://gamesture.slack.com/archives/C04TBKRSY4T/p1779789968067309",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -1259,7 +1259,7 @@
       "note": "https://docs.google.com/forms/d/1-pNA3jpdtapDsR84BxVHCx2Kn0m6KuU3JyX1Q6mSJpk/edit#responses\n\nwątek: https://gamesture.slack.com/archives/C08D7JEDJFJ/p1781079224995259\n",
       "status": "active",
       "priority": true,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 7,
       "attachments": [],
       "subtasks": [
@@ -1443,7 +1443,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W24",
+      "weekKey": "2026-W25",
       "order": 13,
       "attachments": [],
       "subtasks": [],
@@ -1604,7 +1604,7 @@
       "title": "Mini Passy (+- data startu)",
       "date": null,
       "note": "Gamesture Dropbox\\Folder zespołu Gamesture\\theGANG\\GUI\\Weekly Pass\\\n\nPayback Rush",
-      "status": "active",
+      "status": "done",
       "priority": true,
       "weekKey": "2026-W24",
       "order": 1,
@@ -1625,7 +1625,7 @@
         {
           "id": "mpuy6przdvgg",
           "title": "info od @mcieplik bliżej 11.06",
-          "done": false
+          "done": true
         },
         {
           "id": "mpuy6x3m6bly",
@@ -2330,7 +2330,7 @@
       "title": "mundial event news scheduling",
       "date": "2026-06-12",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 11,
@@ -2510,7 +2510,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-12",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W24",
       "order": 0,
@@ -2519,22 +2519,22 @@
         {
           "id": "mqanm4cvvqhd",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqanm4cv6l4s",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqanm4cvmdza",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mqanm4cv8e4j",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqanm4cv4dq2",
@@ -2549,6 +2549,81 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mqavdc6ewhxb",
+      "game": "The Gang",
+      "title": "odp graczowi na dc",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1781265279213229",
+      "status": "done",
+      "priority": false,
+      "weekKey": "2026-W24",
+      "order": 8,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mqax38yizgej",
+      "game": "Cooking Wars",
+      "title": "co z nowymi restauracjami?",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W25",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mqexmakhuyj6",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-15",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W25",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mqexmakig5yn",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mqexmakitwsh",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mqexmakijugm",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mqexmakib1am",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mqexmakil1zt",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mqexmakiqkbs",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -3009,9 +3084,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 125,
-    "updatedAt": "2026-06-12T11:54:49.855Z",
+    "version": 126,
+    "updatedAt": "2026-06-15T08:09:06.635Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-4310lj"
+    "sessionId": "tab-hs898i"
   }
 }
