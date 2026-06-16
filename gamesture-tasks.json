@@ -2819,7 +2819,7 @@
   "notes": [
     {
       "id": "mqgbnj0whz6k",
-      "text": "REPLIES\n\nWhen \nHi, some events have fixed dates, but right now we also have many events who are designed to be scheduled in a more flexible way, and Card Heist is one of them. We don't have any heads-up info to share regarding those, because very often, due to the dynamic character to the game, the mini events like hit3, exchanges, Card Heist, etc. are being rearranged even last-minute and we're not 100% sure when they'll start",
+      "text": "REPLIES\n\nWhen will the\nHi, some events have fixed dates, but right now we also have many events who are designed to be scheduled in a more flexible way, and Card Heist is one of them. We don't have any heads-up info to share regarding those, because very often, due to the dynamic character to the game, the mini events like hit3, exchanges, Card Heist, etc. are being rearranged even last-minute and we're not 100% sure when they'll start",
       "color": "#1e0806"
     },
     {
@@ -3176,8 +3176,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 133,
-    "updatedAt": "2026-06-16T07:29:59.212Z",
+    "version": 134,
+    "updatedAt": "2026-06-16T07:30:02.762Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-78d6tv"
   }
