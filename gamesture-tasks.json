@@ -168,7 +168,7 @@
       "date": null,
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
-      "priority": true,
+      "priority": false,
       "weekKey": "2026-W25",
       "order": 4,
       "attachments": [],
@@ -2448,6 +2448,11 @@
           "id": "mqga3qe01b35",
           "title": "co jakiś czas post z pytaniem o recurring bugs",
           "done": false
+        },
+        {
+          "id": "mqgl0b1kvys0",
+          "title": "check what sean prepared",
+          "done": false
         }
       ],
       "link": null,
@@ -2662,6 +2667,11 @@
           "id": "mqf8gvxlqpbl",
           "title": "przygotować automessage na 1000lvl",
           "done": false
+        },
+        {
+          "id": "mqgflg0uz0un",
+          "title": "gracz zgłasza że nie działa mu ramka - dopytać",
+          "done": false
         }
       ],
       "link": null,
@@ -2687,17 +2697,17 @@
         {
           "id": "mqga30yz6e0o",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqga30yz1x2j",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mqga30yzm7bn",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqga30yza5oq",
@@ -2706,6 +2716,52 @@
         },
         {
           "id": "mqga30yzi2ir",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null,
+      "links": []
+    },
+    {
+      "id": "mqhzerc76zjv",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-17",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W25",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mqhzerc7ds8g",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mqhzerc7resi",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mqhzerc7ixvp",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mqhzerc7tp9g",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mqhzerc7qbvr",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mqhzerc7nt6n",
           "title": "Store Reviews",
           "done": false
         }
@@ -3176,9 +3232,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 135,
-    "updatedAt": "2026-06-16T07:30:06.691Z",
+    "version": 136,
+    "updatedAt": "2026-06-17T11:22:32.274Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-78d6tv"
+    "sessionId": "tab-c1ern7"
   }
 }
