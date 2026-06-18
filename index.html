@@ -2870,7 +2870,7 @@ setInterval(updateSyncStatus,30000);
 
 async function forceRefreshFromGitHub(){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo)return;
-  if(ghSaveTimer)return;
+  clearTimeout(ghSaveTimer);ghSaveTimer=null;
   _lastAutoPull=0;
   const btn=document.getElementById('btnForceRefresh');
   if(btn){btn.disabled=true;btn.classList.add('spinning');}
