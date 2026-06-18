@@ -235,9 +235,10 @@ table.rtable td{height:40px;padding:0 12px;font-size:14px;border-bottom:1px soli
 table.rtable tr:last-child td{border-bottom:none;}
 table.rtable tr:nth-child(odd){background:#141409;}
 table.rtable tr:nth-child(even){background:#1a1a10;}
-table.rtable td.rt-flag{width:54px;font-size:22px;line-height:1;text-align:center;padding:0 4px 0 8px;}
-table.rtable td.rt-player{font-family:'Oswald',sans-serif;font-weight:600;color:#ffffff;text-overflow:ellipsis;white-space:nowrap;}
-table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;color:#ffde00;text-align:right;white-space:nowrap;width:110px;}
+table.rtable td.rt-flag{width:54px;text-align:center;padding:0 4px 0 8px;vertical-align:middle;}
+table.rtable td.rt-flag img{display:block;margin:0 auto;height:20px;width:auto;}
+table.rtable td.rt-player{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#ffffff;text-overflow:ellipsis;white-space:nowrap;}
+table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#ffde00;text-align:right;white-space:nowrap;width:120px;}
 .rtable-empty{color:var(--muted);font-size:11px;padding:14px 16px;font-style:italic;}
 /* Screenshot overlay */
 #rankingScreenshot{position:fixed;inset:0;background:#0d0e15;display:none;z-index:200000;align-items:center;justify-content:center;padding:48px 40px;}
@@ -3064,7 +3065,7 @@ async function saveWithIntent(intent){
 // ── RANKING TABLE ────────────────────────────────────
 function _codeToFlag(code){
   if(!code||code.length!==2)return '';
-  return Array.from(code.toUpperCase()).map(c=>String.fromCodePoint(0x1F1E6+c.charCodeAt(0)-65)).join('');
+  return`<img src="https://flagcdn.com/w40/${code.toLowerCase()}.png" alt="${esc(code.toUpperCase())}" title="${esc(code.toUpperCase())}">`;
 }
 function buildRankingTable(raw,title){
   const lines=raw.trim().split(/\r?\n/).filter(l=>l.trim());
