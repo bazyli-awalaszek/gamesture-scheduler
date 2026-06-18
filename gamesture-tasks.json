@@ -2729,7 +2729,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-17",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W25",
       "order": 0,
@@ -2738,32 +2738,32 @@
         {
           "id": "mqhzerc7ds8g",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqhzerc7resi",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqhzerc7ixvp",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mqhzerc7tp9g",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqhzerc7qbvr",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mqhzerc7nt6n",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -2812,7 +2812,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -3278,9 +3279,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)\nset inG news to 8 season hour!\nhttps://casino.admin-gamesture.com/tools/template-global-messages/details/8?__game=CookingWars\n\nWe have only ONE region, except for fights:\nTylko w walkach się bawimy w strefy.\nJak walczy EU z EU - to dostają 19-20 naszego czasu.\nJak walczy US z US - to 19-20 ich czasu.\nJak EU vs US - coś po środku.\n\nSeason Day =  Calendar Day\nSeason day starts at 7:00 UTC. Czyli w USA też się potem im przesuwa +-1h zależnie od czasu letniego/zimowego. Ale to tylko czas na start eventów itd. Bez różnicy większej.\n\n"
   },
   "_meta": {
-    "version": 137,
-    "updatedAt": "2026-06-18T08:14:24.682Z",
+    "version": 138,
+    "updatedAt": "2026-06-18T09:03:20.942Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-n9av8i"
+    "sessionId": "tab-n71zah"
   }
 }
