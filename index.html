@@ -2695,7 +2695,7 @@ async function loadFromGitHub(){
     setGhDot('syncing');
     const headers={'Accept':'application/vnd.github.v3+json'};
     if(ghConfig.token) headers['Authorization']=`token ${ghConfig.token}`;
-    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{headers,cache:'no-store'});
+    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}?t=${Date.now()}`,{headers,cache:'no-store'});
     if(res.status===404){
       // Check if it's 404 for file or for repo
       const repoRes=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}`,{headers});
@@ -2831,7 +2831,7 @@ async function autoPullFromGitHub(){
   _lastAutoPull=now;
   try{
     const headers={'Accept':'application/vnd.github.v3+json','Authorization':`token ${ghConfig.token}`};
-    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{headers,cache:'no-store'});
+    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}?t=${Date.now()}`,{headers,cache:'no-store'});
     if(!res.ok) return;
     const data=await res.json();
     if(data.sha===ghSha) return; // no remote changes
@@ -3018,7 +3018,7 @@ async function saveWithIntent(intent){
     let remoteSha,remoteData;
     try{
       const headers={'Accept':'application/vnd.github.v3+json','Authorization':`token ${ghConfig.token}`};
-      const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}`,{headers,cache:'no-store'});
+      const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}?t=${Date.now()}`,{headers,cache:'no-store'});
       if(!res.ok){
         if(res.status===401||res.status===403){setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;}
         throw new Error(`GET ${res.status}`);
