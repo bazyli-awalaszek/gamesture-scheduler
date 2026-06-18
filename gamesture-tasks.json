@@ -1446,7 +1446,7 @@
       "title": "uzupełnić knowledge dla CW",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W25",
       "order": 13,
@@ -2770,7 +2770,7 @@
       "links": []
     },
     {
-      "id": "mqj51i28q00u",
+      "id": "mqj84opi64qr",
       "game": "Ogólne",
       "title": "DAILY BREAD",
       "date": "2026-06-18",
@@ -2782,32 +2782,32 @@
       "attachments": [],
       "subtasks": [
         {
-          "id": "mqj51i28ase0",
+          "id": "mqj84opidp9w",
           "title": "Morning Support Check",
           "done": false
         },
         {
-          "id": "mqj51i28u9c5",
+          "id": "mqj84opi5xh5",
           "title": "TG refunds check",
           "done": false
         },
         {
-          "id": "mqj51i289s1l",
+          "id": "mqj84opiuepo",
           "title": "FB posts Accept",
           "done": false
         },
         {
-          "id": "mqj51i28ebvf",
+          "id": "mqj84opi1lqo",
           "title": "FB/DC dms check",
           "done": false
         },
         {
-          "id": "mqj51i28x9n0",
+          "id": "mqj84opie3tn",
           "title": "12:00 Support Check",
           "done": false
         },
         {
-          "id": "mqj51i286ybt",
+          "id": "mqj84opiv2xp",
           "title": "Store Reviews",
           "done": false
         }
@@ -3279,8 +3279,8 @@
   },
   "_meta": {
     "version": 137,
-    "updatedAt": "2026-06-18T06:47:57.622Z",
+    "updatedAt": "2026-06-18T08:14:24.682Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-4qato7"
+    "sessionId": "tab-n9av8i"
   }
 }
