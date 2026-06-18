@@ -182,7 +182,7 @@
       "title": "New Epic: Coq au Vin",
       "date": "2026-06-10",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W25",
       "order": 3,
@@ -820,8 +820,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 2,
-    "updatedAt": "2026-06-18T09:13:01.060Z",
+    "version": 3,
+    "updatedAt": "2026-06-18T09:13:10.884Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-9ccn2r"
   }
