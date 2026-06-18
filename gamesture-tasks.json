@@ -571,7 +571,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -819,9 +820,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 1,
-    "updatedAt": "2026-06-18T09:12:47.733Z",
+    "version": 2,
+    "updatedAt": "2026-06-18T09:13:01.060Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-8wyyok"
+    "sessionId": "tab-9ccn2r"
   }
 }
