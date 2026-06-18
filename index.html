@@ -2813,8 +2813,10 @@ function showSyncedToast(){
   _syncedToastTimer=setTimeout(()=>{el.style.display='none';},3000);
 }
 
+let _initPhase=true;
 function scheduleGhSave(immediate=false){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
+  if(_initPhase) return;
   clearTimeout(ghSaveTimer);
   if(immediate){ghSaveTimer=null;saveToGitHub();}
   else ghSaveTimer=setTimeout(()=>{ghSaveTimer=null;saveToGitHub();},800);
@@ -4008,6 +4010,7 @@ async function init(){
       const _needsOrderSave=migrateEmergencyOrder();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
       updateFileUI();initListeners();renderApp();updateSyncStatus();
+      _initPhase=false;
       if(_needsOrderSave)save();
       return;
     }
@@ -4033,6 +4036,7 @@ async function init(){
   seedNinjaVacationTasks();
   seedEmergencySections();
   migrateEmergencyOrder();
+  _initPhase=false;
   save();
   updateFileUI();
   initListeners();
