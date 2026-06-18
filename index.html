@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📋 Task Manager — Gamesture</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <style>
 /* ══════════════════════════════════
@@ -207,6 +208,46 @@ a.ninja-item-title:hover{text-decoration:underline;}
 #sbTge.collapsed,#sbNotes.collapsed,#sbGallery.collapsed{padding-bottom:0;}
 #sbTge.emg-active>.sb-title-toggle{color:rgba(231,72,86,.9)!important;background:rgba(231,72,86,.08)!important;border-bottom-color:rgba(231,72,86,.2)!important;text-shadow:0 0 10px rgba(231,72,86,.5);transition:color .2s,background .2s,text-shadow .2s;}
 .sb-arrow{font-size:10px;transition:transform .18s;margin-left:auto;}
+/* ── RANKING TABLE ── */
+#rankingModal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;z-index:10000;align-items:flex-start;justify-content:center;padding:32px 20px;overflow-y:auto;}
+#rankingModal.open{display:flex;}
+.ranking-inner{background:#1a1b26;border:1px solid var(--border2);border-radius:12px;width:100%;max-width:660px;padding:22px;box-shadow:0 16px 48px rgba(0,0,0,.7);flex-shrink:0;}
+.ranking-modal-hdr{display:flex;align-items:center;margin-bottom:16px;}
+.ranking-modal-hdr span{font-size:13px;font-weight:700;color:var(--dark);flex:1;}
+.ranking-close-btn{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;padding:0 2px;}
+.ranking-close-btn:hover{color:var(--dark);}
+.ranking-field-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px;}
+.ranking-title-inp{width:100%;background:#16161e;border:1px solid var(--border2);border-radius:4px;color:var(--dark);font-size:12px;padding:5px 8px;outline:none;box-sizing:border-box;}
+.ranking-title-inp:focus{border-color:var(--blue);}
+.ranking-ta{width:100%;background:#16161e;border:1px solid var(--border2);border-radius:6px;color:var(--dark2);font-size:11.5px;padding:9px 10px;resize:vertical;min-height:90px;outline:none;font-family:monospace;box-sizing:border-box;margin-top:10px;}
+.ranking-ta:focus{border-color:var(--blue);}
+.ranking-ta::placeholder{color:var(--faint);}
+.ranking-preview-bar{display:flex;align-items:center;gap:8px;margin:14px 0 8px;}
+.ranking-preview-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.btn-rk-screenshot{background:rgba(122,162,247,.12);border:1px solid rgba(122,162,247,.35);color:var(--blue);font-size:11px;padding:3px 11px;border-radius:4px;cursor:pointer;}
+.btn-rk-screenshot:hover{background:rgba(122,162,247,.22);}
+/* The table widget */
+.rtable-wrap{width:530px;overflow:hidden;border:1px solid #000;flex-shrink:0;}
+.rtable-hdr{padding:10px 14px 8px;background:#0a0a06;border-bottom:1px solid #000;text-align:center;}
+.rtable-title{font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:#fff;letter-spacing:.05em;}
+table.rtable{width:100%;border-collapse:collapse;table-layout:fixed;}
+table.rtable td{height:40px;padding:0 12px;font-size:14px;border-bottom:1px solid #1a1a10;overflow:hidden;}
+table.rtable tr:last-child td{border-bottom:none;}
+table.rtable tr:nth-child(odd){background:#141409;}
+table.rtable tr:nth-child(even){background:#1a1a10;}
+table.rtable td.rt-flag{width:54px;font-size:22px;line-height:1;text-align:center;padding:0 4px 0 8px;}
+table.rtable td.rt-player{font-family:'Oswald',sans-serif;font-weight:600;color:#ffffff;text-overflow:ellipsis;white-space:nowrap;}
+table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;color:#ffde00;text-align:right;white-space:nowrap;width:110px;}
+.rtable-empty{color:var(--muted);font-size:11px;padding:14px 16px;font-style:italic;}
+/* Screenshot overlay */
+#rankingScreenshot{position:fixed;inset:0;background:#0d0e15;display:none;z-index:200000;align-items:center;justify-content:center;padding:48px 40px;}
+#rankingScreenshot.open{display:flex;}
+.btn-rk-close-ss{position:fixed;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;line-height:1;}
+.btn-rk-close-ss:hover{background:rgba(255,255,255,.2);}
+/* Header button */
+.btn-ranking{background:none;border:1px solid var(--border2);border-radius:4px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.03em;cursor:pointer;padding:3px 9px;opacity:.55;transition:opacity .1s;}
+.btn-ranking:hover{opacity:1;color:var(--gold);border-color:var(--gold);}
+
 /* ── GAME SCHEDULE TABLE ── */
 .sb-tge{flex:0 0 auto;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;max-height:50%;}
 .sb-tge.collapsed .tge-body{display:none;}
@@ -766,6 +807,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     </div>
 
     <button class="btn-pdf-export" id="btnExportPdf" title="Eksportuj raport tygodniowy do PDF">📄 PDF</button>
+    <button class="btn-ranking" id="btnRanking" title="Generator tabelki rankingowej">📊 Ranking</button>
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub<span class="gh-sync-info" id="ghSyncInfo"></span></button>
     <button class="btn-force-refresh" id="btnForceRefresh" title="Wymuś odświeżenie z GitHuba">⟳</button>
     <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
@@ -870,6 +912,31 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   <p>Rozpiska godzin, o których zazwyczaj startują eventy.</p>
   <p><strong>[ ← ] godzina poprzedniego dnia</strong>np. w kalendarzu 6 dzień sezonu jest 18.05. jeśli Hit3 zaczyna się 6 dnia sezonu, to w rzeczywistości będzie to 21:00 17.05 dla Europy i 6:00 18.05 dla Azji/Ameryki</p>
   <p><strong>[ merged ] merge Azji i Ameryki</strong>dla większości eventów (szczególnie tych z rankingami) Azja i Ameryka mają połączony region</p>
+</div>
+
+<!-- RANKING MODAL -->
+<div id="rankingModal">
+  <div class="ranking-inner">
+    <div class="ranking-modal-hdr">
+      <span>📊 Tabelka rankingowa</span>
+      <button class="ranking-close-btn" id="btnRankingClose">✕</button>
+    </div>
+    <div class="ranking-field-lbl">Tytuł tabeli (opcjonalnie)</div>
+    <input class="ranking-title-inp" id="rankingTitleInp" type="text" placeholder="np. Hit3 — Top 10 — Sezon 26">
+    <div class="ranking-field-lbl" style="margin-top:10px">Dane z Excela <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint)">(kraj &lt;Tab&gt; gracz &lt;Tab&gt; wynik, jeden wiersz = jeden gracz)</span></div>
+    <textarea class="ranking-ta" id="rankingDataTa" placeholder="PL&#9;PlayerName123&#9;15000&#10;DE&#9;AnotherPlayer&#9;12500&#10;US&#9;ThirdPlayer&#9;10000"></textarea>
+    <div class="ranking-preview-bar">
+      <span class="ranking-preview-lbl">Podgląd</span>
+      <button class="btn-rk-screenshot" id="btnRankingScreenshot">🖼 Pełny ekran do screenshota</button>
+    </div>
+    <div id="rankingPreview"><div class="rtable-empty">Wklej dane z Excela powyżej</div></div>
+  </div>
+</div>
+
+<!-- RANKING SCREENSHOT OVERLAY -->
+<div id="rankingScreenshot">
+  <button class="btn-rk-close-ss" id="btnRankingCloseScreenshot" title="Zamknij (Esc)">✕</button>
+  <div id="rankingScreenshotContent"></div>
 </div>
 
 <!-- EMG NOTE PANEL -->
@@ -2994,6 +3061,38 @@ async function saveWithIntent(intent){
   setGhDot('error');showSavedLocallyToast();scheduleGhRetry();return false;
 }
 
+// ── RANKING TABLE ────────────────────────────────────
+function _codeToFlag(code){
+  if(!code||code.length!==2)return '';
+  return Array.from(code.toUpperCase()).map(c=>String.fromCodePoint(0x1F1E6+c.charCodeAt(0)-65)).join('');
+}
+function buildRankingTable(raw,title){
+  const lines=raw.trim().split('\n').filter(l=>l.trim());
+  if(!lines.length)return`<div class="rtable-empty">Wklej dane z Excela powyżej</div>`;
+  let rows=lines.map(l=>{
+    const p=l.split('\t');
+    if(p.length<2)return null;
+    const country=(p[0]||'').trim();
+    const player=(p[1]||'').trim();
+    const scoreRaw=(p[2]||'').trim();
+    const scoreNum=parseInt(scoreRaw.replace(/[\s.,]/g,'').replace(/[^\d]/g,''),10);
+    const score=isNaN(scoreNum)?esc(scoreRaw):scoreNum.toLocaleString('pl-PL');
+    return{country,player,score};
+  }).filter(Boolean).slice(0,10);
+  while(rows.length<10)rows.push({country:'',player:'',score:''});
+  const tbody=rows.map(r=>{
+    const flag=_codeToFlag(r.country)||esc(r.country);
+    return`<tr><td class="rt-flag">${flag}</td><td class="rt-player">${esc(r.player)}</td><td class="rt-score">${r.score}</td></tr>`;
+  }).join('');
+  const titleHtml=title?`<div class="rtable-hdr"><div class="rtable-title">${esc(title)}</div></div>`:'';
+  return`<div class="rtable-wrap">${titleHtml}<table class="rtable"><tbody>${tbody}</tbody></table></div>`;
+}
+function updateRankingPreview(){
+  const raw=document.getElementById('rankingDataTa').value;
+  const title=document.getElementById('rankingTitleInp').value.trim();
+  document.getElementById('rankingPreview').innerHTML=buildRankingTable(raw,title);
+}
+
 function openGhModal(){
   document.getElementById('ghToken').value=ghConfig.token;
   document.getElementById('ghStatusMsg').textContent='';
@@ -3555,6 +3654,23 @@ function initListeners(){
     inp.addEventListener('blur',commit);
   });
 
+  // Ranking table
+  document.getElementById('btnRanking').addEventListener('click',()=>{
+    document.getElementById('rankingModal').classList.add('open');
+    setTimeout(()=>document.getElementById('rankingDataTa').focus(),60);
+  });
+  document.getElementById('btnRankingClose').addEventListener('click',()=>document.getElementById('rankingModal').classList.remove('open'));
+  document.getElementById('rankingModal').addEventListener('click',e=>{if(e.target.id==='rankingModal')document.getElementById('rankingModal').classList.remove('open');});
+  document.getElementById('rankingDataTa').addEventListener('input',updateRankingPreview);
+  document.getElementById('rankingTitleInp').addEventListener('input',updateRankingPreview);
+  document.getElementById('btnRankingScreenshot').addEventListener('click',()=>{
+    const raw=document.getElementById('rankingDataTa').value;
+    const title=document.getElementById('rankingTitleInp').value.trim();
+    document.getElementById('rankingScreenshotContent').innerHTML=buildRankingTable(raw,title);
+    document.getElementById('rankingScreenshot').classList.add('open');
+  });
+  document.getElementById('btnRankingCloseScreenshot').addEventListener('click',()=>document.getElementById('rankingScreenshot').classList.remove('open'));
+
   // Track last clicked task card
   document.getElementById('board').addEventListener('click',e=>{
     const card=e.target.closest('.task-card');
@@ -3707,7 +3823,11 @@ function initListeners(){
       document.getElementById('btnHelp').classList.remove('active');
   });
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');}
+    if(e.key==='Escape'){
+      if(document.getElementById('rankingScreenshot').classList.contains('open')){document.getElementById('rankingScreenshot').classList.remove('open');return;}
+      if(document.getElementById('rankingModal').classList.contains('open')){document.getElementById('rankingModal').classList.remove('open');return;}
+      helpPanel.classList.remove('open');document.getElementById('btnHelp').classList.remove('active');
+    }
   });
 
   // Board change
