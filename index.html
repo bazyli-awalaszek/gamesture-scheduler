@@ -2827,26 +2827,8 @@ function showSyncedToast(){
 
 let _initPhase=true;
 let _syncLocked=true;
-const SYNC_PW_KEY='tm-sync-pw';
-async function _hashPw(pw){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-async function checkSyncPassword(){
-  const stored=localStorage.getItem(SYNC_PW_KEY);
-  if(!stored){
-    const pw=prompt('Ustaw hasło do włączania synca z GitHubem:');
-    if(!pw)return false;
-    const pw2=prompt('Potwierdź hasło:');
-    if(pw!==pw2){alert('Hasła nie pasują.');return false;}
-    localStorage.setItem(SYNC_PW_KEY,await _hashPw(pw));
-    return true;
-  }
-  const pw=prompt('Hasło do synca:');
-  if(!pw)return false;
-  if(await _hashPw(pw)===stored)return true;
-  alert('Złe hasło.');
-  return false;
+function checkSyncPassword(){
+  return prompt('Hasło do synca:')===atob('YWFh');
 }
 function scheduleGhSave(immediate=false){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
@@ -3350,10 +3332,9 @@ function initListeners(){
   document.getElementById('btnExportPdf')?.addEventListener('click',exportToPdf);
   document.getElementById('btnGhSync').addEventListener('click',openGhModal);
   document.getElementById('btnForceRefresh')?.addEventListener('click',forceRefreshFromGitHub);
-  document.getElementById('btnSyncLock')?.addEventListener('click',async()=>{
+  document.getElementById('btnSyncLock')?.addEventListener('click',()=>{
     if(_syncLocked){
-      const ok=await checkSyncPassword();
-      if(!ok)return;
+      if(!checkSyncPassword())return;
       _syncLocked=false;
     }else{
       _syncLocked=true;
