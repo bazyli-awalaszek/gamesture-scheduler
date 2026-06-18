@@ -1201,8 +1201,8 @@ async function saveToFile(){
 }
 
 function save(ghImmediate=false){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-  if(fileHandle) saveToFile();
+  if(!_syncLocked) localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle&&!_syncLocked) saveToFile();
   scheduleGhSave(ghImmediate);
 }
 
