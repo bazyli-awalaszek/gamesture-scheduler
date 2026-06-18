@@ -205,7 +205,7 @@
       "title": "New Rare: Moussaka with Lamb",
       "date": "2026-06-03",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W25",
       "order": 4,
@@ -820,8 +820,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 3,
-    "updatedAt": "2026-06-18T09:13:10.884Z",
+    "version": 4,
+    "updatedAt": "2026-06-18T09:13:13.424Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-9ccn2r"
   }
