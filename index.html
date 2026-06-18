@@ -2695,10 +2695,16 @@ async function loadFromGitHub(){
     setGhDot('syncing');
     const headers={'Accept':'application/vnd.github.v3+json'};
     if(ghConfig.token) headers['Authorization']=`token ${ghConfig.token}`;
-    const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}/contents/${ghConfig.path}?t=${Date.now()}`,{headers,cache:'no-store'});
+    const base=`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}`;
+    // Get latest commit SHA first to bypass Contents API cache
+    const commitRes=await fetch(`${base}/commits/main`,{headers,cache:'no-store'});
+    const commitRef=commitRes.ok?(await commitRes.json()).sha:null;
+    const fileUrl=commitRef
+      ?`${base}/contents/${ghConfig.path}?ref=${commitRef}`
+      :`${base}/contents/${ghConfig.path}?t=${Date.now()}`;
+    const res=await fetch(fileUrl,{headers,cache:'no-store'});
     if(res.status===404){
-      // Check if it's 404 for file or for repo
-      const repoRes=await fetch(`https://api.github.com/repos/${encodeURIComponent(ghConfig.owner)}/${encodeURIComponent(ghConfig.repo)}`,{headers});
+      const repoRes=await fetch(base,{headers});
       if(!repoRes.ok){setGhDot('error');return {ok:false,errMsg:`Repozytorium nie znalezione (${repoRes.status}). Sprawdź owner/repo.`};}
       ghSha=null;setGhDot('synced');return {ok:true,isNew:true};
     }
