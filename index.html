@@ -235,8 +235,9 @@ table.rtable td{height:40px;padding:0 12px;font-size:14px;border-bottom:1px soli
 table.rtable tr:last-child td{border-bottom:none;}
 table.rtable tr:nth-child(odd){background:#141409;}
 table.rtable tr:nth-child(even){background:#1a1a10;}
-table.rtable td.rt-flag{width:54px;text-align:center;padding:0 4px 0 8px;vertical-align:middle;}
-table.rtable td.rt-flag img{display:block;margin:0 auto;height:20px;width:auto;}
+table.rtable td.rt-num{width:36px;text-align:center;padding:0 4px;font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;color:rgba(255,255,255,.45);}
+table.rtable td.rt-flag{width:46px;text-align:center;padding:0 4px;vertical-align:middle;}
+table.rtable td.rt-flag img{display:block;margin:0 auto;height:15px;width:auto;}
 table.rtable td.rt-player{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#ffffff;text-overflow:ellipsis;white-space:nowrap;}
 table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#ffde00;text-align:right;white-space:nowrap;width:120px;}
 .rtable-empty{color:var(--muted);font-size:11px;padding:14px 16px;font-style:italic;}
@@ -3081,9 +3082,9 @@ function buildRankingTable(raw,title){
     return{country,player,score};
   }).filter(Boolean).slice(0,10);
   while(rows.length<10)rows.push({country:'',player:'',score:''});
-  const tbody=rows.map(r=>{
+  const tbody=rows.map((r,i)=>{
     const flag=_codeToFlag(r.country)||esc(r.country);
-    return`<tr><td class="rt-flag">${flag}</td><td class="rt-player">${esc(r.player)}</td><td class="rt-score">${r.score}</td></tr>`;
+    return`<tr><td class="rt-num">${i+1}</td><td class="rt-flag">${flag}</td><td class="rt-player">${esc(r.player)}</td><td class="rt-score">${r.score}</td></tr>`;
   }).join('');
   const titleHtml=title?`<div class="rtable-hdr"><div class="rtable-title">${esc(title)}</div></div>`:'';
   return`<div class="rtable-wrap">${titleHtml}<table class="rtable"><tbody>${tbody}</tbody></table></div>`;
