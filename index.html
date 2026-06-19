@@ -735,11 +735,6 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
 .btn-force-refresh:hover{opacity:1;color:var(--blue);}
 .btn-force-refresh:disabled{opacity:.15;cursor:not-allowed;}
 .btn-force-refresh.spinning{animation:gh-spin .7s linear infinite;}
-.btn-sync-lock{background:none;border:1px solid var(--border2);border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;padding:3px 8px;letter-spacing:.03em;transition:all .15s;flex-shrink:0;}
-.btn-sync-lock.locked{color:#e06c75;border-color:rgba(224,108,117,.4);opacity:.8;}
-.btn-sync-lock.locked:hover{opacity:1;border-color:#e06c75;}
-.btn-sync-lock.unlocked{color:#98c379;border-color:rgba(152,195,121,.4);opacity:.9;}
-.btn-sync-lock.unlocked:hover{opacity:1;border-color:#98c379;}
 @keyframes gh-spin{to{transform:rotate(360deg);}}
 #cacheWarning{display:none;position:sticky;top:0;left:0;right:0;background:rgba(224,175,104,.1);border-bottom:1px solid rgba(224,175,104,.28);color:var(--gold);font-size:11px;padding:5px 16px;z-index:90;text-align:center;grid-column:1/-1;}
 #cacheWarning.show{display:block;}
@@ -817,7 +812,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <button class="btn-ranking" id="btnRanking" title="Generator tabelki rankingowej">🏆 Ranking</button>
     <button class="btn-gh-sync" id="btnGhSync" title="GitHub Sync — konfiguracja"><span class="gh-dot" id="ghDot"></span>GitHub<span class="gh-sync-info" id="ghSyncInfo"></span></button>
     <button class="btn-force-refresh" id="btnForceRefresh" title="Wymuś odświeżenie z GitHuba">⟳</button>
-    <button class="btn-sync-lock locked" id="btnSyncLock" title="Kliknij żeby włączyć zapisywanie na GitHub">🔒 Sync OFF</button>
     <button class="btn-help" id="btnHelp" title="Skróty i ukryte funkcje">?</button>
   </div>
 </div>
@@ -1201,8 +1195,8 @@ async function saveToFile(){
 }
 
 function save(ghImmediate=false){
-  if(!_syncLocked) localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-  if(fileHandle&&!_syncLocked) saveToFile();
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle) saveToFile();
   scheduleGhSave(ghImmediate);
 }
 
@@ -1451,16 +1445,22 @@ function patchTask(id,patch){
   const i=state.tasks.findIndex(t=>t.id===id);
   if(i>=0){
     Object.assign(state.tasks[i],patch);
-    if(!_syncLocked){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));if(fileHandle)saveToFile();scheduleIntentSave({op:'task.patch',id,patch});}
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    if(fileHandle)saveToFile();
+    scheduleIntentSave({op:'task.patch',id,patch});
   }
 }
 function removeTask(id){
   state.tasks=state.tasks.filter(t=>t.id!==id);
-  if(!_syncLocked){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));if(fileHandle)saveToFile();scheduleIntentSave({op:'task.remove',id});}
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle)saveToFile();
+  scheduleIntentSave({op:'task.remove',id});
 }
 function pushTask(task){
   state.tasks.push(task);
-  if(!_syncLocked){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));if(fileHandle)saveToFile();scheduleIntentSave({op:'task.add',task:{...task}});}
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  if(fileHandle)saveToFile();
+  scheduleIntentSave({op:'task.add',task:{...task}});
 }
 function taskById(id){return state.tasks.find(t=>t.id===id);}
 
@@ -2819,23 +2819,11 @@ function showSyncedToast(){
   _syncedToastTimer=setTimeout(()=>{el.style.display='none';},3000);
 }
 
-let _initPhase=true;
-let _syncLocked=true;
-function checkSyncPassword(){
-  return prompt('Hasło do synca:')===atob('YWFh');
-}
 function scheduleGhSave(immediate=false){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
-  if(_initPhase||_syncLocked) return;
   clearTimeout(ghSaveTimer);
   if(immediate){ghSaveTimer=null;saveToGitHub();}
   else ghSaveTimer=setTimeout(()=>{ghSaveTimer=null;saveToGitHub();},800);
-}
-function updateSyncLockBtn(){
-  const btn=document.getElementById('btnSyncLock');
-  if(!btn)return;
-  if(_syncLocked){btn.textContent='🔒 Sync OFF';btn.className='btn-sync-lock locked';}
-  else{btn.textContent='🔓 Sync ON';btn.className='btn-sync-lock unlocked';}
 }
 
 let _lastAutoPull=0;
@@ -3001,7 +2989,6 @@ let pendingIntents=[],ghIntentTimer=null,ghSaveInProgress=false;
 
 function scheduleIntentSave(intent){
   if(!ghConfig.token||!ghConfig.owner||!ghConfig.repo) return;
-  if(_syncLocked) return;
   if(pendingIntents.length>0){
     const last=pendingIntents[pendingIntents.length-1];
     const merged=mergeIntents(last,intent);
@@ -3327,17 +3314,7 @@ function initListeners(){
   document.getElementById('btnExportPdf')?.addEventListener('click',exportToPdf);
   document.getElementById('btnGhSync').addEventListener('click',openGhModal);
   document.getElementById('btnForceRefresh')?.addEventListener('click',forceRefreshFromGitHub);
-  document.getElementById('btnSyncLock')?.addEventListener('click',()=>{
-    if(_syncLocked){
-      if(!checkSyncPassword())return;
-      _syncLocked=false;
-    }else{
-      _syncLocked=true;
-    }
-    updateSyncLockBtn();
-    if(!_syncLocked){clearTimeout(ghSaveTimer);ghSaveTimer=null;}
-  });
-    document.getElementById('ghModalSave').addEventListener('click',connectGitHub);
+  document.getElementById('ghModalSave').addEventListener('click',connectGitHub);
   document.getElementById('ghModalClose').addEventListener('click',closeGhModal);
   document.getElementById('ghModalDisconnect').addEventListener('click',disconnectGitHub);
   document.getElementById('ghModalPush').addEventListener('click',pushLocalToGitHub);
@@ -4037,8 +4014,6 @@ async function init(){
       const _needsOrderSave=migrateEmergencyOrder();
       localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
       updateFileUI();initListeners();renderApp();updateSyncStatus();
-      _initPhase=false;
-      updateSyncLockBtn();
       if(_needsOrderSave)save();
       return;
     }
@@ -4064,8 +4039,6 @@ async function init(){
   seedNinjaVacationTasks();
   seedEmergencySections();
   migrateEmergencyOrder();
-  _initPhase=false;
-  updateSyncLockBtn();
   save();
   updateFileUI();
   initListeners();
