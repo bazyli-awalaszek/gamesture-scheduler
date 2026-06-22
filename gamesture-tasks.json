@@ -328,7 +328,7 @@
       "game": "Ogólne",
       "title": "GamePulse instrukcje dla Cookingu",
       "weekKey": "2026-W26",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -896,8 +896,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 21,
-    "updatedAt": "2026-06-22T09:39:56.129Z",
+    "version": 22,
+    "updatedAt": "2026-06-22T09:40:01.355Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
