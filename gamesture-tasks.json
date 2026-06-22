@@ -196,52 +196,6 @@
       "links": []
     },
     {
-      "id": "mpky07bao39j",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-05-25",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mpky07banaci",
-          "title": "Morning Support Check",
-          "done": true
-        },
-        {
-          "id": "mpky07bav0ma",
-          "title": "TG refunds check",
-          "done": true
-        },
-        {
-          "id": "mpky07ba5qww",
-          "title": "FB posts Accept",
-          "done": true
-        },
-        {
-          "id": "mpky07bafw0y",
-          "title": "FB/DC dms check",
-          "done": true
-        },
-        {
-          "id": "mpky07ba6lr1",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mpky07ba9fbx",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mpl11ft7zq5t2r",
       "game": "Ogólne",
       "title": "dopracowanie Task Managera",
@@ -870,8 +824,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 23,
-    "updatedAt": "2026-06-22T09:40:08.937Z",
+    "version": 24,
+    "updatedAt": "2026-06-22T09:40:21.434Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
