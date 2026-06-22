@@ -312,34 +312,6 @@
       "links": []
     },
     {
-      "id": "mpl11ft7eriv4t",
-      "game": "The Gang",
-      "title": "WGC Winners LOGO",
-      "weekKey": "2026-W26",
-      "status": "active",
-      "priority": true,
-      "date": null,
-      "note": "",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mpl11ft73rtrsx",
-          "title": "inG msg",
-          "done": true,
-          "date": "2026-05-22"
-        },
-        {
-          "id": "mpl11ft74ou84n",
-          "title": "check for msg from them",
-          "done": false,
-          "date": "2026-05-29"
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mpl11ft75yii6f",
       "game": "Mafia Rivals",
       "title": "czy znowu oferujemy transfery kont?",
@@ -615,8 +587,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 37,
-    "updatedAt": "2026-06-22T09:41:21.006Z",
+    "version": 38,
+    "updatedAt": "2026-06-22T09:41:27.668Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ich2zv"
   }
