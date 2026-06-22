@@ -368,51 +368,6 @@
       "subtasks": [],
       "link": null,
       "links": []
-    },
-    {
-      "id": "mqp0zohc7oxv",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-06-22",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mqp0zohclube",
-          "title": "Morning Support Check",
-          "done": false
-        },
-        {
-          "id": "mqp0zohccjxv",
-          "title": "TG refunds check",
-          "done": false
-        },
-        {
-          "id": "mqp0zohc9dv2",
-          "title": "FB posts Accept",
-          "done": false
-        },
-        {
-          "id": "mqp0zohcecwi",
-          "title": "FB/DC dms check",
-          "done": false
-        },
-        {
-          "id": "mqp0zohcuyms",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mqp0zohcu1ge",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null
     }
   ],
   "quicklinks": [
@@ -660,8 +615,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 35,
-    "updatedAt": "2026-06-22T09:41:10.753Z",
+    "version": 36,
+    "updatedAt": "2026-06-22T09:41:14.380Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ich2zv"
   }
