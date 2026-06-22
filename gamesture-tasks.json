@@ -116,7 +116,7 @@
       "date": null,
       "note": "Majfa: https://the-gang.admin-gamesture.com/gameplay/players/details/3489476?env=prod\n\nZygmunt: https://the-gang.admin-gamesture.com/gameplay/players/details/953772?env=prod&__game=Gang\n\nEiR: https://the-gang.admin-gamesture.com/gameplay/guild-list/details/1422?env=prod&__game=Gang",
       "status": "active",
-      "priority": true,
+      "priority": false,
       "weekKey": "2026-W26",
       "order": 3,
       "attachments": [],
@@ -615,8 +615,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 36,
-    "updatedAt": "2026-06-22T09:41:14.380Z",
+    "version": 37,
+    "updatedAt": "2026-06-22T09:41:21.006Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ich2zv"
   }
