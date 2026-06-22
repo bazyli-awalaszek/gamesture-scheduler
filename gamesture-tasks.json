@@ -100,7 +100,7 @@
       "title": "info o nagrodzie w Nations Cup news",
       "date": null,
       "note": "dodać w message template info że nagroda jest przygotowywana po wyłonieniu zwycięzcy, dlatego na wysyłkę trzeba poczekać do 7 dni roboczych po wygraniu turnieju\n\nhttps://the-gang.admin-gamesture.com/tools/template-global-messages/details/35?__game=Gang",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W26",
       "order": 1,
@@ -656,8 +656,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 31,
-    "updatedAt": "2026-06-22T09:40:49.890Z",
+    "version": 32,
+    "updatedAt": "2026-06-22T09:40:54.492Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
