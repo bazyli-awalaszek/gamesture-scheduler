@@ -411,52 +411,6 @@
       "links": []
     },
     {
-      "id": "mpp498j5nh5l",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-05-28",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mpp498j5zvs3",
-          "title": "Morning Support Check",
-          "done": false
-        },
-        {
-          "id": "mpp498j55flu",
-          "title": "TG refunds check",
-          "done": false
-        },
-        {
-          "id": "mpp498j5yvfr",
-          "title": "FB posts Accept",
-          "done": false
-        },
-        {
-          "id": "mpp498j5kndh",
-          "title": "FB/DC dms check",
-          "done": false
-        },
-        {
-          "id": "mpp498j5yf3u",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mpp498j5eden",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mqja7rov3s9s",
       "game": "Ogólne",
       "title": "DAILY BREAD",
@@ -824,8 +778,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 24,
-    "updatedAt": "2026-06-22T09:40:21.434Z",
+    "version": 25,
+    "updatedAt": "2026-06-22T09:40:24.173Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
