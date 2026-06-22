@@ -272,7 +272,7 @@
       "game": "Ogólne",
       "title": "dopracowanie Task Managera",
       "weekKey": "2026-W26",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -647,7 +647,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -895,8 +896,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 20,
-    "updatedAt": "2026-06-22T09:39:44.474Z",
+    "version": 21,
+    "updatedAt": "2026-06-22T09:39:56.129Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
