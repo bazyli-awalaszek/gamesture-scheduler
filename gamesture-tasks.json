@@ -355,32 +355,6 @@
       "links": []
     },
     {
-      "id": "mpl11ft7dh73pf",
-      "game": "The Gang",
-      "title": "La Dolce Vita char names",
-      "weekKey": "2026-W26",
-      "status": "active",
-      "priority": false,
-      "date": null,
-      "note": "",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mpl11ft7pp5qpr",
-          "title": "strings prepared",
-          "done": true
-        },
-        {
-          "id": "mpl11ft77wwq8t",
-          "title": "add to cosmetics //waiting for them to appear in panel",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mpl11ft75yii6f",
       "game": "Mafia Rivals",
       "title": "czy znowu oferujemy transfery kont?",
@@ -656,8 +630,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 32,
-    "updatedAt": "2026-06-22T09:40:54.492Z",
+    "version": 33,
+    "updatedAt": "2026-06-22T09:40:57.483Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
