@@ -409,21 +409,6 @@
       "subtasks": [],
       "link": null,
       "links": []
-    },
-    {
-      "id": "mqjcwh2qdkga",
-      "game": "The Gang",
-      "title": "asdsfsfdd",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 7,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
     }
   ],
   "quicklinks": [
@@ -671,8 +656,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 28,
-    "updatedAt": "2026-06-22T09:40:37.579Z",
+    "version": 29,
+    "updatedAt": "2026-06-22T09:40:42.284Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
