@@ -286,21 +286,6 @@
       "links": []
     },
     {
-      "id": "mpl11ft75yii6f",
-      "game": "Mafia Rivals",
-      "title": "czy znowu oferujemy transfery kont?",
-      "weekKey": "2026-W26",
-      "status": "active",
-      "priority": false,
-      "date": null,
-      "note": "",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mpl11ft7c0wlam",
       "game": "Mafia Rivals",
       "title": "new season scheduling do 25.06.2026",
@@ -561,8 +546,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 39,
-    "updatedAt": "2026-06-22T09:41:30.452Z",
+    "version": 40,
+    "updatedAt": "2026-06-22T09:41:38.012Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ich2zv"
   }
