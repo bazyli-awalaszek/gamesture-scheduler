@@ -411,52 +411,6 @@
       "links": []
     },
     {
-      "id": "mqja7rov3s9s",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-06-18",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mqja7rov0rv7",
-          "title": "Morning Support Check",
-          "done": false
-        },
-        {
-          "id": "mqja7rov9aow",
-          "title": "TG refunds check",
-          "done": false
-        },
-        {
-          "id": "mqja7rov9ix3",
-          "title": "FB posts Accept",
-          "done": false
-        },
-        {
-          "id": "mqja7rov3g0q",
-          "title": "FB/DC dms check",
-          "done": false
-        },
-        {
-          "id": "mqja7rovfnqr",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mqja7rovcdva",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mqjcwh2qdkga",
       "game": "The Gang",
       "title": "asdsfsfdd",
@@ -778,8 +732,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 25,
-    "updatedAt": "2026-06-22T09:40:24.173Z",
+    "version": 26,
+    "updatedAt": "2026-06-22T09:40:28.894Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
