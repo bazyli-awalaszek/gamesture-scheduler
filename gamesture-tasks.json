@@ -80,32 +80,6 @@
       "links": []
     },
     {
-      "id": "mp6r03odws8t",
-      "game": "Ogólne",
-      "title": "temat VIP - cd.",
-      "date": null,
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W26",
-      "order": 1,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mpl11ft78ue613",
-          "title": "10+ pomysłów na eventy z vanity rewards",
-          "done": false
-        },
-        {
-          "id": "mpl11ft7p8qdst",
-          "title": "pomysły na vanity rewards",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "mp6r0nwib9fv",
       "game": "The Gang",
       "title": "check character names in Panel",
@@ -896,8 +870,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 22,
-    "updatedAt": "2026-06-22T09:40:01.355Z",
+    "version": 23,
+    "updatedAt": "2026-06-22T09:40:08.937Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-umpo93"
   }
