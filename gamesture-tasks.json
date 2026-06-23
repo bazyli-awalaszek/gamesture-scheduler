@@ -275,7 +275,7 @@
       "game": "The Gang",
       "title": "new tracked links for posts",
       "weekKey": "2026-W26",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": null,
       "note": "",
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 45,
-    "updatedAt": "2026-06-23T08:31:08.918Z",
+    "version": 46,
+    "updatedAt": "2026-06-23T08:31:12.763Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e7m1n2"
   }
