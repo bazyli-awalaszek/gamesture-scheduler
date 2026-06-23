@@ -290,7 +290,7 @@
       "game": "Mafia Rivals",
       "title": "new season scheduling do 25.06.2026",
       "weekKey": "2026-W26",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "date": "2026-05-27",
       "note": "",
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 48,
-    "updatedAt": "2026-06-23T08:31:18.031Z",
+    "version": 49,
+    "updatedAt": "2026-06-23T08:31:22.815Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e7m1n2"
   }
