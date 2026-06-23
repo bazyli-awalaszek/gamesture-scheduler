@@ -306,7 +306,7 @@
       "title": "DAILY BREAD",
       "date": "2026-06-22",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W26",
       "order": 0,
@@ -389,7 +389,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -637,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 43,
-    "updatedAt": "2026-06-23T08:30:49.120Z",
+    "version": 44,
+    "updatedAt": "2026-06-23T08:30:56.035Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e7m1n2"
   }
