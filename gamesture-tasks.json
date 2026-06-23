@@ -85,7 +85,7 @@
       "title": "check character names in Panel",
       "date": null,
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W26",
       "order": 0,
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 46,
-    "updatedAt": "2026-06-23T08:31:12.763Z",
+    "version": 47,
+    "updatedAt": "2026-06-23T08:31:15.439Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e7m1n2"
   }
