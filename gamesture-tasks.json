@@ -70,7 +70,7 @@
       "title": "posts copy unification",
       "date": null,
       "note": "zebrać w jednym miejscu copy postów żeby łatwo było schedulować",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W26",
       "order": 1,
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 47,
-    "updatedAt": "2026-06-23T08:31:15.439Z",
+    "version": 48,
+    "updatedAt": "2026-06-23T08:31:18.031Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-e7m1n2"
   }
