@@ -345,6 +345,51 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mqqdx1ps6vbz",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-06-23",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W26",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mqqdx1pssh17",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mqqdx1psbokp",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mqqdx1pstwug",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mqqdx1ps542k",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mqqdx1psjemq",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mqqdx1psjopb",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -592,9 +637,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 42,
-    "updatedAt": "2026-06-22T09:42:45.758Z",
+    "version": 43,
+    "updatedAt": "2026-06-23T08:30:49.120Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-rhtcnf"
+    "sessionId": "tab-e7m1n2"
   }
 }
