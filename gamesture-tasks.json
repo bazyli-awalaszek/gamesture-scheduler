@@ -565,8 +565,8 @@
     },
     {
       "id": "mp6o96w21z3f",
-      "from": "2026-08-25",
-      "to": "2026-09-02"
+      "from": "2026-08-24",
+      "to": "2026-09-06"
     }
   ],
   "ninjaItems": [],
@@ -683,8 +683,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 52,
-    "updatedAt": "2026-08-13T07:15:42.925Z",
+    "version": 53,
+    "updatedAt": "2026-08-13T07:15:57.127Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-dpq32b"
   }
