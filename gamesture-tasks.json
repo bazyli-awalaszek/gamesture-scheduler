@@ -347,52 +347,6 @@
       "links": []
     },
     {
-      "id": "mqqdx1ps6vbz",
-      "game": "Ogólne",
-      "title": "DAILY BREAD",
-      "date": "2026-06-23",
-      "note": "",
-      "status": "active",
-      "priority": false,
-      "weekKey": "2026-W33",
-      "order": 0,
-      "attachments": [],
-      "subtasks": [
-        {
-          "id": "mqqdx1pssh17",
-          "title": "Morning Support Check",
-          "done": false
-        },
-        {
-          "id": "mqqdx1psbokp",
-          "title": "TG refunds check",
-          "done": false
-        },
-        {
-          "id": "mqqdx1pstwug",
-          "title": "FB posts Accept",
-          "done": false
-        },
-        {
-          "id": "mqqdx1ps542k",
-          "title": "FB/DC dms check",
-          "done": false
-        },
-        {
-          "id": "mqqdx1psjemq",
-          "title": "12:00 Support Check",
-          "done": false
-        },
-        {
-          "id": "mqqdx1psjopb",
-          "title": "Store Reviews",
-          "done": false
-        }
-      ],
-      "link": null,
-      "links": []
-    },
-    {
       "id": "msr6owoydpk6",
       "game": "Ogólne",
       "title": "DAILY BREAD",
@@ -435,7 +389,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -683,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 53,
-    "updatedAt": "2026-08-13T07:15:57.127Z",
+    "version": 54,
+    "updatedAt": "2026-08-13T07:16:05.311Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-dpq32b"
   }
