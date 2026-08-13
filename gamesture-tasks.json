@@ -439,8 +439,8 @@
     {
       "id": "mp6rjkyxumcr",
       "icon": "🥟",
-      "url": "https://app.clickup.com/9005049603/v/tl/8cbw9r3-17112?pr=90123120102",
-      "label": "CW Clickup"
+      "url": "http://echo/#/g/cooking_wars/quest_events",
+      "label": "CW Events"
     },
     {
       "id": "ql-knowledge",
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 54,
-    "updatedAt": "2026-08-13T07:16:05.311Z",
+    "version": 55,
+    "updatedAt": "2026-08-13T08:29:15.772Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-dpq32b"
   }
