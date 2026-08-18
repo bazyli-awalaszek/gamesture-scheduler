@@ -395,7 +395,7 @@
     {
       "id": "msyesi0rr99s",
       "game": "The Gang",
-      "title": "Helpshift - Rising Stars ",
+      "title": "Helpshift - Rising Stars Update Lags",
       "date": null,
       "note": "https://gamesture.helpshift.com/admin/issue/70545/",
       "status": "active",
@@ -653,8 +653,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 65,
-    "updatedAt": "2026-08-18T08:37:12.792Z",
+    "version": 66,
+    "updatedAt": "2026-08-18T08:37:22.236Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
