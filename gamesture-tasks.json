@@ -437,6 +437,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyiss12kgvc",
+      "game": "The Gang",
+      "title": "Helpshift - Spytać Zarke jak widzi rozwiązanie",
+      "date": null,
+      "note": "https://gamesture.helpshift.com/admin/issue/70543/",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 2,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -684,8 +699,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 70,
-    "updatedAt": "2026-08-18T08:39:10.101Z",
+    "version": 71,
+    "updatedAt": "2026-08-18T10:29:03.048Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
