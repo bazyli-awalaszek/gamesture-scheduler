@@ -458,7 +458,7 @@
       "game": "The Gang",
       "title": "Helpshift - Gang G's - wymagania?",
       "date": null,
-      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1787050918745369",
+      "note": "",
       "status": "active",
       "priority": false,
       "weekKey": "2026-W34",
@@ -714,8 +714,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 72,
-    "updatedAt": "2026-08-18T11:02:32.362Z",
+    "version": 73,
+    "updatedAt": "2026-08-18T11:02:39.391Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
