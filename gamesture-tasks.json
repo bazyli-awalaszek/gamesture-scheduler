@@ -371,7 +371,7 @@
         {
           "id": "msyerq8s2lbc",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "msyerq8sj6na",
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 60,
-    "updatedAt": "2026-08-18T08:36:27.712Z",
+    "version": 61,
+    "updatedAt": "2026-08-18T08:36:31.481Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
