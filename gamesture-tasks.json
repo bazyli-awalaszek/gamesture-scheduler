@@ -391,6 +391,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyesi0rr99s",
+      "game": "The Gang",
+      "title": "Helpshift https://gamesture.helpshift.com/admin/issue/70545/",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -638,8 +653,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 62,
-    "updatedAt": "2026-08-18T08:36:38.004Z",
+    "version": 63,
+    "updatedAt": "2026-08-18T08:36:51.355Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
