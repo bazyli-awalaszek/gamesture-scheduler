@@ -467,6 +467,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyk4cv7icwq",
+      "game": "The Gang",
+      "title": "ankieta dla testerów",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 4,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -714,8 +729,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 75,
-    "updatedAt": "2026-08-18T11:03:01.503Z",
+    "version": 76,
+    "updatedAt": "2026-08-18T11:06:02.564Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-y982qb"
   }
