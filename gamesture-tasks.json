@@ -406,6 +406,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyeuc6aq258",
+      "game": "The Gang",
+      "title": "DC - BamBam Gang Transfer?",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 1,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -653,8 +668,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 66,
-    "updatedAt": "2026-08-18T08:37:22.236Z",
+    "version": 67,
+    "updatedAt": "2026-08-18T08:38:16.974Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
