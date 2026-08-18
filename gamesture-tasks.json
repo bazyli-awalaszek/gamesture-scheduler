@@ -214,7 +214,7 @@
       "id": "mpl11ft71paxn2",
       "game": "Ogólne",
       "title": "GamePulse AI config tab - check out",
-      "weekKey": "2026-W33",
+      "weekKey": "2026-W34",
       "status": "active",
       "priority": false,
       "date": null,
@@ -354,7 +354,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W33",
+      "weekKey": "2026-W34",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -391,6 +391,51 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyerq8sq77k",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-08-18",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "msyerq8s6qet",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "msyerq8ssla5",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "msyerq8s2lbc",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "msyerq8sj6na",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "msyerq8shomd",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "msyerq8syvq0",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -638,9 +683,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 57,
-    "updatedAt": "2026-08-13T09:09:37.710Z",
+    "version": 58,
+    "updatedAt": "2026-08-18T08:36:14.681Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-y1pe6s"
+    "sessionId": "tab-ltokfz"
   }
 }
