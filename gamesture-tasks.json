@@ -452,6 +452,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "msyjzu5wq9pd",
+      "game": "The Gang",
+      "title": "Helpshift - Gang G's - wymagania?",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C03GZN56QKF/p1787050918745369",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 3,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -699,8 +714,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 71,
-    "updatedAt": "2026-08-18T10:29:03.048Z",
+    "version": 72,
+    "updatedAt": "2026-08-18T11:02:32.362Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
