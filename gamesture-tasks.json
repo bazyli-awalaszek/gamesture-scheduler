@@ -428,6 +428,11 @@
           "id": "msyevbz71d5z",
           "title": "przekazać zespołowi",
           "done": false
+        },
+        {
+          "id": "msyevgxi6mfx",
+          "title": "rozwiązanie dla BamBama",
+          "done": false
         }
       ],
       "link": null,
@@ -679,8 +684,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 69,
-    "updatedAt": "2026-08-18T08:39:03.366Z",
+    "version": 70,
+    "updatedAt": "2026-08-18T08:39:10.101Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
