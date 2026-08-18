@@ -418,7 +418,13 @@
       "weekKey": "2026-W34",
       "order": 1,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "msyev1fu5w40",
+          "title": "dać znać że przekazane, ale z uwagi na testy na odp trzeba będzie chwilę poczekać",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
@@ -668,8 +674,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 67,
-    "updatedAt": "2026-08-18T08:38:16.974Z",
+    "version": 68,
+    "updatedAt": "2026-08-18T08:38:49.980Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
