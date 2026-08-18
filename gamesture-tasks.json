@@ -376,7 +376,7 @@
         {
           "id": "msyerq8sj6na",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "msyerq8shomd",
@@ -638,8 +638,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 61,
-    "updatedAt": "2026-08-18T08:36:31.481Z",
+    "version": 62,
+    "updatedAt": "2026-08-18T08:36:38.004Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
