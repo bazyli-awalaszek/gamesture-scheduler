@@ -423,6 +423,11 @@
           "id": "msyev1fu5w40",
           "title": "dać znać że przekazane, ale z uwagi na testy na odp trzeba będzie chwilę poczekać",
           "done": false
+        },
+        {
+          "id": "msyevbz71d5z",
+          "title": "przekazać zespołowi",
+          "done": false
         }
       ],
       "link": null,
@@ -674,8 +679,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 68,
-    "updatedAt": "2026-08-18T08:38:49.980Z",
+    "version": 69,
+    "updatedAt": "2026-08-18T08:39:03.366Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
