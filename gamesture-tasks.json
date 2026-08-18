@@ -458,7 +458,7 @@
       "game": "The Gang",
       "title": "Helpshift - Gang G's - wymagania?",
       "date": null,
-      "note": "",
+      "note": "https://gamesture.helpshift.com/admin/issue/70499/",
       "status": "active",
       "priority": false,
       "weekKey": "2026-W34",
@@ -714,8 +714,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 73,
-    "updatedAt": "2026-08-18T11:02:39.391Z",
+    "version": 74,
+    "updatedAt": "2026-08-18T11:02:53.731Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-ltokfz"
   }
