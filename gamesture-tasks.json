@@ -590,6 +590,11 @@
           "id": "mszygr8yiyr7",
           "title": "Pull Gear from Crates -> Ilość itemów się różni od paczki (najmniejsza = 1 item; średnia = 2 itemy; duża = 4 itemy) + oprócz większej ilości itemów oczywiście odds/szanse na lepsze itemy się zwiększają (to już mogą doczytać dokładnie pod [i] information button)",
           "done": false
+        },
+        {
+          "id": "mszyh006fi8f",
+          "title": "'Tier 3 Crate can drop Legendary Gear' -> tutaj ponownie copy, na devie widzę żę jeszcze nie ma nazw, upewnijmy się że potem to jest tak samo nazwane w info, jak i używamy tych samych nazw w komunikaacji, na DC, itd",
+          "done": false
         }
       ],
       "link": null,
@@ -846,8 +851,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 89,
-    "updatedAt": "2026-08-19T10:35:21.901Z",
+    "version": 90,
+    "updatedAt": "2026-08-19T10:35:33.549Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
