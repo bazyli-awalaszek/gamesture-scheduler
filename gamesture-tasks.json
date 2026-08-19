@@ -584,7 +584,7 @@
         {
           "id": "mszyfarm9utn",
           "title": "Pull Gear from Crates -> Upewnijmy się że copy/translate mamy takie samo w każdym miejscu. W nagraniu z dev version widzę, że jest nazwane 'Gear Packs' a tutaj mamy Crates",
-          "done": false
+          "done": true
         },
         {
           "id": "mszygr8yiyr7",
@@ -861,8 +861,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 97,
-    "updatedAt": "2026-08-19T11:21:10.745Z",
+    "version": 98,
+    "updatedAt": "2026-08-19T11:23:44.648Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
