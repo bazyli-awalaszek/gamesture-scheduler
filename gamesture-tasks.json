@@ -624,6 +624,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mt01z3hc3dbi",
+      "game": "The Gang",
+      "title": "Nations Cup reward to send",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 9,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -876,8 +891,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 114,
-    "updatedAt": "2026-08-19T12:13:23.870Z",
+    "version": 115,
+    "updatedAt": "2026-08-19T12:13:36.735Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
