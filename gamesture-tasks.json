@@ -585,6 +585,11 @@
           "id": "mszyfarm9utn",
           "title": "Pull Gear from Crates -> Upewnijmy się że copy/translate mamy takie samo w każdym miejscu. W nagraniu z dev version widzę, że jest nazwane 'Gear Packs' a tutaj mamy Crates",
           "done": false
+        },
+        {
+          "id": "mszygr8yiyr7",
+          "title": "Pull Gear from Crates -> Ilość itemów się różni od paczki (najmniejsza = 1 item; średnia = 2 itemy; duża = 4 itemy) + oprócz większej ilości itemów oczywiście odds/szanse na lepsze itemy się zwiększają (to już mogą doczytać dokładnie pod [i] information button)",
+          "done": false
         }
       ],
       "link": null,
@@ -841,8 +846,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 88,
-    "updatedAt": "2026-08-19T10:34:14.242Z",
+    "version": 89,
+    "updatedAt": "2026-08-19T10:35:21.901Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
