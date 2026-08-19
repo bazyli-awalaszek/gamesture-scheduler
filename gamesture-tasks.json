@@ -398,7 +398,7 @@
       "title": "Helpshift - Rising Stars Update Lags",
       "date": null,
       "note": "https://gamesture.helpshift.com/admin/issue/70545/",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W34",
       "order": 0,
@@ -876,8 +876,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 113,
-    "updatedAt": "2026-08-19T12:13:17.014Z",
+    "version": 114,
+    "updatedAt": "2026-08-19T12:13:23.870Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
