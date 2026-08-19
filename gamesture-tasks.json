@@ -675,7 +675,7 @@
   "notes": [
     {
       "id": "mszy9p66htka",
-      "text": "",
+      "text": "Hi <PLAYER>!\n\n<b>The streets just changed forever, <color=#ebca60>GEAR</color> has arrived!</b>\n\n[file=41499]\n\nEquip your weapons, outfits, and accessories with real bonuses. Stack your crits, chain your streaks, and turn every fight into a massacre.\n\n<b><color=#ebca60>Gear rules:</color></b>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> Every Gear item has a quality: Common, Uncommon, Rare, Epic, or <color=#ebca60>Legendary</color> </indent>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> <color=#ebca60>Legendary</color> Gear grants 2 bonuses instead of 1</indent>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> Pull Gear from Crates: the higher the crate, the better your odds</indent>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> Only the Tier 3 Crate can drop <color=#ebca60>Legendary</color> Gear</indent>\n\n[file=41570]\n\n<b><color=#ebca60>Equip Gear in Profile</color></b>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> Edit Gear across 6 slots: Melee Weapon, Ranged Weapon, Jewelry, Accessories, Clothing, and Headwear</indent>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> Each slot boosts a different stat: Attack, Defense, Crit damage, Shield evasion, or XP</indent>\n<indent=4%><size=140%><color=#ebca60>·</color><size=100%> <color=#ebca60>Gear can be upgraded</color>: collect duplicates and spend Gems to boost its bonus\n\nSuit up, Gang. It's time to dominate the streets. :gun:",
       "color": "#1e0806"
     },
     {
@@ -825,8 +825,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 83,
-    "updatedAt": "2026-08-19T10:29:51.968Z",
+    "version": 84,
+    "updatedAt": "2026-08-19T10:29:56.934Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
