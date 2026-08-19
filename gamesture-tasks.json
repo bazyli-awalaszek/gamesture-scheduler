@@ -352,7 +352,7 @@
       "title": "DAILY BREAD",
       "date": "2026-08-18",
       "note": "",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W34",
       "order": 0,
@@ -876,8 +876,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 111,
-    "updatedAt": "2026-08-19T11:41:16.645Z",
+    "version": 112,
+    "updatedAt": "2026-08-19T12:13:13.506Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
