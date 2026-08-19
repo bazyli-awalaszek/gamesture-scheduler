@@ -580,6 +580,11 @@
           "id": "mszye743hcjj",
           "title": "brakuje info, że każdy slot gearu posiada po 2 itemy na każde rarity (łącznie 12 itemów na kazdy slot)",
           "done": false
+        },
+        {
+          "id": "mszyfarm9utn",
+          "title": "Pull Gear from Crates -> Upewnijmy się że copy/translate mamy takie samo w każdym miejscu. W nagraniu z dev version widzę, że jest nazwane 'Gear Packs' a tutaj mamy Crates",
+          "done": false
         }
       ],
       "link": null,
@@ -836,8 +841,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 87,
-    "updatedAt": "2026-08-19T10:33:22.838Z",
+    "version": 88,
+    "updatedAt": "2026-08-19T10:34:14.242Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
