@@ -565,7 +565,7 @@
       "title": "poprawki newsa do gear",
       "date": null,
       "note": "https://gamesture.slack.com/archives/C0BH3LVCMPF/p1786525218323489?thread_ts=1786456500.532159&cid=C0BH3LVCMPF",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W34",
       "order": 8,
@@ -891,8 +891,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 115,
-    "updatedAt": "2026-08-19T12:13:36.735Z",
+    "version": 116,
+    "updatedAt": "2026-08-19T12:13:50.070Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
