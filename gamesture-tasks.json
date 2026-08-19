@@ -574,7 +574,7 @@
         {
           "id": "mszydzbpefxp",
           "title": "zamiast tych hexów z napisami dałbym już te z postacią",
-          "done": false
+          "done": true
         },
         {
           "id": "mszye743hcjj",
@@ -861,8 +861,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 96,
-    "updatedAt": "2026-08-19T11:19:25.603Z",
+    "version": 97,
+    "updatedAt": "2026-08-19T11:21:10.745Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
