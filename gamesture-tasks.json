@@ -381,12 +381,12 @@
         {
           "id": "msyerq8shomd",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "msyerq8syvq0",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -526,7 +526,8 @@
           "done": false
         }
       ],
-      "link": null
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -774,8 +775,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 77,
-    "updatedAt": "2026-08-19T06:40:24.097Z",
+    "version": 78,
+    "updatedAt": "2026-08-19T06:40:27.914Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
