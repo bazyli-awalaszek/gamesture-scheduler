@@ -528,6 +528,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mszq2xy9sfa0",
+      "game": "The Gang",
+      "title": "Dave115 form",
+      "date": null,
+      "note": "https://docs.google.com/forms/d/10LibiICxRXqw-5BL6p9O45QDhd5dLF0xYCdK2wmAHf8/edit",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 5,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -775,8 +790,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 78,
-    "updatedAt": "2026-08-19T06:40:27.914Z",
+    "version": 79,
+    "updatedAt": "2026-08-19T06:40:41.188Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
