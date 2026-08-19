@@ -600,6 +600,11 @@
           "id": "mszyh57nbq26",
           "title": "'Each slot boosts a different stats:...\" => to powinno być jako pierwsza ewentualnie druga kropka (najważniejszy punkt) w 'Gear Rules', połączona z listą bonusów i ich krótkim opisem",
           "done": false
+        },
+        {
+          "id": "mszyha5hd0v2",
+          "title": "'Gear can be upgraded' to powinno być w Gear Rules a nie w Equip Gear in Profile. 'collect duplicates to boost its bonus' będzie lepsze, nie piszmy 'spend Gems' - starajmy się zrobić pozytywną narrację, te gems to i tak tylko dodatek a zdecydowana większość wydatku to duplikaty",
+          "done": false
         }
       ],
       "link": null,
@@ -856,8 +861,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 91,
-    "updatedAt": "2026-08-19T10:35:40.355Z",
+    "version": 92,
+    "updatedAt": "2026-08-19T10:35:46.502Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
