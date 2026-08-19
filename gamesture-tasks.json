@@ -669,6 +669,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mt025huc9itn",
+      "game": "The Gang",
+      "title": "WGC logo",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 12,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -921,8 +936,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 118,
-    "updatedAt": "2026-08-19T12:14:19.412Z",
+    "version": 119,
+    "updatedAt": "2026-08-19T12:18:35.409Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
