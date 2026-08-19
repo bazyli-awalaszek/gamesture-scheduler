@@ -619,7 +619,7 @@
       "status": "active",
       "priority": false,
       "weekKey": "2026-W34",
-      "order": 8,
+      "order": 7,
       "attachments": [],
       "subtasks": [],
       "link": null,
@@ -876,8 +876,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 108,
-    "updatedAt": "2026-08-19T11:41:09.126Z",
+    "version": 109,
+    "updatedAt": "2026-08-19T11:41:12.082Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
