@@ -543,6 +543,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mszuk9dkxgis",
+      "game": "The Gang",
+      "title": "Gear sync 11-11:30",
+      "date": null,
+      "note": "meet.google.com/tka-vjzk-egz",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 6,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -790,8 +805,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 79,
-    "updatedAt": "2026-08-19T06:40:41.188Z",
+    "version": 80,
+    "updatedAt": "2026-08-19T08:46:07.528Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
