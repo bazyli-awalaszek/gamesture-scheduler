@@ -570,7 +570,13 @@
       "weekKey": "2026-W34",
       "order": 7,
       "attachments": [],
-      "subtasks": [],
+      "subtasks": [
+        {
+          "id": "mszydzbpefxp",
+          "title": "zamiast tych hexów z napisami dałbym już te z postacią",
+          "done": false
+        }
+      ],
       "link": null,
       "links": []
     }
@@ -825,8 +831,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 85,
-    "updatedAt": "2026-08-19T10:30:01.617Z",
+    "version": 86,
+    "updatedAt": "2026-08-19T10:33:12.584Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
