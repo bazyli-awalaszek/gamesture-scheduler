@@ -550,7 +550,7 @@
       "title": "Gear sync 11:00\n-11:30",
       "date": null,
       "note": "meet.google.com/tka-vjzk-egz",
-      "status": "active",
+      "status": "done",
       "priority": false,
       "weekKey": "2026-W34",
       "order": 6,
@@ -876,8 +876,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 110,
-    "updatedAt": "2026-08-19T11:41:14.491Z",
+    "version": 111,
+    "updatedAt": "2026-08-19T11:41:16.645Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
