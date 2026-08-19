@@ -575,6 +575,11 @@
           "id": "mszydzbpefxp",
           "title": "zamiast tych hexów z napisami dałbym już te z postacią",
           "done": false
+        },
+        {
+          "id": "mszye743hcjj",
+          "title": "brakuje info, że każdy slot gearu posiada po 2 itemy na każde rarity (łącznie 12 itemów na kazdy slot)",
+          "done": false
         }
       ],
       "link": null,
@@ -831,8 +836,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 86,
-    "updatedAt": "2026-08-19T10:33:12.584Z",
+    "version": 87,
+    "updatedAt": "2026-08-19T10:33:22.838Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
