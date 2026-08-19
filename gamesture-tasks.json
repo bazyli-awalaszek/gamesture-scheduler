@@ -558,6 +558,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mszy75oa1s46",
+      "game": "The Gang",
+      "title": "poprawki newsa do gear",
+      "date": null,
+      "note": "https://gamesture.slack.com/archives/C0BH3LVCMPF/p1786525218323489?thread_ts=1786456500.532159&cid=C0BH3LVCMPF",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 7,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -805,8 +820,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 81,
-    "updatedAt": "2026-08-19T08:46:15.519Z",
+    "version": 82,
+    "updatedAt": "2026-08-19T10:27:54.074Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
