@@ -609,6 +609,21 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mt00sq1fzn8a",
+      "game": "The Gang",
+      "title": "PYTANIE DO M.KORKA ODN. [i]",
+      "date": null,
+      "note": "PYTANIE DO M.KORKA ODN. [i]\nhttps://gamesture.slack.com/archives/C0BH3LVCMPF/p1787139143794609?thread_ts=1786456500.532159&cid=C0BH3LVCMPF",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 8,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -861,8 +876,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 100,
-    "updatedAt": "2026-08-19T11:32:20.084Z",
+    "version": 101,
+    "updatedAt": "2026-08-19T11:40:39.725Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
