@@ -599,7 +599,7 @@
         {
           "id": "mszyh57nbq26",
           "title": "'Each slot boosts a different stats:...\" => to powinno być jako pierwsza ewentualnie druga kropka (najważniejszy punkt) w 'Gear Rules', połączona z listą bonusów i ich krótkim opisem",
-          "done": false
+          "done": true
         },
         {
           "id": "mszyha5hd0v2",
@@ -861,8 +861,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 99,
-    "updatedAt": "2026-08-19T11:27:21.673Z",
+    "version": 100,
+    "updatedAt": "2026-08-19T11:32:20.084Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
