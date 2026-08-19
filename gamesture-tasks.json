@@ -595,6 +595,11 @@
           "id": "mszyh006fi8f",
           "title": "'Tier 3 Crate can drop Legendary Gear' -> tutaj ponownie copy, na devie widzę żę jeszcze nie ma nazw, upewnijmy się że potem to jest tak samo nazwane w info, jak i używamy tych samych nazw w komunikaacji, na DC, itd",
           "done": false
+        },
+        {
+          "id": "mszyh57nbq26",
+          "title": "'Each slot boosts a different stats:...\" => to powinno być jako pierwsza ewentualnie druga kropka (najważniejszy punkt) w 'Gear Rules', połączona z listą bonusów i ich krótkim opisem",
+          "done": false
         }
       ],
       "link": null,
@@ -851,8 +856,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 90,
-    "updatedAt": "2026-08-19T10:35:33.549Z",
+    "version": 91,
+    "updatedAt": "2026-08-19T10:35:40.355Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
