@@ -674,6 +674,11 @@
   ],
   "notes": [
     {
+      "id": "mszy9p66htka",
+      "text": "",
+      "color": "#1e0806"
+    },
+    {
       "id": "mp6rhvl729a7",
       "text": "TG:\n- maile dla powracających graczy\n- wystylować [i] w różnych miejscach w TG jeśli nadmiar czasu\n- \"straszące\" maile dla nieaktywnych (https://gamesture.slack.com/archives/C092XLTFQKX/p1771411171841839)\n\nCW:\n- sprawdzić czy @pkozak dodał recurring messages\n- poprawić spooky kitchen info\n- universal news for lottery event?\n\nMR:",
       "color": "#060f22"
@@ -820,8 +825,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 82,
-    "updatedAt": "2026-08-19T10:27:54.074Z",
+    "version": 83,
+    "updatedAt": "2026-08-19T10:29:51.968Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
