@@ -654,6 +654,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mt0200h33dgc",
+      "game": "The Gang",
+      "title": "Gear info posts ideas",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 11,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -906,8 +921,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 117,
-    "updatedAt": "2026-08-19T12:14:10.008Z",
+    "version": 118,
+    "updatedAt": "2026-08-19T12:14:19.412Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
