@@ -547,7 +547,7 @@
     {
       "id": "mszuk9dkxgis",
       "game": "The Gang",
-      "title": "Gear sync 11-11:30",
+      "title": "Gear sync 11:00\n-11:30",
       "date": null,
       "note": "meet.google.com/tka-vjzk-egz",
       "status": "active",
@@ -805,8 +805,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 80,
-    "updatedAt": "2026-08-19T08:46:07.528Z",
+    "version": 81,
+    "updatedAt": "2026-08-19T08:46:15.519Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
