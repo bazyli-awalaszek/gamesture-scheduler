@@ -639,6 +639,21 @@
       "subtasks": [],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mt01zt5y9ki0",
+      "game": "The Gang",
+      "title": "Gear engaging posts ideas",
+      "date": null,
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W34",
+      "order": 10,
+      "attachments": [],
+      "subtasks": [],
+      "link": null,
+      "links": []
     }
   ],
   "quicklinks": [
@@ -891,8 +906,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 116,
-    "updatedAt": "2026-08-19T12:13:50.070Z",
+    "version": 117,
+    "updatedAt": "2026-08-19T12:14:10.008Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
