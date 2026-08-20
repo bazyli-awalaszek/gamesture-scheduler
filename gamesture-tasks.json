@@ -503,27 +503,27 @@
         {
           "id": "mszq2lt1mt4d",
           "title": "TG refunds check",
-          "done": false
+          "done": true
         },
         {
           "id": "mszq2lt1xr67",
           "title": "FB posts Accept",
-          "done": false
+          "done": true
         },
         {
           "id": "mszq2lt13rlq",
           "title": "FB/DC dms check",
-          "done": false
+          "done": true
         },
         {
           "id": "mszq2lt1h20c",
           "title": "12:00 Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mszq2lt1goq9",
           "title": "Store Reviews",
-          "done": false
+          "done": true
         }
       ],
       "link": null,
@@ -936,8 +936,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 119,
-    "updatedAt": "2026-08-19T12:18:35.409Z",
+    "version": 120,
+    "updatedAt": "2026-08-20T06:49:13.521Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-6sid9a"
   }
