@@ -700,7 +700,7 @@
         {
           "id": "mt15twy9bcr6",
           "title": "Morning Support Check",
-          "done": false
+          "done": true
         },
         {
           "id": "mt15twy9s2ut",
@@ -982,8 +982,8 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 123,
-    "updatedAt": "2026-08-20T06:49:26.968Z",
+    "version": 124,
+    "updatedAt": "2026-08-20T06:49:32.073Z",
     "updatedBy": "bazyli-awalaszek",
     "sessionId": "tab-wudmjb"
   }
