@@ -1613,12 +1613,6 @@ function initListeners(){
   });
   document.getElementById('atTitle').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('atSave').click();}});
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
-  document.getElementById('ongHdr').addEventListener('click',()=>{
-    ongOpen=!ongOpen;
-    document.getElementById('ongBody').classList.toggle('collapsed',!ongOpen);
-    document.getElementById('ongToggleBtn').textContent=ongOpen?'▼':'▶';
-  });
-
   // Board click delegation
   document.getElementById('board').addEventListener('click',e=>{
     if(e.target.dataset.addStatus!==undefined){openAddTask(e.target.dataset.addStatus);return;}
