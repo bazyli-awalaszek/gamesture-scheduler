@@ -995,7 +995,11 @@ function migrateData(s){
     {id:'l1',label:'Helpshift',url:'https://gamesture.helpshift.com/admin/issues/0-91/'},
     {id:'l2',label:'Store Reviews',url:'http://tools-01.gannet-kitefin.ts.net:5566/inbox'}
   ];
-  if(!s.vacations) s.vacations=[];
+  // Migrate vacations: old format was either an object {sean:[],yahu:[]} or absent; also migrate myVacations
+  if(!Array.isArray(s.vacations)) s.vacations=[];
+  if(Array.isArray(s.myVacations)&&s.myVacations.length>0&&s.vacations.length===0){
+    s.vacations=s.myVacations.map(v=>({id:v.id||uid(),start:v.from||v.start,end:v.to||v.end,note:v.note||''})).filter(v=>v.start&&v.end);
+  }
   if(!s.recurring) s.recurring=[];
   if(!s.notes) s.notes=[];
   if(!Array.isArray(s.notes)){
@@ -1447,7 +1451,7 @@ function renderCalendar(){
   const tasks=state.tasks.filter(t=>t.date&&t.status!=='done').sort((a,b)=>a.date.localeCompare(b.date));
   // Build vacation date map: expand each vacation into individual dates
   const vacByDate={};
-  (state.vacations||[]).forEach(v=>{
+  (Array.isArray(state.vacations)?state.vacations:[]).forEach(v=>{
     if(!v.start||!v.end)return;
     const[sy,sm,sd]=v.start.split('-').map(Number);
     const[ey,em,ed]=v.end.split('-').map(Number);
@@ -1535,11 +1539,10 @@ function initSortables(){
       handle:'.drag-handle',animation:150,
       ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',filter:'.empty-msg',
       onEnd(evt){
-        if(evt.to.id==='ongList') return;
         const id=evt.item.dataset.id;
         if(evt.from!==evt.to){
           const newStatus=evt.to.dataset.colStatus;
-          if(newStatus==='inbox'||newStatus==='active') patchTask(id,{status:newStatus});
+          if(newStatus==='inbox'||newStatus==='active'||newStatus==='ongoing') patchTask(id,{status:newStatus});
         }
         [...evt.to.querySelectorAll('.task-card')].forEach((el,i)=>patchTask(el.dataset.id,{order:i}));
         renderApp();
