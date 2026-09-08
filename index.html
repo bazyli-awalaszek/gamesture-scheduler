@@ -37,7 +37,7 @@ body{
   font-family:-apple-system,'Segoe UI',Roboto,sans-serif;
   font-size:13px;
   display:grid;
-  grid-template-rows:auto 1fr auto;
+  grid-template-rows:auto 1fr;
   grid-template-columns:1fr minmax(280px,33%);
   height:100vh;
   overflow:hidden;
@@ -148,7 +148,7 @@ body{
 
 /* ── SIDEBAR ── */
 .sidebar{
-  grid-column:2;grid-row:2/4;
+  grid-column:2;grid-row:2;
   background:#16161e;border-left:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -441,6 +441,43 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .game-pick-btn:hover{border-color:var(--border2);color:var(--dark);background:var(--border2);}
 .game-pick-btn.selected{border-color:var(--blue);background:rgba(122,162,247,.15);color:var(--dark);}
 
+/* ── W TOKU COLUMN ── */
+.wtoku-col{border:1px solid rgba(255,158,100,.3);background:rgba(255,158,100,.04);}
+.wtoku-col .col-title{color:var(--orange);}
+
+/* ── BADGE PICKER FLOAT ── */
+.badge-picker-float{
+  position:fixed;z-index:9999;background:var(--card);border:1px solid var(--border2);
+  border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:5px;
+  box-shadow:0 6px 20px rgba(0,0,0,.6);min-width:160px;max-width:260px;
+}
+.badge-pick-item{
+  background:none;border:2px solid transparent;border-radius:5px;padding:2px 4px;
+  cursor:pointer;display:flex;align-items:center;gap:3px;transition:border-color .1s;
+}
+.badge-pick-item:hover{border-color:var(--blue);}
+.card-game-badge{cursor:pointer;}
+
+/* ── GAME EDITOR ── */
+.ge-row{
+  display:flex;align-items:center;gap:8px;padding:8px 14px;
+  border-bottom:1px solid var(--border);
+}
+.ge-row:last-child{border-bottom:none;}
+.ge-icon-btn{cursor:pointer;flex-shrink:0;border-radius:6px;padding:1px;transition:background .1s;}
+.ge-icon-btn:hover{background:var(--border2);}
+.ge-name{flex:1;font-size:12px;}
+.ge-color{width:32px;height:28px;padding:2px;border-radius:5px;cursor:pointer;flex-shrink:0;}
+.ge-del-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1;}
+.ge-del-btn:hover:not(:disabled){color:var(--red);}
+.ge-del-btn:disabled{opacity:.25;cursor:default;}
+
+/* ── ICON EDITOR FLOAT ── */
+.icon-editor-float{
+  position:fixed;z-index:10000;background:var(--card);border:1px solid var(--border2);
+  border-radius:8px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.6);min-width:180px;
+}
+
 /* ── SCROLLBARS (global) ── */
 *::-webkit-scrollbar{width:5px;height:5px;}
 *::-webkit-scrollbar-track{background:transparent;}
@@ -460,6 +497,8 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
   <div class="ms-auto d-flex gap-2 flex-wrap align-items-center">
     <button class="btn btn-sm btn-outline-secondary" id="btnCopy">📋 Szablon → nast. tydz.</button>
+    <button class="btn btn-sm btn-outline-secondary" id="btnGameEditor" title="Edytuj kategorie / gry">🎮 Kategorie</button>
+    <button class="btn btn-sm btn-outline-secondary" id="btnDailyPipeline" title="Konfiguruj daily pipeline">⚡ Daily</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnFile" title="Połącz plik JSON z Dropbox">📁 Połącz z Dropbox</button>
     <div id="fileBadge" style="display:none;align-items:center;gap:5px;font-size:11px;background:rgba(158,206,106,.12);border:1px solid rgba(158,206,106,.3);border-radius:5px;padding:3px 8px;">
       <span style="color:var(--green)">📁</span>
@@ -471,19 +510,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 
 <!-- BOARD -->
 <div class="board" id="board"></div>
-
-<!-- ONGOING STRIP -->
-<div class="ong-strip">
-  <div class="ong-hdr" id="ongHdr">
-    <span class="ong-hdr-title">🔥 W toku</span>
-    <span class="ong-cnt" id="ongCnt" style="display:none"></span>
-    <span style="font-size:11px;color:var(--faint);margin-left:6px" id="ongHint">— przeciągnij task z kolumny</span>
-    <button class="ong-toggle" id="ongToggleBtn">▼</button>
-  </div>
-  <div class="ong-body" id="ongBody">
-    <div class="ong-list" id="ongList"></div>
-  </div>
-</div>
 
 <!-- SIDEBAR -->
 <div class="sidebar">
@@ -555,6 +581,53 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   </div>
 </div>
 
+<!-- MODAL: Game Editor -->
+<div class="modal fade" id="gameEditorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">🎮 Kategorie / Gry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0" id="gameEditorList"></div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="geAddBtn">+ Dodaj kategorię</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Daily Pipeline -->
+<div class="modal fade" id="dailyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">⚡ Daily Pipeline</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3 d-flex align-items-center gap-2">
+          <input type="checkbox" id="dpEnabled" class="form-check-input" style="margin:0;width:16px;height:16px;cursor:pointer">
+          <label class="small fw-semibold mb-0" for="dpEnabled" style="cursor:pointer">Aktywny – tworzy zadanie co rano w Inbox</label>
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Tytuł zadania</label>
+          <input type="text" class="form-control form-control-sm" id="dpTitle" placeholder="Daily Pipeline">
+        </div>
+        <div class="mb-1">
+          <label class="form-label small fw-semibold">Podzadania <span class="text-muted fw-normal">(jedno na linię)</span></label>
+          <textarea class="form-control form-control-sm" id="dpSubtasks" rows="9" style="font-size:12px;line-height:1.6"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Anuluj</button>
+        <button type="button" class="btn btn-primary btn-sm" id="dpSave">Zapisz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- CONTEXT MENU -->
 <div id="ctxMenu" class="ctx-menu">
   <div class="ctx-item" id="ctxMoveNext">📅 Przenieś na następny tydzień</div>
@@ -569,10 +642,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 // ═══════════════════════════════════════
 const STORAGE_KEY='gamesture-tasks-v2';
 const DEFAULT_GAMES=[
-  {name:'Ogólne',       icon:'🌐', color:'#565f89', general:true},
-  {name:'The Gang',     icon:null, color:'#f7768e'},
-  {name:'Cooking Wars', icon:null, color:'#ff9e64'},
-  {name:'Mafia Rivals', icon:null, color:'#bb9af7'},
+  {name:'Ogólne',          icon:'🌐', color:'#565f89', general:true},
+  {name:'The Gang',        icon:null, color:'#f7768e'},
+  {name:'Cooking Wars',    icon:null, color:'#ff9e64'},
+  {name:'Mafia Rivals',    icon:null, color:'#bb9af7'},
+  {name:'Daily Pipeline',  icon:'⚡', color:'#2ac3de', daily:true},
 ];
 // Dark-mode note colors — user palette
 const NOTE_COLORS=[
@@ -707,6 +781,11 @@ function migrateData(s){
     const ai=GAME_ORDER.indexOf(a.name),bi=GAME_ORDER.indexOf(b.name);
     if(ai<0&&bi<0)return 0;if(ai<0)return 1;if(bi<0)return-1;return ai-bi;
   });
+  if(!s.dailyPipeline) s.dailyPipeline={
+    enabled:true,
+    title:'Daily Pipeline',
+    subtasks:['Morning Support Check','TG Refunds','FB posts','FB dms','12:00 Support Check','Store Reviews']
+  };
   if(!s.notes) s.notes=[];
   if(!Array.isArray(s.notes)){
     const merged=[];
@@ -830,7 +909,7 @@ function renderGamePicker(selectedGame){
 // RENDER
 // ═══════════════════════════════════════
 let sortables=[];
-function renderApp(){renderHeader();renderBoard();renderOngoing();renderSidebar();}
+function renderApp(){renderHeader();renderBoard();renderSidebar();}
 
 function renderHeader(){
   document.getElementById('weekLbl').textContent=fmtWeek(currentWeekKey);
@@ -842,6 +921,7 @@ function renderBoard(){
   const board=document.getElementById('board');board.innerHTML='';
   board.appendChild(buildBoardCol('inbox','📥 Inbox','inbox-col'));
   board.appendChild(buildBoardCol('active','📌 For Today','today-col'));
+  board.appendChild(buildBoardCol('ongoing','🔥 W toku','wtoku-col'));
   initSortables();
   requestAnimationFrame(()=>board.querySelectorAll('textarea').forEach(autoResize));
 }
@@ -933,6 +1013,137 @@ function cardHtml(t){
     <div class="attach-hint" style="font-size:10px;color:var(--faint);margin-top:4px;font-style:italic">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
   </div>
 </div>`;
+}
+
+// ── BADGE PICKER (click badge on card → change game) ──────────
+function showBadgePicker(taskId,anchor){
+  document.getElementById('badgePickerFloat')?.remove();
+  const picker=document.createElement('div');
+  picker.className='badge-picker-float';picker.id='badgePickerFloat';
+  picker.innerHTML=state.games.map(g=>`
+    <button class="badge-pick-item" data-bp-task="${taskId}" data-bp-game="${esc(g.name)}">
+      ${cardGameBadgeHtml(g.name)}
+    </button>`).join('');
+  document.body.appendChild(picker);
+  const r=anchor.getBoundingClientRect();
+  picker.style.top=(r.bottom+4)+'px';
+  picker.style.left=Math.min(r.left,window.innerWidth-270)+'px';
+  setTimeout(()=>document.addEventListener('click',()=>document.getElementById('badgePickerFloat')?.remove(),{once:true}),50);
+}
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-bp-task]');if(!btn)return;
+  patchTask(btn.dataset.bpTask,{game:btn.dataset.bpGame});
+  document.getElementById('badgePickerFloat')?.remove();
+  renderApp();
+});
+
+// ── GAME EDITOR ────────────────────────────────────
+function openGameEditor(){
+  renderGameEditorList();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('gameEditorModal')).show();
+}
+function renderGameEditorList(){
+  const list=document.getElementById('gameEditorList');if(!list)return;
+  // Ensure Daily Pipeline game exists
+  if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
+  list.innerHTML=state.games.map((g,i)=>`
+<div class="ge-row" data-ge-idx="${i}">
+  <span class="ge-icon-btn" data-ge-icon="${i}" title="Kliknij, aby zmienić ikonę">${gameIconHtml(g.name,30,6)}</span>
+  <input class="form-control form-control-sm ge-name" data-ge-name="${i}" value="${esc(g.name)}">
+  <input type="color" class="ge-color" data-ge-color="${i}" value="${g.color||'#565f89'}" title="Kolor">
+  <button class="ge-del-btn" data-ge-del="${i}" ${g.general||g.daily?'disabled title="Nie można usunąć"':''}>✕</button>
+</div>`).join('');
+}
+function saveGameEditorState(){
+  document.querySelectorAll('.ge-row').forEach(row=>{
+    const i=parseInt(row.dataset.geIdx);
+    const nameInp=row.querySelector('[data-ge-name]');
+    const colorInp=row.querySelector('[data-ge-color]');
+    if(!nameInp||!colorInp||i>=state.games.length)return;
+    const oldName=state.games[i].name;
+    const newName=nameInp.value.trim()||oldName;
+    if(newName!==oldName){
+      state.tasks.forEach(t=>{if(t.game===oldName)t.game=newName;});
+      if(state.dailyPipeline&&state.dailyPipeline.game===oldName) state.dailyPipeline.game=newName;
+    }
+    state.games[i].name=newName;
+    state.games[i].color=colorInp.value;
+  });
+  save();renderApp();
+}
+function showIconEditor(gameIdx,anchor){
+  document.getElementById('iconEditorFloat')?.remove();
+  const g=state.games[gameIdx];
+  const el=document.createElement('div');
+  el.id='iconEditorFloat';el.className='icon-editor-float';
+  el.innerHTML=`
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Emoji lub puste (inicjał z koloru)</div>
+    <input type="text" id="iconEmojiInp" class="form-control form-control-sm mb-2" value="${g.icon&&!g.icon.startsWith('data:')?g.icon:''}" placeholder="np. 🎮" maxlength="4" style="width:80px">
+    <div style="display:flex;gap:6px;align-items:center">
+      <label style="font-size:11px;cursor:pointer;color:var(--blue)">📷 Zdjęcie<input type="file" accept="image/*" id="iconImgInp" style="display:none"></label>
+      <button class="btn btn-primary btn-sm px-2 py-0" id="iconSaveBtn" style="font-size:12px">OK</button>
+    </div>`;
+  document.body.appendChild(el);
+  const r=anchor.getBoundingClientRect();
+  el.style.top=(r.bottom+4)+'px';el.style.left=r.left+'px';
+  document.getElementById('iconSaveBtn').addEventListener('click',()=>{
+    const emoji=document.getElementById('iconEmojiInp').value.trim();
+    state.games[gameIdx].icon=emoji||null;
+    save();renderGameEditorList();el.remove();
+  });
+  document.getElementById('iconImgInp').addEventListener('change',ev=>{
+    const file=ev.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=e2=>{
+      const img=new Image();
+      img.onload=()=>{
+        const c=document.createElement('canvas');c.width=c.height=80;
+        c.getContext('2d').drawImage(img,0,0,80,80);
+        state.games[gameIdx].icon=c.toDataURL('image/jpeg',.9);
+        save();renderGameEditorList();el.remove();
+      };img.src=e2.target.result;
+    };reader.readAsDataURL(file);
+  });
+  setTimeout(()=>document.addEventListener('click',e=>{
+    if(!el.contains(e.target)&&!e.target.closest('[data-ge-icon]'))el.remove();
+  },{once:true}),50);
+}
+
+// ── DAILY PIPELINE ─────────────────────────────────
+function openDailyPipeline(){
+  const dp=state.dailyPipeline||{};
+  document.getElementById('dpEnabled').checked=dp.enabled!==false;
+  document.getElementById('dpTitle').value=dp.title||'Daily Pipeline';
+  document.getElementById('dpSubtasks').value=(dp.subtasks||[]).join('\n');
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('dailyModal')).show();
+  setTimeout(()=>document.getElementById('dpTitle').focus(),350);
+}
+function saveDailyPipeline(){
+  const title=document.getElementById('dpTitle').value.trim()||'Daily Pipeline';
+  const enabled=document.getElementById('dpEnabled').checked;
+  const rawLines=document.getElementById('dpSubtasks').value.split('\n');
+  const subtasks=rawLines.map(l=>l.trim()).filter(Boolean);
+  state.dailyPipeline={enabled,title,subtasks};
+  save();
+  bootstrap.Modal.getInstance(document.getElementById('dailyModal')).hide();
+}
+function seedDailyPipeline(){
+  const dp=state.dailyPipeline;
+  if(!dp||!dp.enabled) return;
+  // Ensure Daily Pipeline game exists
+  if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
+  const dpGame=state.games.find(g=>g.daily)?.name||'Daily Pipeline';
+  const today=todayStr(),todayWk=isoWeekKey(new Date());
+  const exists=state.tasks.some(t=>t._daily===true&&t.date===today);
+  if(!exists){
+    const subs=(dp.subtasks||[]).map(s=>({id:uid(),title:s,done:false}));
+    state.tasks.push({
+      id:uid(),game:dpGame,title:dp.title||'Daily Pipeline',
+      date:today,note:'',status:'inbox',priority:false,
+      weekKey:todayWk,order:-1,attachments:[],subtasks:subs,link:null,_daily:true
+    });
+    save();
+  }
 }
 
 // ── ONGOING ────────────────────────────────────────
@@ -1343,6 +1554,28 @@ function initListeners(){
   document.getElementById('btnNext').addEventListener('click',()=>{currentWeekKey=shiftWeek(currentWeekKey,1);renderApp();});
   document.getElementById('btnToday').addEventListener('click',()=>{currentWeekKey=isoWeekKey(new Date());renderApp();});
   document.getElementById('btnCopy').addEventListener('click',copyToNextWeek);
+  document.getElementById('btnGameEditor').addEventListener('click',openGameEditor);
+  document.getElementById('btnDailyPipeline').addEventListener('click',openDailyPipeline);
+  document.getElementById('geAddBtn').addEventListener('click',()=>{
+    state.games.push({name:'Nowa kategoria',icon:null,color:'#7aa2f7'});
+    save();renderGameEditorList();
+  });
+  document.getElementById('gameEditorList').addEventListener('click',e=>{
+    const delIdx=e.target.dataset.geDel;
+    const iconIdx=e.target.closest('[data-ge-icon]')?.dataset.geIcon;
+    if(delIdx!==undefined){
+      const i=parseInt(delIdx);if(state.games[i]?.general||state.games[i]?.daily)return;
+      state.games.splice(i,1);save();renderGameEditorList();return;
+    }
+    if(iconIdx!==undefined){showIconEditor(parseInt(iconIdx),e.target.closest('[data-ge-icon]'));return;}
+  });
+  document.getElementById('gameEditorList').addEventListener('change',e=>{
+    if(e.target.dataset.geName!==undefined||e.target.dataset.geColor!==undefined) saveGameEditorState();
+  });
+  document.getElementById('gameEditorList').addEventListener('focusout',e=>{
+    if(e.target.dataset.geName!==undefined) saveGameEditorState();
+  });
+  document.getElementById('dpSave').addEventListener('click',saveDailyPipeline);
   document.getElementById('atSave').addEventListener('click',saveNewTask);
   // File connect/disconnect
   document.getElementById('btnFile').addEventListener('click',()=>{
@@ -1389,6 +1622,12 @@ function initListeners(){
   // Board click delegation
   document.getElementById('board').addEventListener('click',e=>{
     if(e.target.dataset.addStatus!==undefined){openAddTask(e.target.dataset.addStatus);return;}
+    // Badge click → open game picker
+    const badge=e.target.closest('.card-game-badge');
+    if(badge){
+      const card=badge.closest('.task-card');if(!card)return;
+      showBadgePicker(card.dataset.id,badge);return;
+    }
     const action=e.target.dataset.action||e.target.closest('[data-action]')?.dataset.action;
     const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
     if(!action||!id)return;
@@ -1505,23 +1744,6 @@ function initListeners(){
     if(addBtn) addBtn.style.display='';
   });
 
-  // Ongoing
-  document.getElementById('ongBody').addEventListener('click',e=>{
-    const action=e.target.dataset.action||e.target.closest('[data-action]')?.dataset.action;
-    const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
-    if(!action||!id)return;
-    if(action==='done-ongoing') doneFromOngoing(id);
-    else if(action==='return-ongoing') returnFromOngoing(id);
-  });
-
-  // Drag-over visual
-  const ongList=document.getElementById('ongList');
-  document.addEventListener('dragover',e=>{
-    if(ongList.contains(e.target)||ongList===e.target) ongList.classList.add('drag-over');
-    else ongList.classList.remove('drag-over');
-  });
-  document.addEventListener('drop',()=>ongList.classList.remove('drag-over'));
-
   // Calendar click → navigate + highlight
   document.getElementById('calView').addEventListener('click',e=>{
     const entry=e.target.closest('[data-nav-id]');if(!entry)return;
@@ -1608,7 +1830,9 @@ async function init(){
     state=loadAndMigrate();
   }
   if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));save();}
-  seedDailyTasks();
+  // Ensure Daily Pipeline game exists in existing saves
+  if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
+  seedDailyPipeline();
   updateFileUI();
   initListeners();
   renderApp();
