@@ -37,7 +37,7 @@ body{
   font-family:-apple-system,'Segoe UI',Roboto,sans-serif;
   font-size:13px;
   display:grid;
-  grid-template-rows:auto 1fr;
+  grid-template-rows:auto auto 1fr;
   grid-template-columns:1fr minmax(280px,33%);
   height:100vh;
   overflow:hidden;
@@ -77,9 +77,27 @@ body{
 .week-nav{display:flex;align-items:center;gap:5px;}
 .week-lbl{font-size:12px;font-weight:600;color:var(--dark);min-width:190px;text-align:center;}
 
+/* ── LINKS BAR ── */
+.links-bar{
+  grid-column:1/-1;grid-row:2;
+  background:#16161e;border-bottom:1px solid var(--border);
+  padding:4px 16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:32px;
+}
+.link-btn{
+  font-size:11px;color:var(--dark2);background:var(--border);
+  border:1px solid var(--border2);border-radius:5px;padding:2px 9px;
+  text-decoration:none;transition:background .1s;white-space:nowrap;
+}
+.link-btn:hover{background:var(--border2);color:var(--dark);}
+.links-manage-btn{
+  font-size:11px;background:none;border:1px solid var(--border2);border-radius:5px;
+  padding:2px 7px;cursor:pointer;color:var(--muted);flex-shrink:0;
+}
+.links-manage-btn:hover{background:var(--border);color:var(--dark);}
+
 /* ── BOARD ── */
 .board{
-  grid-column:1;grid-row:2;
+  grid-column:1;grid-row:3;
   display:flex;gap:12px;padding:14px;
   overflow-x:auto;overflow-y:auto;
   align-items:flex-start;
@@ -148,7 +166,7 @@ body{
 
 /* ── SIDEBAR ── */
 .sidebar{
-  grid-column:2;grid-row:2;
+  grid-column:2;grid-row:3;
   background:#16161e;border-left:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;
 }
@@ -414,7 +432,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .empty-state{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);}
 
 /* ── BOARD COLUMNS (new) ── */
-.board-col{min-width:280px;max-width:320px;background:var(--col);border-radius:12px;padding:10px;flex-shrink:0;}
+.board-col{min-width:336px;max-width:384px;background:var(--col);border-radius:12px;padding:10px;flex-shrink:0;}
 .board-col.inbox-col{background:var(--col-gen);border:1px dashed var(--muted);}
 .board-col.today-col{border:1px solid rgba(122,162,247,.2);}
 .col-hdr-new{display:flex;align-items:center;gap:8px;padding:2px 2px 8px;border-bottom:1px solid var(--border);margin-bottom:8px;}
@@ -482,6 +500,37 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 *::-webkit-scrollbar{width:5px;height:5px;}
 *::-webkit-scrollbar-track{background:transparent;}
 *::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ── VACATION ENTRY ── */
+.cal-vacation-entry{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 5px;border-radius:4px;
+  background:rgba(158,206,106,.12);border-left:2px solid var(--green);
+  margin-bottom:2px;
+}
+.cal-vacation-lbl{font-size:11px;color:var(--green);font-weight:600;flex:1;}
+
+/* ── EDIT TASK MODAL ── */
+.et-subtask-row{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.et-subtask-inp{flex:1;font-size:12px;}
+.et-sub-done{width:15px;height:15px;cursor:pointer;flex-shrink:0;}
+.et-sub-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 2px;line-height:1;}
+.et-sub-del:hover{color:var(--red);}
+
+/* ── AT SUBTASKS ── */
+.at-sub-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.at-sub-title{flex:1;font-size:11px;color:var(--dark2);}
+.at-sub-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:11px;padding:0 3px;line-height:1;}
+.at-sub-del:hover{color:var(--red);}
+
+/* ── RECURRING MODAL ── */
+.rc-row{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid var(--border);font-size:12px;}
+.rc-row:last-child{border-bottom:none;}
+.rc-title{flex:1;color:var(--dark);}
+.rc-interval{font-size:11px;color:var(--muted);}
+.rc-toggle{cursor:pointer;font-size:13px;}
+.rc-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 3px;line-height:1;}
+.rc-del:hover{color:var(--red);}
 </style>
 </head>
 <body>
@@ -499,6 +548,8 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <button class="btn btn-sm btn-outline-secondary" id="btnCopy">📋 Szablon → nast. tydz.</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnGameEditor" title="Edytuj kategorie / gry">🎮 Kategorie</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnDailyPipeline" title="Konfiguruj daily pipeline">⚡ Daily</button>
+    <button class="btn btn-sm btn-outline-secondary" id="btnVacation" title="Urlopy">🏖️ Urlop</button>
+    <button class="btn btn-sm btn-outline-secondary" id="btnRecurring" title="Zadania cykliczne">🔄 Cykliczne</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnFile" title="Połącz plik JSON z Dropbox">📁 Połącz z Dropbox</button>
     <div id="fileBadge" style="display:none;align-items:center;gap:5px;font-size:11px;background:rgba(158,206,106,.12);border:1px solid rgba(158,206,106,.3);border-radius:5px;padding:3px 8px;">
       <span style="color:var(--green)">📁</span>
@@ -507,6 +558,9 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     </div>
   </div>
 </div>
+
+<!-- LINKS BAR -->
+<div class="links-bar" id="linksBar"></div>
 
 <!-- BOARD -->
 <div class="board" id="board"></div>
@@ -551,6 +605,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         <div class="mb-1">
           <label class="form-label small fw-semibold">Notatka <span class="text-muted fw-normal">(opcjonalnie)</span></label>
           <textarea class="form-control form-control-sm" id="atNote" rows="2"></textarea>
+        </div>
+        <div class="mb-1">
+          <label class="form-label small fw-semibold">Podzadania <span class="text-muted fw-normal">(opcjonalnie)</span></label>
+          <div id="atSubtasksList" style="margin-bottom:4px"></div>
+          <input type="text" class="form-control form-control-sm" id="atSubtaskInp" placeholder="+ Dodaj podzadanie (Enter)">
         </div>
       </div>
       <div class="modal-footer py-2">
@@ -630,7 +689,146 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 
 <!-- CONTEXT MENU -->
 <div id="ctxMenu" class="ctx-menu">
+  <div class="ctx-item" id="ctxEdit">✏️ Edytuj zadanie</div>
   <div class="ctx-item" id="ctxMoveNext">📅 Przenieś na następny tydzień</div>
+</div>
+
+<!-- MODAL: Edit Task -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">✏️ Edytuj zadanie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="etTaskId">
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Tytuł <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="etTitle">
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Gra / projekt</label>
+          <div class="game-picker-wrap" id="etGamePicker"></div>
+          <input type="hidden" id="etGame">
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Data</label>
+          <input type="date" class="form-control form-control-sm" id="etDate">
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Notatka</label>
+          <textarea class="form-control form-control-sm" id="etNote" rows="2"></textarea>
+        </div>
+        <div class="mb-1">
+          <label class="form-label small fw-semibold">Podzadania</label>
+          <div id="etSubtasksList" style="margin-bottom:4px"></div>
+          <input type="text" class="form-control form-control-sm" id="etSubtaskInp" placeholder="+ Dodaj podzadanie (Enter)">
+        </div>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Anuluj</button>
+        <button type="button" class="btn btn-primary btn-sm" id="etSave">Zapisz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Manage Links -->
+<div class="modal fade" id="linksModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">✎ Zarządzaj linkami</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="linksList" style="margin-bottom:10px"></div>
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+          <input type="text" class="form-control form-control-sm" id="lmLabel" placeholder="Etykieta" style="flex:1;min-width:100px">
+          <input type="text" class="form-control form-control-sm" id="lmUrl" placeholder="https://..." style="flex:2;min-width:160px">
+          <button type="button" class="btn btn-primary btn-sm" id="lmAdd">Dodaj</button>
+        </div>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Vacation -->
+<div class="modal fade" id="vacationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">🏖️ Urlopy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="vacationList" style="margin-bottom:12px"></div>
+        <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
+            <label class="form-label small fw-semibold mb-0">Od</label>
+            <input type="date" class="form-control form-control-sm" id="vacStart">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
+            <label class="form-label small fw-semibold mb-0">Do</label>
+            <input type="date" class="form-control form-control-sm" id="vacEnd">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:2;min-width:160px">
+            <label class="form-label small fw-semibold mb-0">Notatka (opcjonalnie)</label>
+            <input type="text" class="form-control form-control-sm" id="vacNote" placeholder="np. Bali">
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="vacAdd">Dodaj urlop</button>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Recurring -->
+<div class="modal fade" id="recurringModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">🔄 Zadania cykliczne</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="recurringList" style="margin-bottom:14px"></div>
+        <hr style="border-color:var(--border)">
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Tytuł <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="rcTitle" placeholder="Nazwa zadania">
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Gra / projekt</label>
+          <div class="game-picker-wrap" id="rcGamePicker"></div>
+          <input type="hidden" id="rcGame">
+        </div>
+        <div class="mb-2 d-flex gap-2 align-items-center">
+          <label class="form-label small fw-semibold mb-0">Co ile dni</label>
+          <input type="number" class="form-control form-control-sm" id="rcInterval" value="7" min="1" style="width:80px">
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Notatka (opcjonalnie)</label>
+          <textarea class="form-control form-control-sm" id="rcNote" rows="2"></textarea>
+        </div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold">Podzadania <span class="text-muted fw-normal">(jedno na linię; opcjonalnie: Nazwa | https://link)</span></label>
+          <textarea class="form-control form-control-sm" id="rcSubtasks" rows="4" placeholder="Zadanie A&#10;Zadanie B | https://link"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" id="rcAdd">Dodaj zadanie cykliczne</button>
+      </div>
+      <div class="modal-footer py-2">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -793,6 +991,12 @@ function migrateData(s){
       'Store Reviews | http://tools-01.gannet-kitefin.ts.net:5566/inbox'
     ]
   };
+  if(!s.links) s.links=[
+    {id:'l1',label:'Helpshift',url:'https://gamesture.helpshift.com/admin/issues/0-91/'},
+    {id:'l2',label:'Store Reviews',url:'http://tools-01.gannet-kitefin.ts.net:5566/inbox'}
+  ];
+  if(!s.vacations) s.vacations=[];
+  if(!s.recurring) s.recurring=[];
   if(!s.notes) s.notes=[];
   if(!Array.isArray(s.notes)){
     const merged=[];
@@ -899,24 +1103,27 @@ function cardGameBadgeHtml(name){
   else icon=`<span style="font-size:7px;font-weight:800;background:rgba(255,255,255,.25);width:10px;height:10px;border-radius:2px;display:inline-flex;align-items:center;justify-content:center">${(name||'?')[0]}</span>`;
   return`<span class="card-game-badge" style="background:${col}">${icon}${esc(name)}</span>`;
 }
-function renderGamePicker(selectedGame){
-  const picker=document.getElementById('atGamePicker');if(!picker)return;
+function renderGamePicker(selectedGame,containerId='atGamePicker'){
+  const picker=document.getElementById(containerId);if(!picker)return;
+  // Determine which hidden input to update based on containerId
+  const hiddenId=containerId==='atGamePicker'?'atGame':containerId==='etGamePicker'?'etGame':containerId==='rcGamePicker'?'rcGame':'atGame';
   picker.innerHTML=state.games.map(g=>{
     const col=g.color||'#565f89';
     let iconHtml='';
     if(g.icon&&g.icon.startsWith('data:')) iconHtml=`<img src="${g.icon}" style="width:16px;height:16px;border-radius:3px;object-fit:cover" alt="">`;
     else if(g.icon) iconHtml=`<span style="font-size:13px;line-height:1">${g.icon}</span>`;
     else iconHtml=`<span style="width:16px;height:16px;border-radius:3px;background:${col};display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff">${g.name[0]}</span>`;
-    return`<button type="button" class="game-pick-btn${g.name===selectedGame?' selected':''}" data-game-pick="${esc(g.name)}">${iconHtml}<span>${esc(g.name)}</span></button>`;
+    return`<button type="button" class="game-pick-btn${g.name===selectedGame?' selected':''}" data-game-pick="${esc(g.name)}" data-hidden-id="${hiddenId}">${iconHtml}<span>${esc(g.name)}</span></button>`;
   }).join('');
-  document.getElementById('atGame').value=selectedGame||state.games[0]?.name||'';
+  const hiddenEl=document.getElementById(hiddenId);
+  if(hiddenEl) hiddenEl.value=selectedGame||state.games[0]?.name||'';
 }
 
 // ═══════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════
 let sortables=[];
-function renderApp(){renderHeader();renderBoard();renderSidebar();}
+function renderApp(){renderHeader();renderLinksBar();renderBoard();renderSidebar();}
 
 function renderHeader(){
   document.getElementById('weekLbl').textContent=fmtWeek(currentWeekKey);
@@ -990,8 +1197,8 @@ function cardHtml(t){
 <div class="subtask" data-subtask-id="${s.id}" data-id="${t.id}">
   <div class="subtask-cb ${s.done?'done':''}" data-action="toggle-subtask" data-subtask-id="${s.id}" data-id="${t.id}"></div>
   ${s.link
-    ?`<a class="subtask-title ${s.done?'done-text':''}" href="${esc(s.link)}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">${esc(s.title)}<span style="opacity:.5;font-size:9px;margin-left:2px">↗</span></a>`
-    :`<span class="subtask-title ${s.done?'done-text':''}">${esc(s.title)}</span>`
+    ?`<a class="subtask-title ${s.done?'done-text':''}" href="${esc(s.link)}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">${formatWithTimes(s.title)}<span style="opacity:.5;font-size:9px;margin-left:2px">↗</span></a>`
+    :`<span class="subtask-title ${s.done?'done-text':''}">${formatWithTimes(s.title)}</span>`
   }
   <button class="subtask-del" data-action="del-subtask" data-subtask-id="${s.id}" data-id="${t.id}">✕</button>
 </div>`).join('');
@@ -1209,23 +1416,71 @@ function ongCardHtml(t){
 </div>`;
 }
 
+// ── LINKS BAR ────────────────────────────────────
+function renderLinksBar(){
+  const bar=document.getElementById('linksBar');if(!bar)return;
+  const links=state.links||[];
+  bar.innerHTML=links.map(l=>`<a class="link-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')+
+    `<button class="links-manage-btn" id="linksManageBtn">✎</button>`;
+  document.getElementById('linksManageBtn').addEventListener('click',openLinksModal);
+}
+
+function openLinksModal(){
+  renderLinksList();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('linksModal')).show();
+}
+function renderLinksList(){
+  const list=document.getElementById('linksList');if(!list)return;
+  const links=state.links||[];
+  if(!links.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak linków</div>';return;}
+  list.innerHTML=links.map(l=>`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px">
+      <span style="flex:1;color:var(--dark2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l.label)} — <span style="color:var(--muted);font-size:11px">${esc(l.url)}</span></span>
+      <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1" data-del-link="${l.id}">✕</button>
+    </div>`).join('');
+}
+
 // ── SIDEBAR ────────────────────────────────────────
 function renderSidebar(){renderCalendar();renderNotes();}
 
 function renderCalendar(){
   const calView=document.getElementById('calView');
   const tasks=state.tasks.filter(t=>t.date&&t.status!=='done').sort((a,b)=>a.date.localeCompare(b.date));
-  if(!tasks.length){
+  // Build vacation date map: expand each vacation into individual dates
+  const vacByDate={};
+  (state.vacations||[]).forEach(v=>{
+    if(!v.start||!v.end)return;
+    const[sy,sm,sd]=v.start.split('-').map(Number);
+    const[ey,em,ed]=v.end.split('-').map(Number);
+    const cur=new Date(Date.UTC(sy,sm-1,sd));
+    const end=new Date(Date.UTC(ey,em-1,ed));
+    while(cur<=end){
+      const ds=`${cur.getUTCFullYear()}-${p2(cur.getUTCMonth()+1)}-${p2(cur.getUTCDate())}`;
+      if(!vacByDate[ds])vacByDate[ds]=[];
+      vacByDate[ds].push(v);
+      cur.setUTCDate(cur.getUTCDate()+1);
+    }
+  });
+  // Merge all dates
+  const allDates=new Set([...Object.keys(vacByDate),...tasks.map(t=>t.date)]);
+  if(!allDates.size){
     calView.innerHTML='<div style="font-size:11px;color:var(--faint);font-style:italic;padding:4px 0">Brak zadań z datą</div>';return;
   }
   const td=todayStr(),thisWk=isoWeekKey(new Date()),byDate={};
   tasks.forEach(t=>{if(!byDate[t.date])byDate[t.date]=[];byDate[t.date].push(t);});
   let html='';
-  Object.keys(byDate).sort().forEach(ds=>{
+  [...allDates].sort().forEach(ds=>{
     const isToday=ds===td;
     const isThisWk=dateStrToWk(ds)===thisWk;
+    const hasTaskOrVac=(byDate[ds]&&byDate[ds].length)||(vacByDate[ds]&&vacByDate[ds].length);
+    if(!hasTaskOrVac)return;
     html+=`<div class="cal-day-hdr ${isToday?'today-hdr':isThisWk?'this-week-hdr':''}">${fmtDate(ds)}${isToday?' ★':''}</div>`;
-    byDate[ds].forEach(t=>{
+    // Show vacation entries first
+    (vacByDate[ds]||[]).forEach(v=>{
+      const label=v.note?`🏖️ Urlop - ${esc(v.note)}`:'🏖️ Urlop';
+      html+=`<div class="cal-vacation-entry"><span class="cal-vacation-lbl">${label}</span></div>`;
+    });
+    (byDate[ds]||[]).forEach(t=>{
       const col=gameColor(t.game);
       const g=gameCfg(t.game);
       const dotHtml=g?.icon&&g.icon.startsWith('data:')
@@ -1238,7 +1493,7 @@ function renderCalendar(){
       </div>`;
     });
   });
-  calView.innerHTML=html;
+  calView.innerHTML=html||'<div style="font-size:11px;color:var(--faint);font-style:italic;padding:4px 0">Brak zadań z datą</div>';
 }
 
 function renderNotes(){
@@ -1383,9 +1638,11 @@ function formatWithTimes(text){
 function openAddTask(defaultStatus='inbox'){
   document.getElementById('atDefaultStatus').value=defaultStatus;
   const firstGame=state.games[0]?.name||'';
-  renderGamePicker(firstGame);
+  renderGamePicker(firstGame,'atGamePicker');
   ['atTitle','atNote'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('atDate').value='';
+  newTaskSubtasks=[];
+  renderAtSubtasksList();
   bootstrap.Modal.getOrCreateInstance(document.getElementById('addTaskModal')).show();
   setTimeout(()=>document.getElementById('atTitle').focus(),350);
 }
@@ -1401,7 +1658,9 @@ function saveNewTask(){
   const order=state.tasks.filter(t=>t.status===status&&t.weekKey===wk).length;
   const newId=uid();
   lastCreatedId=newId;
-  pushTask({id:newId,game,title,date,note,status,priority:false,weekKey:wk,order,attachments:[],subtasks:[],link:null});
+  const subtasks=newTaskSubtasks.map(t=>({id:uid(),title:t,done:false,link:null}));
+  newTaskSubtasks=[];
+  pushTask({id:newId,game,title,date,note,status,priority:false,weekKey:wk,order,attachments:[],subtasks,link:null});
   bootstrap.Modal.getInstance(document.getElementById('addTaskModal')).hide();
 }
 function openAddGame(){
@@ -1508,20 +1767,67 @@ function addSubtask(taskId,title){
 }
 
 // ═══════════════════════════════════════
+// EDIT TASK MODAL
+// ═══════════════════════════════════════
+let editTaskSubtasks=[];
+function openEditTask(id){
+  const t=taskById(id);if(!t)return;
+  document.getElementById('etTaskId').value=id;
+  document.getElementById('etTitle').value=t.title||'';
+  document.getElementById('etDate').value=t.date||'';
+  document.getElementById('etNote').value=t.note||'';
+  editTaskSubtasks=(t.subtasks||[]).map(s=>({...s}));
+  renderGamePicker(t.game,'etGamePicker');
+  renderEtSubtasksList();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('editTaskModal')).show();
+  setTimeout(()=>document.getElementById('etTitle').focus(),350);
+}
+function renderEtSubtasksList(){
+  const list=document.getElementById('etSubtasksList');if(!list)return;
+  list.innerHTML=editTaskSubtasks.map((s,i)=>`
+    <div class="et-subtask-row">
+      <input type="checkbox" class="et-sub-done" data-et-sub-done="${i}" ${s.done?'checked':''}>
+      <input type="text" class="form-control form-control-sm et-subtask-inp" data-et-sub-inp="${i}" value="${esc(s.title)}">
+      <button class="et-sub-del" data-et-sub-del="${i}">✕</button>
+    </div>`).join('');
+}
+function saveEditTask(){
+  const id=document.getElementById('etTaskId').value;if(!id)return;
+  const title=document.getElementById('etTitle').value.trim();if(!title)return;
+  const game=document.getElementById('etGame').value||state.games[0]?.name||'';
+  const date=document.getElementById('etDate').value||null;
+  const note=document.getElementById('etNote').value.trim();
+  // Collect subtasks from DOM
+  const rows=document.querySelectorAll('#etSubtasksList .et-subtask-row');
+  const subtasks=[...rows].map((row,i)=>{
+    const inp=row.querySelector('[data-et-sub-inp]');
+    const cb=row.querySelector('[data-et-sub-done]');
+    const orig=editTaskSubtasks[i]||{};
+    return{id:orig.id||uid(),title:inp?inp.value.trim():orig.title||'',done:cb?cb.checked:orig.done||false,link:orig.link||null};
+  }).filter(s=>s.title);
+  const updates={title,game,date,note,subtasks};
+  if(date) updates.weekKey=dateStrToWk(date);
+  patchTask(id,updates);
+  bootstrap.Modal.getInstance(document.getElementById('editTaskModal')).hide();
+  renderApp();
+}
+
+// ═══════════════════════════════════════
 // CONTEXT MENU
 // ═══════════════════════════════════════
 let ctxTaskId=null;
-function showCtxMenu(x,y,id){
-  ctxTaskId=id;
+let ctxSubId=null;
+function showCtxMenu(x,y,id,subId){
+  ctxTaskId=id;ctxSubId=subId||null;
   const menu=document.getElementById('ctxMenu');
   menu.style.display='block';
-  const mw=220,mh=40;
+  const mw=220,mh=80;
   menu.style.left=Math.min(x,window.innerWidth-mw-8)+'px';
   menu.style.top=Math.min(y,window.innerHeight-mh-8)+'px';
 }
 function hideCtxMenu(){
   document.getElementById('ctxMenu').style.display='none';
-  ctxTaskId=null;
+  ctxTaskId=null;ctxSubId=null;
 }
 function moveTaskToNextWeek(id){
   const t=taskById(id);if(!t)return;
@@ -1533,6 +1839,141 @@ function moveTaskToNextWeek(id){
     updates.date=`${nd.getFullYear()}-${p2(nd.getMonth()+1)}-${p2(nd.getDate())}`;
   }
   patchTask(id,updates);renderApp();
+}
+
+// ═══════════════════════════════════════
+// VACATION
+// ═══════════════════════════════════════
+function openVacationModal(){
+  renderVacationList();
+  document.getElementById('vacStart').value='';
+  document.getElementById('vacEnd').value='';
+  document.getElementById('vacNote').value='';
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('vacationModal')).show();
+}
+function renderVacationList(){
+  const list=document.getElementById('vacationList');if(!list)return;
+  const vacations=state.vacations||[];
+  if(!vacations.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak urlopów</div>';return;}
+  list.innerHTML=vacations.map(v=>`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;background:rgba(158,206,106,.1);border-left:3px solid var(--green);border-radius:4px;padding:5px 8px;">
+      <span style="flex:1;color:var(--green);font-weight:600">🏖️ ${esc(fmtDate(v.start))} – ${esc(fmtDate(v.end))}${v.note?' ('+esc(v.note)+')':''}</span>
+      <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1" data-del-vac="${v.id}">✕</button>
+    </div>`).join('');
+}
+function addVacation(){
+  const start=document.getElementById('vacStart').value;
+  const end=document.getElementById('vacEnd').value;
+  if(!start||!end){alert('Wybierz daty urlopu.');return;}
+  if(end<start){alert('Data końca nie może być wcześniejsza niż data początku.');return;}
+  const note=document.getElementById('vacNote').value.trim();
+  if(!state.vacations)state.vacations=[];
+  state.vacations.push({id:uid(),start,end,note});
+  save();renderVacationList();renderSidebar();
+  document.getElementById('vacStart').value='';
+  document.getElementById('vacEnd').value='';
+  document.getElementById('vacNote').value='';
+}
+function deleteVacation(id){
+  state.vacations=(state.vacations||[]).filter(v=>v.id!==id);
+  save();renderVacationList();renderSidebar();
+}
+
+// ═══════════════════════════════════════
+// RECURRING TASKS
+// ═══════════════════════════════════════
+function openRecurringModal(){
+  renderRecurringList();
+  document.getElementById('rcTitle').value='';
+  document.getElementById('rcInterval').value='7';
+  document.getElementById('rcNote').value='';
+  document.getElementById('rcSubtasks').value='';
+  renderGamePicker(state.games[0]?.name||'','rcGamePicker');
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('recurringModal')).show();
+  setTimeout(()=>document.getElementById('rcTitle').focus(),350);
+}
+function renderRecurringList(){
+  const list=document.getElementById('recurringList');if(!list)return;
+  const recurring=state.recurring||[];
+  if(!recurring.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak zadań cyklicznych</div>';return;}
+  list.innerHTML=recurring.map(r=>`
+    <div class="rc-row">
+      <span class="rc-title">${esc(r.title)}</span>
+      <span class="rc-interval">co ${r.interval||7} dni</span>
+      <span class="rc-toggle" data-rc-toggle="${r.id}" title="${r.enabled?'Wyłącz':'Włącz'}">${r.enabled?'✅':'⬜'}</span>
+      <button class="rc-del" data-rc-del="${r.id}">✕</button>
+    </div>`).join('');
+}
+function addRecurring(){
+  const title=document.getElementById('rcTitle').value.trim();if(!title){alert('Wpisz tytuł.');return;}
+  const game=document.getElementById('rcGame').value||state.games[0]?.name||'';
+  const interval=parseInt(document.getElementById('rcInterval').value)||7;
+  const note=document.getElementById('rcNote').value.trim();
+  const rawSubs=document.getElementById('rcSubtasks').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!state.recurring)state.recurring=[];
+  state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,lastSeeded:null,enabled:true});
+  save();renderRecurringList();
+  document.getElementById('rcTitle').value='';
+  document.getElementById('rcInterval').value='7';
+  document.getElementById('rcNote').value='';
+  document.getElementById('rcSubtasks').value='';
+}
+function deleteRecurring(id){
+  state.recurring=(state.recurring||[]).filter(r=>r.id!==id);
+  save();renderRecurringList();
+}
+function toggleRecurring(id){
+  const r=(state.recurring||[]).find(x=>x.id===id);
+  if(r){r.enabled=!r.enabled;save();renderRecurringList();}
+}
+function seedRecurring(){
+  const today=todayStr();
+  const todayWk=isoWeekKey(new Date());
+  let changed=false;
+  (state.recurring||[]).forEach(r=>{
+    if(!r.enabled)return;
+    const interval=r.interval||7;
+    let shouldSeed=false;
+    if(!r.lastSeeded) shouldSeed=true;
+    else{
+      const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
+      const last=new Date(Date.UTC(ly,lm-1,ld));
+      const now=new Date();
+      const diffDays=Math.floor((now-last)/864e5);
+      if(diffDays>=interval) shouldSeed=true;
+    }
+    if(shouldSeed){
+      const alreadyExists=state.tasks.some(t=>t._recurringId===r.id&&t.date===today);
+      if(!alreadyExists){
+        const subs=(r.subtasks||[]).map(line=>{
+          const parts=String(line).split('|').map(x=>x.trim());
+          return{id:uid(),title:parts[0],done:false,link:parts[1]||null};
+        });
+        state.tasks.push({
+          id:uid(),game:r.game||state.games[0]?.name||'',title:r.title,
+          date:today,note:r.note||'',status:'inbox',priority:false,
+          weekKey:todayWk,order:state.tasks.length,attachments:[],subtasks:subs,link:null,
+          _recurringId:r.id
+        });
+        changed=true;
+      }
+      r.lastSeeded=today;
+    }
+  });
+  if(changed)save();
+}
+
+// ═══════════════════════════════════════
+// ADD TASK SUBTASKS (new task modal)
+// ═══════════════════════════════════════
+let newTaskSubtasks=[];
+function renderAtSubtasksList(){
+  const list=document.getElementById('atSubtasksList');if(!list)return;
+  list.innerHTML=newTaskSubtasks.map((title,i)=>`
+    <div class="at-sub-row">
+      <span class="at-sub-title">${esc(title)}</span>
+      <button class="at-sub-del" data-at-sub-del="${i}">✕</button>
+    </div>`).join('');
 }
 
 // ═══════════════════════════════════════
@@ -1618,11 +2059,15 @@ function initListeners(){
     });
   });
   document.getElementById('agSave').addEventListener('click',saveNewGame);
-  document.getElementById('atGamePicker').addEventListener('click',e=>{
+  // Unified game picker click handler (works for atGamePicker, etGamePicker, rcGamePicker)
+  document.addEventListener('click',e=>{
     const btn=e.target.closest('[data-game-pick]');if(!btn)return;
     const game=btn.dataset.gamePick;
-    document.getElementById('atGame').value=game;
-    document.querySelectorAll('.game-pick-btn').forEach(b=>b.classList.toggle('selected',b.dataset.gamePick===game));
+    const hiddenId=btn.dataset.hiddenId||'atGame';
+    const el=document.getElementById(hiddenId);if(el)el.value=game;
+    // Update selected state only within the same picker container
+    const picker=btn.closest('.game-picker-wrap');
+    if(picker) picker.querySelectorAll('.game-pick-btn').forEach(b=>b.classList.toggle('selected',b.dataset.gamePick===game));
   });
   document.getElementById('atTitle').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('atSave').click();}});
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
@@ -1702,9 +2147,35 @@ function initListeners(){
 
   // Context menu
   document.getElementById('board').addEventListener('contextmenu',e=>{
-    const card=e.target.closest('.task-card');if(!card)return;
-    e.preventDefault();showCtxMenu(e.clientX,e.clientY,card.dataset.id);
+    const subtask=e.target.closest('.subtask');
+    const card=e.target.closest('.task-card');
+    if(!card)return;
+    e.preventDefault();
+    const subId=subtask?subtask.dataset.subtaskId:null;
+    showCtxMenu(e.clientX,e.clientY,card.dataset.id,subId);
+    // If right-click on subtask, do inline edit instead of showing ctx menu
+    if(subtask){
+      hideCtxMenu();
+      const span=subtask.querySelector('.subtask-title');if(!span)return;
+      const orig=span.textContent;
+      const inp=document.createElement('input');
+      inp.type='text';inp.value=orig;inp.className='form-control form-control-sm';
+      inp.style.cssText='font-size:11px;height:22px;padding:1px 5px;';
+      span.replaceWith(inp);inp.focus();inp.select();
+      const save2=()=>{
+        const val=inp.value.trim();
+        if(val&&val!==orig){
+          const t=taskById(card.dataset.id);if(t){
+            const s=t.subtasks.find(x=>x.id===subId);
+            if(s){s.title=val;patchTask(t.id,{subtasks:t.subtasks});renderApp();}
+          }
+        } else {renderApp();}
+      };
+      inp.addEventListener('blur',save2);
+      inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){renderApp();}});
+    }
   });
+  document.getElementById('ctxEdit').addEventListener('click',()=>{if(ctxTaskId)openEditTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideCtxMenu();});
@@ -1801,6 +2272,74 @@ function initListeners(){
     e.preventDefault();handleAttachUploadFiles(card.dataset.id,files);
   });
 
+  // Vacation
+  document.getElementById('btnVacation').addEventListener('click',openVacationModal);
+  document.getElementById('vacAdd').addEventListener('click',addVacation);
+  document.getElementById('vacationModal').addEventListener('click',e=>{
+    if(e.target.dataset.delVac) deleteVacation(e.target.dataset.delVac);
+  });
+
+  // Recurring
+  document.getElementById('btnRecurring').addEventListener('click',openRecurringModal);
+  document.getElementById('rcAdd').addEventListener('click',addRecurring);
+  document.getElementById('recurringModal').addEventListener('click',e=>{
+    if(e.target.dataset.rcDel) deleteRecurring(e.target.dataset.rcDel);
+    if(e.target.dataset.rcToggle) toggleRecurring(e.target.dataset.rcToggle);
+  });
+
+  // Edit task modal
+  document.getElementById('etSave').addEventListener('click',saveEditTask);
+  document.getElementById('etSubtaskInp').addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      const val=e.target.value.trim();if(!val)return;
+      editTaskSubtasks.push({id:uid(),title:val,done:false,link:null});
+      e.target.value='';renderEtSubtasksList();
+    }
+  });
+  document.getElementById('etSubtasksList').addEventListener('click',e=>{
+    if(e.target.dataset.etSubDel!==undefined){
+      editTaskSubtasks.splice(parseInt(e.target.dataset.etSubDel),1);
+      renderEtSubtasksList();
+    }
+  });
+
+  // At subtask input (add task modal)
+  document.getElementById('atSubtaskInp').addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      const val=e.target.value.trim();if(!val)return;
+      newTaskSubtasks.push(val);
+      e.target.value='';renderAtSubtasksList();
+    }
+  });
+  document.getElementById('atSubtasksList').addEventListener('click',e=>{
+    if(e.target.dataset.atSubDel!==undefined){
+      newTaskSubtasks.splice(parseInt(e.target.dataset.atSubDel),1);
+      renderAtSubtasksList();
+    }
+  });
+
+  // Links modal
+  document.getElementById('lmAdd').addEventListener('click',()=>{
+    const label=document.getElementById('lmLabel').value.trim();
+    const url=document.getElementById('lmUrl').value.trim();
+    if(!label||!url){alert('Wpisz etykietę i URL.');return;}
+    if(!state.links)state.links=[];
+    state.links.push({id:uid(),label,url});
+    save();renderLinksList();renderLinksBar();
+    document.getElementById('lmLabel').value='';
+    document.getElementById('lmUrl').value='';
+  });
+  document.getElementById('lmLabel').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
+  document.getElementById('lmUrl').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
+  document.getElementById('linksList').addEventListener('click',e=>{
+    if(e.target.dataset.delLink){
+      state.links=(state.links||[]).filter(l=>l.id!==e.target.dataset.delLink);
+      save();renderLinksList();renderLinksBar();
+    }
+  });
+
   // Icon upload
   document.addEventListener('change',e=>{
     if(!e.target.classList.contains('icon-file-inp'))return;
@@ -1840,6 +2379,7 @@ async function init(){
   // Ensure Daily Pipeline game exists in existing saves
   if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
   seedDailyPipeline();
+  seedRecurring();
   updateFileUI();
   initListeners();
   renderApp();
