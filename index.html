@@ -287,7 +287,7 @@ body{
 
 /* Card layout */
 .card-top{display:flex;align-items:flex-start;gap:4px;}
-.drag-handle{color:var(--faint);cursor:grab;font-size:14px;line-height:1;margin-top:2px;flex-shrink:0;user-select:none;}
+.drag-handle{color:var(--faint);cursor:grab;font-size:14px;flex-shrink:0;user-select:none;padding:2px 6px 2px 0;align-self:stretch;display:flex;align-items:center;}
 .drag-handle:hover{color:var(--muted);}
 .drag-handle:active{cursor:grabbing;}
 
@@ -369,6 +369,8 @@ body{
   resize:none;padding:0;overflow:hidden;
 }
 .card-note:focus{background:rgba(255,255,255,.04);border-radius:3px;padding:1px 4px;}
+.card-note[readonly]{cursor:default;}
+.card-note[readonly]:focus{background:transparent;padding:0;}
 .card-note::placeholder{color:var(--faint);font-style:italic;}
 /* Attachments */
 .attach-area{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;}
@@ -630,6 +632,10 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
           <input type="text" class="form-control form-control-sm" id="atTitle" placeholder="Co trzeba zrobić?">
         </div>
         <div class="mb-2">
+          <label class="form-label small fw-semibold">Link <span class="text-muted fw-normal">(opcjonalnie — nazwa taska stanie się klikalna)</span></label>
+          <input type="text" class="form-control form-control-sm" id="atLink" placeholder="https://...">
+        </div>
+        <div class="mb-2">
           <label class="form-label small fw-semibold">Gra / projekt</label>
           <div class="game-picker-wrap" id="atGamePicker"></div>
           <input type="hidden" id="atGame">
@@ -637,7 +643,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Data <span class="text-muted fw-normal">(opcjonalnie)</span></label>
-          <input type="date" lang="en-GB" class="form-control form-control-sm" id="atDate">
+          <input type="text" class="form-control form-control-sm dm-inp" id="atDate" placeholder="dd/mm/yyyy">
         </div>
         <div class="mb-1">
           <label class="form-label small fw-semibold">Notatka <span class="text-muted fw-normal">(opcjonalnie)</span></label>
@@ -745,13 +751,17 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
           <input type="text" class="form-control form-control-sm" id="etTitle">
         </div>
         <div class="mb-2">
+          <label class="form-label small fw-semibold">Link <span class="text-muted fw-normal">(opcjonalnie — nazwa taska stanie się klikalna)</span></label>
+          <input type="text" class="form-control form-control-sm" id="etLink" placeholder="https://...">
+        </div>
+        <div class="mb-2">
           <label class="form-label small fw-semibold">Gra / projekt</label>
           <div class="game-picker-wrap" id="etGamePicker"></div>
           <input type="hidden" id="etGame">
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Data</label>
-          <input type="date" lang="en-GB" class="form-control form-control-sm" id="etDate">
+          <input type="text" class="form-control form-control-sm dm-inp" id="etDate" placeholder="dd/mm/yyyy">
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Notatka</label>
@@ -816,11 +826,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
           <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
             <label class="form-label small fw-semibold mb-0">Od</label>
-            <input type="date" lang="en-GB" class="form-control form-control-sm" id="vacStart">
+            <input type="text" class="form-control form-control-sm dm-inp" id="vacStart" placeholder="dd/mm/yyyy">
           </div>
           <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
             <label class="form-label small fw-semibold mb-0">Do</label>
-            <input type="date" lang="en-GB" class="form-control form-control-sm" id="vacEnd">
+            <input type="text" class="form-control form-control-sm dm-inp" id="vacEnd" placeholder="dd/mm/yyyy">
           </div>
           <div style="display:flex;flex-direction:column;gap:2px;flex:2;min-width:160px">
             <label class="form-label small fw-semibold mb-0">Notatka (opcjonalnie)</label>
@@ -1103,6 +1113,14 @@ function isInWeek(ds,wk){
 }
 function todayStr(){const n=new Date();return`${n.getFullYear()}-${p2(n.getMonth()+1)}-${p2(n.getDate())}`;}
 function p2(n){return String(n).padStart(2,'0');}
+function parseDateInput(val){
+  if(!val) return null;
+  const m=val.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if(!m) return null;
+  const[,d,mo,y]=m.map(Number);
+  if(mo<1||mo>12||d<1||d>31) return null;
+  return`${y}-${p2(mo)}-${p2(d)}`;
+}
 const PL_MON=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
 const PL_DNI=['Nd','Pon','Wt','Śr','Czw','Pt','Sb'];
 function fmtDate(ds){
@@ -1290,11 +1308,11 @@ function cardHtml(t){
   const dateArea=ds
     ?`<div class="card-date">
         <span class="date-chip ${chipCls}" data-action="edit-date" data-id="${t.id}">${fmtDate(ds)}</span>
-        <input type="date" class="date-input" lang="en-GB" data-f="date" data-id="${t.id}" value="${ds}" style="display:none">
+        <input type="text" class="date-input dm-inp" placeholder="dd/mm/yyyy" data-f="date" data-id="${t.id}" data-raw="${ds}" style="display:none">
       </div>`
     :`<div class="card-date">
         <button class="btn-add-date" data-action="show-date" data-id="${t.id}" title="Dodaj datę">📅</button>
-        <input type="date" class="date-input" lang="en-GB" data-f="date" data-id="${t.id}" value="" style="display:none">
+        <input type="text" class="date-input dm-inp" placeholder="dd/mm/yyyy" data-f="date" data-id="${t.id}" data-raw="" style="display:none">
       </div>`;
   const atts=(t.attachments||[]);
   const attHtml=atts.map(a=>{
@@ -1336,7 +1354,7 @@ function cardHtml(t){
   ${t.game?`<div class="card-badges">${cardGameBadgeHtml(t.game)}</div>`:''}
   <div class="card-expand">
     <div class="subtasks-area">${subsHtml}<input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."></div>
-    <textarea class="card-note" data-f="note" data-id="${t.id}" rows="1" placeholder="Notatka..." spellcheck="false">${esc(t.note||'')}</textarea>
+    <textarea class="card-note" data-f="note" data-id="${t.id}" rows="1" placeholder="Notatka... (dblclick aby edytować)" spellcheck="false" readonly>${esc(t.note||'')}</textarea>
     <div class="attach-area" style="${atts.length?'':'display:none'}">${attHtml}</div>
     <div class="attach-hint" style="font-size:10px;color:var(--faint);margin-top:4px;font-style:italic">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
   </div>
@@ -1706,7 +1724,11 @@ function showDateInput(el){
   const addBtn=card.querySelector('[data-action="show-date"]');
   if(chip) chip.style.display='none';
   if(addBtn) addBtn.style.display='none';
-  if(inp){inp.style.display='';inp.focus();}
+  if(inp){
+    inp.value=fmtDate(inp.dataset.raw||'');
+    inp.style.display='';inp.focus();
+    if(inp.value) inp.select();
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1787,8 +1809,7 @@ function openAddTask(defaultStatus='inbox'){
   document.getElementById('atDefaultStatus').value=defaultStatus;
   const firstGame=state.games[0]?.name||'';
   renderGamePicker(firstGame,'atGamePicker');
-  ['atTitle','atNote'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('atDate').value='';
+  ['atTitle','atNote','atLink','atDate'].forEach(id=>document.getElementById(id).value='');
   newTaskSubtasks=[];
   renderAtSubtasksList();
   bootstrap.Modal.getOrCreateInstance(document.getElementById('addTaskModal')).show();
@@ -1799,8 +1820,9 @@ function saveNewTask(){
   const title=document.getElementById('atTitle').value.trim();
   if(!title){document.getElementById('atTitle').focus();return;}
   const game=document.getElementById('atGame').value||state.games[0]?.name||'Ogólne';
-  const date=document.getElementById('atDate').value||null;
+  const date=parseDateInput(document.getElementById('atDate').value)||null;
   const note=document.getElementById('atNote').value.trim();
+  const link=document.getElementById('atLink').value.trim()||null;
   const status=document.getElementById('atDefaultStatus').value||'inbox';
   const wk=currentWeekKey;
   const order=state.tasks.filter(t=>t.status===status&&t.weekKey===wk).length;
@@ -1808,7 +1830,7 @@ function saveNewTask(){
   lastCreatedId=newId;
   const subtasks=newTaskSubtasks.map(t=>({id:uid(),title:t,done:false,link:null}));
   newTaskSubtasks=[];
-  pushTask({id:newId,game,title,date,note,status,priority:false,weekKey:wk,order,attachments:[],subtasks,link:null});
+  pushTask({id:newId,game,title,date,note,status,priority:false,weekKey:wk,order,attachments:[],subtasks,link});
   bootstrap.Modal.getInstance(document.getElementById('addTaskModal')).hide();
 }
 function openAddGame(){
@@ -1922,7 +1944,8 @@ function openEditTask(id){
   const t=taskById(id);if(!t)return;
   document.getElementById('etTaskId').value=id;
   document.getElementById('etTitle').value=t.title||'';
-  document.getElementById('etDate').value=t.date||'';
+  document.getElementById('etLink').value=t.link||'';
+  document.getElementById('etDate').value=t.date?fmtDate(t.date):'';
   document.getElementById('etNote').value=t.note||'';
   editTaskSubtasks=(t.subtasks||[]).map(s=>({...s}));
   renderGamePicker(t.game,'etGamePicker');
@@ -1943,8 +1966,9 @@ function saveEditTask(){
   const id=document.getElementById('etTaskId').value;if(!id)return;
   const title=document.getElementById('etTitle').value.trim();if(!title)return;
   const game=document.getElementById('etGame').value||state.games[0]?.name||'';
-  const date=document.getElementById('etDate').value||null;
+  const date=parseDateInput(document.getElementById('etDate').value)||null;
   const note=document.getElementById('etNote').value.trim();
+  const link=document.getElementById('etLink').value.trim()||null;
   // Collect subtasks from DOM
   const rows=document.querySelectorAll('#etSubtasksList .et-subtask-row');
   const subtasks=[...rows].map((row,i)=>{
@@ -1953,7 +1977,7 @@ function saveEditTask(){
     const orig=editTaskSubtasks[i]||{};
     return{id:orig.id||uid(),title:inp?inp.value.trim():orig.title||'',done:cb?cb.checked:orig.done||false,link:orig.link||null};
   }).filter(s=>s.title);
-  const updates={title,game,date,note,subtasks};
+  const updates={title,game,date,note,subtasks,link};
   if(date) updates.weekKey=dateStrToWk(date);
   patchTask(id,updates);
   bootstrap.Modal.getInstance(document.getElementById('editTaskModal')).hide();
@@ -2016,9 +2040,9 @@ function renderVacationList(){
   }).join('');
 }
 function addVacation(){
-  const start=document.getElementById('vacStart').value;
-  const end=document.getElementById('vacEnd').value;
-  if(!start||!end){alert('Wybierz daty urlopu.');return;}
+  const start=parseDateInput(document.getElementById('vacStart').value);
+  const end=parseDateInput(document.getElementById('vacEnd').value);
+  if(!start||!end){alert('Podaj daty urlopu w formacie dd/mm/yyyy.');return;}
   if(end<start){alert('Data końca nie może być wcześniejsza niż data początku.');return;}
   const note=document.getElementById('vacNote').value.trim();
   const person=document.getElementById('vacPerson').value||null;
@@ -2251,7 +2275,18 @@ function initListeners(){
       const isExp=card.classList.contains('expanded');
       card.classList.toggle('expanded',!isExp);
       if(!isExp){expandedCards.add(id);const note=card.querySelector('.card-note');if(note)requestAnimationFrame(()=>autoResize(note));}
-      else{expandedCards.delete(id);const disp=card.querySelector('.title-display');if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=renderText(ta.value);}}
+      else{
+        expandedCards.delete(id);
+        const disp=card.querySelector('.title-display');
+        if(disp){
+          const ta=card.querySelector('.card-title');
+          if(ta){
+            const t=taskById(id);
+            if(t&&t.link) disp.innerHTML=`${esc(ta.value)} <span style="font-size:10px;opacity:.5">↗</span>`;
+            else disp.innerHTML=renderText(ta.value);
+          }
+        }
+      }
       return;
     }
     if(action==='toggle') toggleDone(id);
@@ -2274,7 +2309,7 @@ function initListeners(){
       }else{
         expandedCards.delete(id);
         const disp=card.querySelector('.title-display');
-        if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=renderText(ta.value);}
+        if(disp){const ta=card.querySelector('.card-title');if(ta){const t=taskById(id);if(t&&t.link)disp.innerHTML=`${esc(ta.value)} <span style="font-size:10px;opacity:.5">↗</span>`;else disp.innerHTML=renderText(ta.value);}}
       }
     }
     else if(action==='del-attach'){
@@ -2299,8 +2334,39 @@ function initListeners(){
     }
   });
 
-  // Board double-click → edit title
+  // Board double-click → edit title / note / subtask
   document.getElementById('board').addEventListener('dblclick',e=>{
+    // Note dblclick → unlock for editing
+    if(e.target.classList.contains('card-note')){
+      e.target.removeAttribute('readonly');
+      e.target.focus();
+      return;
+    }
+    // Subtask dblclick → inline edit
+    const subtaskSpan=e.target.closest('.subtask-title:not(a)');
+    if(subtaskSpan){
+      const subtask=subtaskSpan.closest('.subtask');if(!subtask)return;
+      const card=subtask.closest('.task-card');if(!card)return;
+      const subId=subtask.dataset.subtaskId;
+      const orig=subtaskSpan.textContent;
+      const inp=document.createElement('input');
+      inp.type='text';inp.value=orig;inp.className='form-control form-control-sm';
+      inp.style.cssText='font-size:11px;height:22px;padding:1px 5px;';
+      subtaskSpan.replaceWith(inp);inp.focus();inp.select();
+      const save2=()=>{
+        const val=inp.value.trim();
+        if(val&&val!==orig){
+          const t=taskById(card.dataset.id);if(t){
+            const s=t.subtasks.find(x=>x.id===subId);
+            if(s){s.title=val;patchTask(t.id,{subtasks:t.subtasks});renderApp();}
+          }
+        } else {renderApp();}
+      };
+      inp.addEventListener('blur',save2);
+      inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){renderApp();}});
+      return;
+    }
+    // Title display dblclick → expand and focus title textarea
     const disp=e.target.closest('.title-display:not(.title-link)');if(!disp)return;
     const id=disp.dataset.id;if(!id)return;
     const card=disp.closest('.task-card');if(!card)return;
@@ -2309,8 +2375,13 @@ function initListeners(){
     if(ta){requestAnimationFrame(()=>{autoResize(ta);ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);});}
   });
 
-  // Board keydown → Enter in subtask-inp adds subtask
+  // Board keydown → Enter in subtask-inp adds subtask; Enter/Escape in date-input
   document.getElementById('board').addEventListener('keydown',e=>{
+    if(e.target.classList.contains('date-input')){
+      if(e.key==='Enter'){e.preventDefault();e.target.blur();}
+      if(e.key==='Escape'){e.target.value='';e.target.blur();}
+      return;
+    }
     if(!e.target.classList.contains('subtask-inp'))return;
     if(e.key==='Enter'){e.preventDefault();addSubtask(e.target.dataset.id,e.target.value);e.target.value='';}
     if(e.key==='Escape'){e.target.value='';e.target.blur();}
@@ -2356,7 +2427,7 @@ function initListeners(){
   document.getElementById('board').addEventListener('change',e=>{
     const{f,id}=e.target.dataset;if(!f||!id)return;
     if(f==='date'){
-      const date=e.target.value||null;
+      const date=parseDateInput(e.target.value)||null;
       const updates={date};
       if(date) updates.weekKey=dateStrToWk(date);
       patchTask(id,updates);renderApp();
@@ -2383,8 +2454,13 @@ function initListeners(){
       if(disp) disp.innerHTML=renderText(e.target.value);
       return;
     }
+    if(e.target.classList.contains('card-note')){
+      e.target.setAttribute('readonly','');
+      return;
+    }
     if(!e.target.classList.contains('date-input'))return;
-    if(e.target.value)return;
+    // date-input focusout: if invalid/empty, hide and restore chip
+    if(parseDateInput(e.target.value))return; // valid → change event handles save
     const card=e.target.closest('.task-card');if(!card)return;
     e.target.style.display='none';
     const chip=card.querySelector('.date-chip');
@@ -2518,6 +2594,25 @@ function initListeners(){
     document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
     if(!isSelected){btn.classList.add('selected');document.getElementById('vacPerson').value=person;}
     else document.getElementById('vacPerson').value='';
+  });
+
+  // Date masking for dm-inp inputs (auto-insert slashes as user types)
+  document.addEventListener('input',e=>{
+    if(!e.target.classList.contains('dm-inp'))return;
+    const inp=e.target;
+    const pos=inp.selectionStart;
+    let v=inp.value.replace(/[^\d]/g,'');
+    if(v.length>8)v=v.slice(0,8);
+    let masked='';
+    if(v.length>4) masked=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+    else if(v.length>2) masked=v.slice(0,2)+'/'+v.slice(2);
+    else masked=v;
+    if(inp.value!==masked){
+      inp.value=masked;
+      // restore cursor roughly after inserted slash
+      const newPos=pos+(masked.length-inp.value.length+masked.length-v.length);
+      try{inp.setSelectionRange(masked.length,masked.length);}catch(_){}
+    }
   });
 
   // Icon upload
