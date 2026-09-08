@@ -1309,14 +1309,14 @@ function cardHtml(t){
   <div class="subtask-cb ${s.done?'done':''}" data-action="toggle-subtask" data-subtask-id="${s.id}" data-id="${t.id}"></div>
   ${s.link
     ?`<a class="subtask-title ${s.done?'done-text':''}" href="${esc(s.link)}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">${formatWithTimes(shortenIfUrl(s.title))}<span style="opacity:.5;font-size:9px;margin-left:2px">↗</span></a>`
-    :`<span class="subtask-title ${s.done?'done-text':''}">${formatWithTimes(s.title)}</span>`
+    :`<span class="subtask-title ${s.done?'done-text':''}">${renderText(s.title)}</span>`
   }
   <button class="subtask-del" data-action="del-subtask" data-subtask-id="${s.id}" data-id="${t.id}">✕</button>
 </div>`).join('');
   const isExp=expandedCards.has(t.id);
   const titleDisp=t.link
     ?`<div class="title-display title-link" data-action="open-link" data-link="${esc(t.link)}" data-id="${t.id}" title="Otwórz link">${formatWithTimes(t.title)} <span style="font-size:10px;opacity:.5">↗</span></div>`
-    :`<div class="title-display" data-action="expand" data-id="${t.id}">${formatWithTimes(t.title)}</div>`;
+    :`<div class="title-display" data-action="expand" data-id="${t.id}">${renderText(t.title)}</div>`;
   return`
 <div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
@@ -1763,6 +1763,21 @@ function shortenIfUrl(text){
     if(/^https?:\/\//i.test(text)){const u=new URL(text);return u.hostname.replace(/^www\./,'');}
   }catch(_){}
   return text;
+}
+function renderText(text){
+  if(!text) return '';
+  const urlRe=/https?:\/\/[^\s<>'"]+/g;
+  let out='',last=0,m;
+  while((m=urlRe.exec(text))!==null){
+    if(m.index>last) out+=formatWithTimes(text.slice(last,m.index));
+    const url=m[0];
+    let host=url;
+    try{host=new URL(url).hostname.replace(/^www\./,'');}catch(_){}
+    out+=`<a href="${esc(url)}" target="_blank" rel="noopener" style="color:var(--blue);font-size:11px">${esc(host)}</a>`;
+    last=m.index+url.length;
+  }
+  if(last<text.length) out+=formatWithTimes(text.slice(last));
+  return out||formatWithTimes(text);
 }
 
 // ═══════════════════════════════════════
@@ -2236,7 +2251,7 @@ function initListeners(){
       const isExp=card.classList.contains('expanded');
       card.classList.toggle('expanded',!isExp);
       if(!isExp){expandedCards.add(id);const note=card.querySelector('.card-note');if(note)requestAnimationFrame(()=>autoResize(note));}
-      else{expandedCards.delete(id);const disp=card.querySelector('.title-display');if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=formatWithTimes(ta.value);}}
+      else{expandedCards.delete(id);const disp=card.querySelector('.title-display');if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=renderText(ta.value);}}
       return;
     }
     if(action==='toggle') toggleDone(id);
@@ -2259,7 +2274,7 @@ function initListeners(){
       }else{
         expandedCards.delete(id);
         const disp=card.querySelector('.title-display');
-        if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=formatWithTimes(ta.value);}
+        if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=renderText(ta.value);}
       }
     }
     else if(action==='del-attach'){
@@ -2365,7 +2380,7 @@ function initListeners(){
     if(e.target.classList.contains('card-title')){
       const card=e.target.closest('.task-card');if(!card)return;
       const disp=card.querySelector('.title-display');
-      if(disp) disp.innerHTML=formatWithTimes(e.target.value);
+      if(disp) disp.innerHTML=renderText(e.target.value);
       return;
     }
     if(!e.target.classList.contains('date-input'))return;
@@ -2488,11 +2503,6 @@ function initListeners(){
   });
   document.getElementById('lmLabel').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
   document.getElementById('lmUrl').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
-  document.getElementById('lmUrl').addEventListener('blur',e=>{
-    const lbl=document.getElementById('lmLabel');
-    if(lbl.value.trim()) return;
-    try{const u=new URL(e.target.value.trim());lbl.value=u.hostname.replace(/^www\./,'');}catch(_){}
-  });
   document.getElementById('linksList').addEventListener('click',e=>{
     if(e.target.dataset.delLink){
       state.links=(state.links||[]).filter(l=>l.id!==e.target.dataset.delLink);
