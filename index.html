@@ -1053,8 +1053,7 @@ const PL_DNI=['Nd','Pon','Wt','Śr','Czw','Pt','Sb'];
 function fmtDate(ds){
   if(!ds) return'';
   const[y,m,d]=ds.split('-').map(Number);
-  const dt=new Date(Date.UTC(y,m-1,d));
-  return`${PL_DNI[dt.getUTCDay()]} ${dt.getUTCDate()} ${PL_MON[dt.getUTCMonth()]}`;
+  return`${p2(d)}/${p2(m)}/${y}`;
 }
 function fmtWeek(wk){
   const{mon,sun}=weekRange(wk);
