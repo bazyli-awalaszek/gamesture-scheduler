@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -170,6 +170,16 @@ body{
   background:#16161e;border-left:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;
 }
+.sidebar-toggle-btn{
+  flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:5px;
+  background:none;border:none;border-bottom:1px solid var(--border);
+  color:var(--muted);cursor:pointer;padding:5px 10px;font-size:11px;
+  white-space:nowrap;overflow:hidden;text-align:right;
+  transition:background .1s;
+}
+.sidebar-toggle-btn:hover{background:var(--border);color:var(--dark);}
+.sidebar.collapsed .sb-tge,.sidebar.collapsed .sb-notes{display:none;}
+.sidebar.collapsed .sidebar-toggle-btn{justify-content:center;padding:5px 0;}
 .sb-tge{
   flex:0 0 auto;max-height:52%;
   display:flex;flex-direction:column;overflow:hidden;
@@ -575,7 +585,8 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <div class="board" id="board"></div>
 
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="sidebarPanel">
+  <button class="sidebar-toggle-btn" id="sidebarToggleBtn">Panel ▶</button>
   <div class="sb-tge" id="sbTge">
     <div class="sb-title sb-title-toggle" id="sbTgeToggle">🎮 Game Schedule <span class="sb-arrow">▾</span></div>
     <div class="tge-body">
@@ -901,6 +912,7 @@ const NOTE_COLORS=[
 let state, currentWeekKey;
 const expandedCards=new Set();
 let boardFilters={inbox:null,active:null};
+let sidebarCollapsed=localStorage.getItem('tm-sidebar')===`1`;
 
 // ── FILE HANDLE (File System Access API) ──
 let fileHandle=null;
@@ -1178,7 +1190,6 @@ function renderBoard(){
   board.appendChild(buildBoardCol('inbox','📥 Inbox','inbox-col'));
   board.appendChild(buildBoardCol('active','📌 For Today','today-col'));
   board.appendChild(buildBoardCol('ongoing','🔥 W toku','wtoku-col'));
-  board.appendChild(buildHistoriaCol());
   initSortables();
   requestAnimationFrame(()=>board.querySelectorAll('textarea').forEach(autoResize));
 }
@@ -1208,8 +1219,9 @@ function buildBoardCol(status,title,cls){
     }
   }
 
-  // Done section: current week → show only tasks completed today; past weeks → hide (everything in Historia)
+  // Done section + Historia (For Today column only)
   let doneSection='';
+  let historiaSection='';
   if(status==='active'){
     const today=todayStr();
     const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
@@ -1223,6 +1235,11 @@ function buildBoardCol(status,title,cls){
           </div>
         </details>`;
       }
+      const histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
+      historiaSection=buildHistoriaDetails(histTasks);
+    } else {
+      const histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
+      historiaSection=buildHistoriaDetails(histTasks);
     }
   }
 
@@ -1236,58 +1253,33 @@ function buildBoardCol(status,title,cls){
       ${active.map(cardHtml).join('')||'<div class="empty-msg">Brak zadań</div>'}
     </div>
     <button class="add-task-btn" data-add-status="${status}">+ Dodaj zadanie</button>
-    ${doneSection}`;
+    ${doneSection}
+    ${historiaSection}`;
   return col;
 }
 
-function buildHistoriaCol(){
-  const col=document.createElement('div');
-  col.className='board-col historia-col';
-
-  const today=todayStr();
-  const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
-
-  let doneTasks;
-  if(isCurrentWk){
-    doneTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
-  } else {
-    doneTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
-  }
-
+function buildHistoriaDetails(tasks){
+  if(!tasks.length) return '';
   const byDate={};
-  doneTasks.forEach(t=>{
+  tasks.forEach(t=>{
     const ds=t.doneAt||t.date||'';
     if(!byDate[ds])byDate[ds]=[];
     byDate[ds].push(t);
   });
   const dateKeys=Object.keys(byDate).sort().reverse();
-
-  let contentHtml='';
-  if(!dateKeys.length){
-    contentHtml='<div class="empty-msg">Brak historii</div>';
-  } else {
-    dateKeys.forEach(ds=>{
-      const dayTasks=byDate[ds].sort((a,b)=>(a.order||0)-(b.order||0));
-      let dayLabel;
-      if(!ds){
-        dayLabel='(bez daty)';
-      } else {
-        const[y,m,d]=ds.split('-').map(Number);
-        const dow=PL_DNI[new Date(y,m-1,d).getDay()]||'';
-        dayLabel=`${dow}, ${fmtDate(ds)}`;
-      }
-      contentHtml+=`<div class="historia-day-hdr">${dayLabel}</div>`;
-      contentHtml+=dayTasks.map(cardHtml).join('');
-    });
-  }
-
-  col.innerHTML=`
-    <div class="col-hdr-new">
-      <span class="col-title">📅 Historia</span>
-      ${doneTasks.length?`<span class="sec-cnt">${doneTasks.length}</span>`:''}
-    </div>
-    <div>${contentHtml}</div>`;
-  return col;
+  let inner='';
+  dateKeys.forEach(ds=>{
+    const dayTasks=byDate[ds].sort((a,b)=>(a.order||0)-(b.order||0));
+    let dayLabel;
+    if(!ds){dayLabel='(bez daty)';}
+    else{const[y,m,d]=ds.split('-').map(Number);const dow=PL_DNI[new Date(y,m-1,d).getDay()]||'';dayLabel=`${dow}, ${fmtDate(ds)}`;}
+    inner+=`<div class="historia-day-hdr">${dayLabel}</div>`;
+    inner+=dayTasks.map(cardHtml).join('');
+  });
+  return`<details class="done-sec mt-2">
+    <summary><span class="done-arrow">▶</span> 📅 Historia <span class="sec-cnt ms-1">${tasks.length}</span></summary>
+    <div class="mt-1">${inner}</div>
+  </details>`;
 }
 
 function cardHtml(t){
@@ -1316,7 +1308,7 @@ function cardHtml(t){
 <div class="subtask" data-subtask-id="${s.id}" data-id="${t.id}">
   <div class="subtask-cb ${s.done?'done':''}" data-action="toggle-subtask" data-subtask-id="${s.id}" data-id="${t.id}"></div>
   ${s.link
-    ?`<a class="subtask-title ${s.done?'done-text':''}" href="${esc(s.link)}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">${formatWithTimes(s.title)}<span style="opacity:.5;font-size:9px;margin-left:2px">↗</span></a>`
+    ?`<a class="subtask-title ${s.done?'done-text':''}" href="${esc(s.link)}" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none">${formatWithTimes(shortenIfUrl(s.title))}<span style="opacity:.5;font-size:9px;margin-left:2px">↗</span></a>`
     :`<span class="subtask-title ${s.done?'done-text':''}">${formatWithTimes(s.title)}</span>`
   }
   <button class="subtask-del" data-action="del-subtask" data-subtask-id="${s.id}" data-id="${t.id}">✕</button>
@@ -1328,7 +1320,7 @@ function cardHtml(t){
   return`
 <div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
-    <span class="drag-handle">⠿</span>
+    <span class="drag-handle" data-action="toggle-expand" data-id="${t.id}">⠿</span>
     <div class="cb ${t.status==='done'?'done':''}" data-action="toggle" data-id="${t.id}"></div>
     ${dateArea}
     <div class="title-wrap">
@@ -1560,6 +1552,19 @@ function renderLinksList(){
 }
 
 // ── SIDEBAR ────────────────────────────────────────
+function applySidebarState(){
+  const panel=document.getElementById('sidebarPanel');
+  const btn=document.getElementById('sidebarToggleBtn');
+  if(!panel||!btn) return;
+  panel.classList.toggle('collapsed',sidebarCollapsed);
+  btn.textContent=sidebarCollapsed?'▶':'Panel ▶';
+  document.body.style.gridTemplateColumns=sidebarCollapsed?'1fr 34px':'1fr minmax(280px,33%)';
+}
+function toggleSidebar(){
+  sidebarCollapsed=!sidebarCollapsed;
+  localStorage.setItem('tm-sidebar',sidebarCollapsed?'1':'0');
+  applySidebarState();
+}
 function renderSidebar(){renderNotes();}
 
 function renderCalendar(){
@@ -1753,6 +1758,12 @@ function autoResize(el){el.style.height='0';el.style.height=el.scrollHeight+'px'
 function formatWithTimes(text){
   return esc(text).replace(/\b(\d{1,2}:\d{2})\b/g,'<span class="time-hl">$1</span>');
 }
+function shortenIfUrl(text){
+  try{
+    if(/^https?:\/\//i.test(text)){const u=new URL(text);return u.hostname.replace(/^www\./,'');}
+  }catch(_){}
+  return text;
+}
 
 // ═══════════════════════════════════════
 // MODALS
@@ -1776,7 +1787,7 @@ function saveNewTask(){
   const date=document.getElementById('atDate').value||null;
   const note=document.getElementById('atNote').value.trim();
   const status=document.getElementById('atDefaultStatus').value||'inbox';
-  const wk=date?dateStrToWk(date):currentWeekKey;
+  const wk=currentWeekKey;
   const order=state.tasks.filter(t=>t.status===status&&t.weekKey===wk).length;
   const newId=uid();
   lastCreatedId=newId;
@@ -2204,6 +2215,9 @@ function initListeners(){
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
   // Board click delegation
   document.getElementById('board').addEventListener('click',e=>{
+    // Allow native <a href> links (subtask links, attach links) to open normally
+    const nativeA=e.target.closest('a[href]');
+    if(nativeA&&!nativeA.dataset.action) return;
     if(e.target.dataset.addStatus!==undefined){openAddTask(e.target.dataset.addStatus);return;}
     // Category filter buttons
     const filterBtn=e.target.closest('[data-filter-col]');
@@ -2217,6 +2231,14 @@ function initListeners(){
     const action=e.target.dataset.action||e.target.closest('[data-action]')?.dataset.action;
     const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
     if(!action||!id)return;
+    if(action==='toggle-expand'){
+      const card=document.querySelector(`.task-card[data-id="${id}"]`);if(!card)return;
+      const isExp=card.classList.contains('expanded');
+      card.classList.toggle('expanded',!isExp);
+      if(!isExp){expandedCards.add(id);const note=card.querySelector('.card-note');if(note)requestAnimationFrame(()=>autoResize(note));}
+      else{expandedCards.delete(id);const disp=card.querySelector('.title-display');if(disp){const ta=card.querySelector('.card-title');if(ta)disp.innerHTML=formatWithTimes(ta.value);}}
+      return;
+    }
     if(action==='toggle') toggleDone(id);
     else if(action==='priority') togglePriority(id);
     else if(action==='to-ongoing') moveToOngoing(id);
@@ -2356,6 +2378,9 @@ function initListeners(){
     if(addBtn) addBtn.style.display='';
   });
 
+  // Sidebar collapse toggle
+  document.getElementById('sidebarToggleBtn').addEventListener('click',toggleSidebar);
+
   // Game Schedule toggle
   document.getElementById('sbTgeToggle').addEventListener('click',()=>{
     document.getElementById('sbTge').classList.toggle('collapsed');
@@ -2463,6 +2488,11 @@ function initListeners(){
   });
   document.getElementById('lmLabel').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
   document.getElementById('lmUrl').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lmAdd').click();});
+  document.getElementById('lmUrl').addEventListener('blur',e=>{
+    const lbl=document.getElementById('lmLabel');
+    if(lbl.value.trim()) return;
+    try{const u=new URL(e.target.value.trim());lbl.value=u.hostname.replace(/^www\./,'');}catch(_){}
+  });
   document.getElementById('linksList').addEventListener('click',e=>{
     if(e.target.dataset.delLink){
       state.links=(state.links||[]).filter(l=>l.id!==e.target.dataset.delLink);
@@ -2522,6 +2552,7 @@ async function init(){
   seedRecurring();
   updateFileUI();
   initListeners();
+  applySidebarState();
   renderApp();
 }
 init();
