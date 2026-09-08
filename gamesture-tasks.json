@@ -214,7 +214,7 @@
       "id": "mpl11ft71paxn2",
       "game": "Ogólne",
       "title": "GamePulse AI config tab - check out",
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "status": "active",
       "priority": false,
       "date": null,
@@ -415,7 +415,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 1,
       "attachments": [],
       "subtasks": [
@@ -446,7 +446,7 @@
       "note": "https://gamesture.helpshift.com/admin/issue/70543/",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 2,
       "attachments": [],
       "subtasks": [],
@@ -461,7 +461,7 @@
       "note": "https://gamesture.helpshift.com/admin/issue/70499/",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 3,
       "attachments": [],
       "subtasks": [],
@@ -476,7 +476,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 4,
       "attachments": [],
       "subtasks": [],
@@ -537,7 +537,7 @@
       "note": "https://docs.google.com/forms/d/10LibiICxRXqw-5BL6p9O45QDhd5dLF0xYCdK2wmAHf8/edit",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 5,
       "attachments": [],
       "subtasks": [],
@@ -618,7 +618,7 @@
       "note": "PYTANIE DO M.KORKA ODN. [i]\nhttps://gamesture.slack.com/archives/C0BH3LVCMPF/p1787139143794609?thread_ts=1786456500.532159&cid=C0BH3LVCMPF",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 7,
       "attachments": [],
       "subtasks": [],
@@ -633,7 +633,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 9,
       "attachments": [],
       "subtasks": [],
@@ -648,7 +648,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 10,
       "attachments": [],
       "subtasks": [],
@@ -663,7 +663,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 11,
       "attachments": [],
       "subtasks": [],
@@ -678,7 +678,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 12,
       "attachments": [],
       "subtasks": [],
@@ -693,7 +693,7 @@
       "note": "",
       "status": "active",
       "priority": false,
-      "weekKey": "2026-W34",
+      "weekKey": "2026-W37",
       "order": 0,
       "attachments": [],
       "subtasks": [
@@ -730,6 +730,51 @@
       ],
       "link": null,
       "links": []
+    },
+    {
+      "id": "mtsa2hc2zy5q",
+      "game": "Ogólne",
+      "title": "DAILY BREAD",
+      "date": "2026-09-08",
+      "note": "",
+      "status": "active",
+      "priority": false,
+      "weekKey": "2026-W37",
+      "order": 0,
+      "attachments": [],
+      "subtasks": [
+        {
+          "id": "mtsa2hc2030r",
+          "title": "Morning Support Check",
+          "done": false
+        },
+        {
+          "id": "mtsa2hc2pegc",
+          "title": "TG refunds check",
+          "done": false
+        },
+        {
+          "id": "mtsa2hc2yikl",
+          "title": "FB posts Accept",
+          "done": false
+        },
+        {
+          "id": "mtsa2hc2lwdc",
+          "title": "FB/DC dms check",
+          "done": false
+        },
+        {
+          "id": "mtsa2hc2wpz6",
+          "title": "12:00 Support Check",
+          "done": false
+        },
+        {
+          "id": "mtsa2hc2w86o",
+          "title": "Store Reviews",
+          "done": false
+        }
+      ],
+      "link": null
     }
   ],
   "quicklinks": [
@@ -982,9 +1027,9 @@
     "cwNote": "New events, recipes, etc. start at 13:00 (UTC)"
   },
   "_meta": {
-    "version": 125,
-    "updatedAt": "2026-08-20T14:03:55.046Z",
+    "version": 126,
+    "updatedAt": "2026-09-08T06:17:43.546Z",
     "updatedBy": "bazyli-awalaszek",
-    "sessionId": "tab-xb5q55"
+    "sessionId": "tab-d1h9s1"
   }
 }
