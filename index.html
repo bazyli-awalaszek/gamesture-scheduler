@@ -423,7 +423,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .empty-state{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);}
 
 /* ── BOARD COLUMNS (new) ── */
-.board-col{min-width:336px;max-width:384px;background:var(--col);border-radius:12px;padding:10px;flex-shrink:0;}
+.board-col{flex:1;min-width:280px;background:var(--col);border-radius:12px;padding:10px;}
 .board-col.inbox-col{background:var(--col-gen);border:1px dashed var(--muted);}
 .board-col.today-col{border:1px solid rgba(122,162,247,.2);}
 .col-hdr-new{display:flex;align-items:center;gap:8px;padding:2px 2px 8px;border-bottom:1px solid var(--border);margin-bottom:8px;}
@@ -513,6 +513,23 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .at-sub-title{flex:1;font-size:11px;color:var(--dark2);}
 .at-sub-del{background:none;border:none;cursor:pointer;color:var(--faint);font-size:11px;padding:0 3px;line-height:1;}
 .at-sub-del:hover{color:var(--red);}
+
+/* ── CATEGORY FILTER BAR ── */
+.cat-filter-bar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+.cat-filter-btn{font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--border2);background:var(--border);color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .1s;}
+.cat-filter-btn:hover{background:var(--border2);color:var(--dark);}
+.cat-filter-btn.active{background:rgba(122,162,247,.2);border-color:var(--blue);color:var(--blue);}
+
+/* ── PERSON TOGGLE BTN (vacation) ── */
+.person-toggle-btn{padding:4px 12px;border-radius:6px;border:2px solid transparent;cursor:pointer;font-size:12px;font-weight:600;background:var(--border);transition:all .12s;}
+.person-toggle-btn:hover{opacity:.85;}
+.person-toggle-btn.selected{background:rgba(255,255,255,.08);}
+
+/* ── HISTORIA COLUMN ── */
+.historia-col{border:1px solid rgba(86,95,137,.25);background:rgba(10,10,20,.35);}
+.historia-col .col-title{color:var(--muted);}
+.historia-day-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:8px 2px 3px;border-top:1px solid var(--border);margin-top:2px;}
+.historia-day-hdr:first-child{border-top:none;margin-top:0;padding-top:2px;}
 
 /* ── RECURRING MODAL ── */
 .rc-row{display:flex;align-items:center;gap:8px;padding:6px 14px;border-bottom:1px solid var(--border);font-size:12px;}
@@ -776,6 +793,15 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
       </div>
       <div class="modal-body">
         <div id="vacationList" style="margin-bottom:12px"></div>
+        <div class="mb-2">
+          <label class="form-label small fw-semibold mb-1">Osoba</label>
+          <div id="vacPersonPicker" style="display:flex;gap:6px;flex-wrap:wrap">
+            <button type="button" class="person-toggle-btn" data-person="Bazi" style="color:#6366f1;border-color:#6366f144">Bazi</button>
+            <button type="button" class="person-toggle-btn" data-person="Yahu" style="color:#a855f7;border-color:#a855f744">Yahu</button>
+            <button type="button" class="person-toggle-btn" data-person="Sean" style="color:#38bdf8;border-color:#38bdf844">Sean</button>
+          </div>
+          <input type="hidden" id="vacPerson" value="">
+        </div>
         <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
           <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
             <label class="form-label small fw-semibold mb-0">Od</label>
@@ -855,6 +881,8 @@ const DEFAULT_GAMES=[
   {name:'Mafia Rivals',    icon:null, color:'#bb9af7'},
   {name:'Daily Pipeline',  icon:'⚡', color:'#2ac3de', daily:true},
 ];
+const PERSON_COLORS={Bazi:'#6366f1',Yahu:'#a855f7',Sean:'#38bdf8'};
+
 // Dark-mode note colors — user palette
 const NOTE_COLORS=[
   '#1e0806',  // dark burgundy
@@ -872,6 +900,7 @@ const NOTE_COLORS=[
 // ═══════════════════════════════════════
 let state, currentWeekKey;
 const expandedCards=new Set();
+let boardFilters={inbox:null,active:null};
 
 // ── FILE HANDLE (File System Access API) ──
 let fileHandle=null;
@@ -982,6 +1011,7 @@ function migrateData(s){
     if(!t.attachments) t.attachments=[];
     if(!t.subtasks) t.subtasks=[];
     if(t.link===undefined) t.link=null;
+    if(t.doneAt===undefined) t.doneAt=null;
   });
   const GAME_ORDER=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
   s.games.sort((a,b)=>{
@@ -1148,6 +1178,7 @@ function renderBoard(){
   board.appendChild(buildBoardCol('inbox','📥 Inbox','inbox-col'));
   board.appendChild(buildBoardCol('active','📌 For Today','today-col'));
   board.appendChild(buildBoardCol('ongoing','🔥 W toku','wtoku-col'));
+  board.appendChild(buildHistoriaCol());
   initSortables();
   requestAnimationFrame(()=>board.querySelectorAll('textarea').forEach(autoResize));
 }
@@ -1159,27 +1190,103 @@ function buildBoardCol(status,title,cls){
   const allActive=state.tasks.filter(t=>t.status===status&&t.weekKey===currentWeekKey);
   const dated=allActive.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date));
   const undated=allActive.filter(t=>!t.date).sort((a,b)=>(a.order||0)-(b.order||0));
-  const active=[...dated,...undated];
+  const allSorted=[...dated,...undated];
+
+  // Category filter
+  const filterGame=(status==='inbox'||status==='active')?boardFilters[status]||null:null;
+  const active=filterGame?allSorted.filter(t=>t.game===filterGame):allSorted;
+
+  // Filter bar (inbox and active only)
+  let filterBar='';
+  if(status==='inbox'||status==='active'){
+    const games=[...new Set(allSorted.map(t=>t.game).filter(Boolean))];
+    if(games.length>1){
+      filterBar=`<div class="cat-filter-bar">
+        <button class="cat-filter-btn${!filterGame?' active':''}" data-filter-col="${status}" data-filter-game="">Wszystkie</button>
+        ${games.map(g=>`<button class="cat-filter-btn${filterGame===g?' active':''}" data-filter-col="${status}" data-filter-game="${esc(g)}" style="color:${gameColor(g)};border-color:${gameColor(g)}55">${esc(g)}</button>`).join('')}
+      </div>`;
+    }
+  }
+
+  // Done section: current week → show only tasks completed today; past weeks → hide (everything in Historia)
   let doneSection='';
   if(status==='active'){
-    const done=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey).sort((a,b)=>(a.order||0)-(b.order||0));
-    doneSection=`<details class="done-sec mt-1">
-      <summary><span class="done-arrow">▶</span> Gotowe <span class="sec-cnt ms-1">${done.length}</span></summary>
-      <div class="task-list done-list mt-1" data-col-status="done">
-        ${done.map(cardHtml).join('')||'<div class="empty-msg">Brak</div>'}
-      </div>
-    </details>`;
+    const today=todayStr();
+    const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
+    if(isCurrentWk){
+      const done=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&(t.doneAt===today||!t.doneAt)).sort((a,b)=>(a.order||0)-(b.order||0));
+      if(done.length){
+        doneSection=`<details class="done-sec mt-1">
+          <summary><span class="done-arrow">▶</span> Gotowe dziś <span class="sec-cnt ms-1">${done.length}</span></summary>
+          <div class="task-list done-list mt-1" data-col-status="done">
+            ${done.map(cardHtml).join('')}
+          </div>
+        </details>`;
+      }
+    }
   }
+
   col.innerHTML=`
     <div class="col-hdr-new">
       <span class="col-title">${title}</span>
-      ${active.length?`<span class="sec-cnt">${active.length}</span>`:''}
+      ${allSorted.length?`<span class="sec-cnt">${allSorted.length}</span>`:''}
     </div>
+    ${filterBar}
     <div class="task-list tw-list" data-col-status="${status}">
       ${active.map(cardHtml).join('')||'<div class="empty-msg">Brak zadań</div>'}
     </div>
     <button class="add-task-btn" data-add-status="${status}">+ Dodaj zadanie</button>
     ${doneSection}`;
+  return col;
+}
+
+function buildHistoriaCol(){
+  const col=document.createElement('div');
+  col.className='board-col historia-col';
+
+  const today=todayStr();
+  const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
+
+  let doneTasks;
+  if(isCurrentWk){
+    doneTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
+  } else {
+    doneTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
+  }
+
+  const byDate={};
+  doneTasks.forEach(t=>{
+    const ds=t.doneAt||t.date||'';
+    if(!byDate[ds])byDate[ds]=[];
+    byDate[ds].push(t);
+  });
+  const dateKeys=Object.keys(byDate).sort().reverse();
+
+  let contentHtml='';
+  if(!dateKeys.length){
+    contentHtml='<div class="empty-msg">Brak historii</div>';
+  } else {
+    dateKeys.forEach(ds=>{
+      const dayTasks=byDate[ds].sort((a,b)=>(a.order||0)-(b.order||0));
+      let dayLabel;
+      if(!ds){
+        dayLabel='(bez daty)';
+      } else {
+        const[y,m,d]=ds.split('-').map(Number);
+        const dow=PL_DNI[new Date(y,m-1,d).getDay()]||'';
+        dayLabel=`${dow}, ${fmtDate(ds)}`;
+      }
+      contentHtml+=`<div class="historia-day-hdr">${dayLabel}</div>`;
+      contentHtml+=dayTasks.map(cardHtml).join('');
+    });
+  }
+
+  col.innerHTML=`
+    <div class="col-hdr-new">
+      <span class="col-title">📅 Historia</span>
+      ${doneTasks.length?`<span class="sec-cnt">${doneTasks.length}</span>`:''}
+    </div>
+    <div>${contentHtml}</div>`;
   return col;
 }
 
@@ -1489,8 +1596,10 @@ function renderCalendar(){
     html+=`<div class="cal-day-hdr ${isToday?'today-hdr':isThisWk?'this-week-hdr':''}">${fmtDate(ds)}${isToday?' ★':''}</div>`;
     // Show vacation entries first
     (vacByDate[ds]||[]).forEach(v=>{
-      const label=v.note?`🏖️ Urlop - ${esc(v.note)}`:'🏖️ Urlop';
-      html+=`<div class="cal-vacation-entry"><span class="cal-vacation-lbl">${label}</span></div>`;
+      const pc=v.person?PERSON_COLORS[v.person]||'var(--green)':'var(--green)';
+      const personPart=v.person?esc(v.person):'Urlop';
+      const label=v.note?`🏖️ ${personPart} - ${esc(v.note)}`:`🏖️ ${personPart}`;
+      html+=`<div class="cal-vacation-entry" style="border-left-color:${pc};background:${pc}18"><span class="cal-vacation-lbl" style="color:${pc}">${label}</span></div>`;
     });
     (byDate[ds]||[]).forEach(t=>{
       const col=gameColor(t.game);
@@ -1565,7 +1674,9 @@ function initSortables(){
 // ═══════════════════════════════════════
 function toggleDone(id){
   const t=taskById(id);if(!t)return;
-  patchTask(id,{status:t.status==='done'?'active':'done'});renderApp();
+  const newStatus=t.status==='done'?'active':'done';
+  patchTask(id,{status:newStatus,doneAt:newStatus==='done'?todayStr():null});
+  renderApp();
 }
 function togglePriority(id){
   const t=taskById(id);if(!t)return;
@@ -1573,7 +1684,7 @@ function togglePriority(id){
 }
 function moveToOngoing(id){patchTask(id,{status:'ongoing'});renderApp();}
 function returnFromOngoing(id){patchTask(id,{status:'active'});renderApp();}
-function doneFromOngoing(id){patchTask(id,{status:'done'});renderApp();}
+function doneFromOngoing(id){patchTask(id,{status:'done',doneAt:todayStr()});renderApp();}
 function deleteTask(id){if(!confirm('Usunąć zadanie?'))return;removeTask(id);renderApp();}
 function deleteGame(name){
   if(!confirm(`Usunąć "${name}"?\nZadania pozostaną w danych.`))return;
@@ -1860,17 +1971,23 @@ function openVacationModal(){
   document.getElementById('vacStart').value='';
   document.getElementById('vacEnd').value='';
   document.getElementById('vacNote').value='';
+  document.getElementById('vacPerson').value='';
+  document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
   bootstrap.Modal.getOrCreateInstance(document.getElementById('vacationModal')).show();
 }
 function renderVacationList(){
   const list=document.getElementById('vacationList');if(!list)return;
   const vacations=state.vacations||[];
   if(!vacations.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak urlopów</div>';return;}
-  list.innerHTML=vacations.map(v=>`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;background:rgba(158,206,106,.1);border-left:3px solid var(--green);border-radius:4px;padding:5px 8px;">
-      <span style="flex:1;color:var(--green);font-weight:600">🏖️ ${esc(fmtDate(v.start))} – ${esc(fmtDate(v.end))}${v.note?' ('+esc(v.note)+')':''}</span>
+  list.innerHTML=vacations.map(v=>{
+    const pc=v.person?PERSON_COLORS[v.person]||'var(--green)':'var(--green)';
+    const label=v.person?esc(v.person):'Urlop';
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;background:${pc}18;border-left:3px solid ${pc};border-radius:4px;padding:5px 8px;">
+      <span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;background:${pc}30;color:${pc};white-space:nowrap">🏖️ ${label}</span>
+      <span style="flex:1;color:var(--dark2)">${esc(fmtDate(v.start))} – ${esc(fmtDate(v.end))}${v.note?' — '+esc(v.note):''}</span>
       <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1" data-del-vac="${v.id}">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function addVacation(){
   const start=document.getElementById('vacStart').value;
@@ -1878,12 +1995,15 @@ function addVacation(){
   if(!start||!end){alert('Wybierz daty urlopu.');return;}
   if(end<start){alert('Data końca nie może być wcześniejsza niż data początku.');return;}
   const note=document.getElementById('vacNote').value.trim();
+  const person=document.getElementById('vacPerson').value||null;
   if(!state.vacations)state.vacations=[];
-  state.vacations.push({id:uid(),start,end,note});
+  state.vacations.push({id:uid(),start,end,note,person});
   save();renderVacationList();renderSidebar();
   document.getElementById('vacStart').value='';
   document.getElementById('vacEnd').value='';
   document.getElementById('vacNote').value='';
+  document.getElementById('vacPerson').value='';
+  document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
 }
 function deleteVacation(id){
   state.vacations=(state.vacations||[]).filter(v=>v.id!==id);
@@ -2085,6 +2205,9 @@ function initListeners(){
   // Board click delegation
   document.getElementById('board').addEventListener('click',e=>{
     if(e.target.dataset.addStatus!==undefined){openAddTask(e.target.dataset.addStatus);return;}
+    // Category filter buttons
+    const filterBtn=e.target.closest('[data-filter-col]');
+    if(filterBtn){boardFilters[filterBtn.dataset.filterCol]=filterBtn.dataset.filterGame||null;renderBoard();return;}
     // Badge click → open game picker
     const badge=e.target.closest('.card-game-badge');
     if(badge){
@@ -2345,6 +2468,16 @@ function initListeners(){
       state.links=(state.links||[]).filter(l=>l.id!==e.target.dataset.delLink);
       save();renderLinksList();renderLinksBar();
     }
+  });
+
+  // Vacation person picker
+  document.getElementById('vacPersonPicker').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-person]');if(!btn)return;
+    const person=btn.dataset.person;
+    const isSelected=btn.classList.contains('selected');
+    document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
+    if(!isSelected){btn.classList.add('selected');document.getElementById('vacPerson').value=person;}
+    else document.getElementById('vacPerson').value='';
   });
 
   // Icon upload
