@@ -600,7 +600,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Data <span class="text-muted fw-normal">(opcjonalnie)</span></label>
-          <input type="date" class="form-control form-control-sm" id="atDate">
+          <input type="date" lang="en-GB" class="form-control form-control-sm" id="atDate">
         </div>
         <div class="mb-1">
           <label class="form-label small fw-semibold">Notatka <span class="text-muted fw-normal">(opcjonalnie)</span></label>
@@ -714,7 +714,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Data</label>
-          <input type="date" class="form-control form-control-sm" id="etDate">
+          <input type="date" lang="en-GB" class="form-control form-control-sm" id="etDate">
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Notatka</label>
@@ -770,11 +770,11 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
           <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
             <label class="form-label small fw-semibold mb-0">Od</label>
-            <input type="date" class="form-control form-control-sm" id="vacStart">
+            <input type="date" lang="en-GB" class="form-control form-control-sm" id="vacStart">
           </div>
           <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:120px">
             <label class="form-label small fw-semibold mb-0">Do</label>
-            <input type="date" class="form-control form-control-sm" id="vacEnd">
+            <input type="date" lang="en-GB" class="form-control form-control-sm" id="vacEnd">
           </div>
           <div style="display:flex;flex-direction:column;gap:2px;flex:2;min-width:160px">
             <label class="form-label small fw-semibold mb-0">Notatka (opcjonalnie)</label>
@@ -1178,11 +1178,11 @@ function cardHtml(t){
   const dateArea=ds
     ?`<div class="card-date">
         <span class="date-chip ${chipCls}" data-action="edit-date" data-id="${t.id}">${fmtDate(ds)}</span>
-        <input type="date" class="date-input" data-f="date" data-id="${t.id}" value="${ds}" style="display:none">
+        <input type="date" class="date-input" lang="en-GB" data-f="date" data-id="${t.id}" value="${ds}" style="display:none">
       </div>`
     :`<div class="card-date">
         <button class="btn-add-date" data-action="show-date" data-id="${t.id}" title="Dodaj datę">📅</button>
-        <input type="date" class="date-input" data-f="date" data-id="${t.id}" value="" style="display:none">
+        <input type="date" class="date-input" lang="en-GB" data-f="date" data-id="${t.id}" value="" style="display:none">
       </div>`;
   const atts=(t.attachments||[]);
   const attHtml=atts.map(a=>{
