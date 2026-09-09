@@ -533,9 +533,21 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .cat-filter-btn.active{background:rgba(122,162,247,.2);border-color:var(--blue);color:var(--blue);}
 
 /* ── PERSON TOGGLE BTN (vacation) ── */
-.person-toggle-btn{padding:4px 12px;border-radius:6px;border:2px solid transparent;cursor:pointer;font-size:12px;font-weight:600;background:var(--border);transition:all .12s;}
-.person-toggle-btn:hover{opacity:.85;}
-.person-toggle-btn.selected{background:rgba(255,255,255,.08);}
+.person-toggle-btn{padding:4px 14px;border-radius:6px;border:2px solid transparent;cursor:pointer;font-size:12px;font-weight:600;background:var(--border);transition:all .12s;}
+.person-toggle-btn:hover{filter:brightness(1.15);}
+.person-toggle-btn.selected{filter:none;}
+/* ── VAC MINI CALENDAR ── */
+.vac-cal{margin-top:10px;}
+.vac-cal-month{margin-bottom:14px;}
+.vac-cal-month-title{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:5px;text-transform:capitalize;}
+.vac-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.vac-cal-dow{font-size:9px;color:var(--muted);text-align:center;padding-bottom:2px;font-weight:600;}
+.vac-cal-day{display:flex;flex-direction:column;align-items:center;padding:2px 1px;border-radius:4px;min-height:28px;}
+.vac-cal-day.empty{background:none;}
+.vac-cal-day-num{font-size:10px;color:var(--dark2);line-height:1.4;}
+.vac-cal-day.is-today .vac-cal-day-num{background:var(--blue);color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;}
+.vac-cal-bars{display:flex;gap:2px;width:80%;margin-top:1px;}
+.vac-cal-bar{height:3px;flex:1;border-radius:2px;}
 
 /* ── HISTORIA COLUMN ── */
 .historia-col{border:1px solid rgba(86,95,137,.25);background:rgba(10,10,20,.35);}
@@ -571,7 +583,6 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
     <button class="btn btn-sm btn-outline-secondary" id="btnVacation" title="Urlopy">🏖️ Urlop</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnRecurring" title="Zadania cykliczne">🔄 Cykliczne</button>
     <span id="utcClock" style="font-size:11px;color:var(--muted);font-family:monospace;white-space:nowrap;padding:2px 6px;background:var(--border);border-radius:4px;border:1px solid var(--border2)" title="Czas UTC"></span>
-    <button class="btn btn-sm btn-outline-secondary" id="btnFile" title="Połącz plik JSON z Dropbox">📁 Połącz z Dropbox</button>
     <div id="fileBadge" style="display:none;align-items:center;gap:5px;font-size:11px;background:rgba(158,206,106,.12);border:1px solid rgba(158,206,106,.3);border-radius:5px;padding:3px 8px;">
       <span style="color:var(--green)">📁</span>
       <span id="fileNameLbl" style="color:var(--green);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
@@ -813,14 +824,17 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div id="vacationList" style="margin-bottom:12px"></div>
+        <div id="vacationList" style="margin-bottom:4px"></div>
+        <div id="vacCalendar"></div>
+        <hr style="border-color:var(--border);margin:10px 0 12px">
         <div class="mb-2">
-          <label class="form-label small fw-semibold mb-1">Osoba</label>
+          <label class="form-label small fw-semibold mb-1">Osoba <span class="text-danger">*</span></label>
           <div id="vacPersonPicker" style="display:flex;gap:6px;flex-wrap:wrap">
             <button type="button" class="person-toggle-btn" data-person="Bazi" style="color:#6366f1;border-color:#6366f144">Bazi</button>
             <button type="button" class="person-toggle-btn" data-person="Yahu" style="color:#a855f7;border-color:#a855f744">Yahu</button>
             <button type="button" class="person-toggle-btn" data-person="Sean" style="color:#38bdf8;border-color:#38bdf844">Sean</button>
           </div>
+          <div id="vacPersonError" style="display:none;color:var(--red);font-size:11px;margin-top:4px">Wybierz osobę przed dodaniem urlopu.</div>
           <input type="hidden" id="vacPerson" value="">
         </div>
         <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
@@ -970,14 +984,11 @@ async function loadFromFile(h){
 
 function updateFileUI(){
   const badge=document.getElementById('fileBadge');
-  const btn=document.getElementById('btnFile');
   if(fileHandle){
     document.getElementById('fileNameLbl').textContent=fileHandle.name;
     badge.style.display='flex';
-    btn.style.display='none';
   }else{
     badge.style.display='none';
-    btn.style.display='';
   }
 }
 
@@ -2028,16 +2039,80 @@ function openVacationModal(){
 function renderVacationList(){
   const list=document.getElementById('vacationList');if(!list)return;
   const vacations=state.vacations||[];
-  if(!vacations.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak urlopów</div>';return;}
-  list.innerHTML=vacations.map(v=>{
-    const pc=v.person?PERSON_COLORS[v.person]||'var(--green)':'var(--green)';
-    const label=v.person?esc(v.person):'Urlop';
-    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;background:${pc}18;border-left:3px solid ${pc};border-radius:4px;padding:5px 8px;">
-      <span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;background:${pc}30;color:${pc};white-space:nowrap">🏖️ ${label}</span>
-      <span style="flex:1;color:var(--dark2)">${esc(fmtDate(v.start))} – ${esc(fmtDate(v.end))}${v.note?' — '+esc(v.note):''}</span>
-      <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1" data-del-vac="${v.id}">✕</button>
-    </div>`;
-  }).join('');
+  if(!vacations.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak urlopów</div>';}
+  else{
+    list.innerHTML=vacations.map(v=>{
+      const pc=v.person?PERSON_COLORS[v.person]||'var(--green)':'var(--green)';
+      const label=v.person?esc(v.person):'Urlop';
+      return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;background:${pc}18;border-left:3px solid ${pc};border-radius:4px;padding:5px 8px;">
+        <span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;background:${pc}30;color:${pc};white-space:nowrap">🏖️ ${label}</span>
+        <span style="flex:1;color:var(--dark2)">${esc(fmtDate(v.start))} – ${esc(fmtDate(v.end))}${v.note?' — '+esc(v.note):''}</span>
+        <button style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0 3px;line-height:1" data-del-vac="${v.id}">✕</button>
+      </div>`;
+    }).join('');
+  }
+  renderVacCalendar();
+}
+const PL_MON_FULL=['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+function renderVacCalendar(){
+  const el=document.getElementById('vacCalendar');if(!el)return;
+  const vacations=(state.vacations||[]).filter(v=>v.start&&v.end);
+  if(!vacations.length){el.innerHTML='';return;}
+  const td=todayStr();
+  const now=new Date();
+  // Date range to show: from earliest vac start or today, to latest vac end
+  let minY=now.getFullYear(),minM=now.getMonth();
+  let maxY=now.getFullYear(),maxM=now.getMonth()+1;
+  vacations.forEach(v=>{
+    const[sy,sm]=v.start.split('-').map(Number);
+    const[ey,em]=v.end.split('-').map(Number);
+    if(sy<minY||(sy===minY&&sm-1<minM)){minY=sy;minM=sm-1;}
+    if(ey>maxY||(ey===maxY&&em-1>maxM)){maxY=ey;maxM=em-1;}
+  });
+  // Build day→colors map
+  const dayMap={};
+  vacations.forEach(v=>{
+    const pc=PERSON_COLORS[v.person]||'#9ece6a';
+    let d=new Date(v.start+'T00:00:00');
+    const endD=new Date(v.end+'T00:00:00');
+    while(d<=endD){
+      const key=`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
+      if(!dayMap[key])dayMap[key]=[];
+      if(!dayMap[key].includes(pc))dayMap[key].push(pc);
+      d.setDate(d.getDate()+1);
+    }
+  });
+  // Legend
+  const persons=[...new Set(vacations.map(v=>v.person).filter(Boolean))];
+  const legend=persons.map(p=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--dark2);margin-right:10px"><span style="display:inline-block;width:20px;height:4px;border-radius:2px;background:${PERSON_COLORS[p]||'#9ece6a'}"></span>${esc(p)}</span>`).join('');
+  let html=`<div class="vac-cal"><div style="margin-bottom:8px">${legend}</div>`;
+  // Render months
+  let cy=minY,cm=minM;
+  while(cy<maxY||(cy===maxY&&cm<=maxM)){
+    html+=renderVacCalMonth(cy,cm,dayMap,td);
+    cm++;if(cm>11){cm=0;cy++;}
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+function renderVacCalMonth(year,month,dayMap,todayDs){
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  let startDow=new Date(year,month,1).getDay();
+  startDow=startDow===0?6:startDow-1; // Mon=0
+  let html=`<div class="vac-cal-month"><div class="vac-cal-month-title">${PL_MON_FULL[month]} ${year}</div><div class="vac-cal-grid">`;
+  ['Pn','Wt','Śr','Cz','Pt','So','Nd'].forEach(d=>{html+=`<div class="vac-cal-dow">${d}</div>`;});
+  for(let i=0;i<startDow;i++) html+=`<div class="vac-cal-day empty"></div>`;
+  for(let day=1;day<=daysInMonth;day++){
+    const ds=`${year}-${p2(month+1)}-${p2(day)}`;
+    const colors=dayMap[ds]||[];
+    const isToday=ds===todayDs;
+    html+=`<div class="vac-cal-day${isToday?' is-today':''}${colors.length?' has-vac':''}">`;
+    html+=`<span class="vac-cal-day-num">${day}</span>`;
+    if(colors.length) html+=`<div class="vac-cal-bars">${colors.map(c=>`<div class="vac-cal-bar" style="background:${c}"></div>`).join('')}</div>`;
+    html+=`</div>`;
+  }
+  html+='</div></div>';
+  return html;
 }
 function addVacation(){
   const start=parseDateInput(document.getElementById('vacStart').value);
@@ -2046,6 +2121,8 @@ function addVacation(){
   if(end<start){alert('Data końca nie może być wcześniejsza niż data początku.');return;}
   const note=document.getElementById('vacNote').value.trim();
   const person=document.getElementById('vacPerson').value||null;
+  if(!person){document.getElementById('vacPersonError').style.display='';return;}
+  document.getElementById('vacPersonError').style.display='none';
   if(!state.vacations)state.vacations=[];
   state.vacations.push({id:uid(),start,end,note,person});
   save();renderVacationList();renderSidebar();
@@ -2053,7 +2130,11 @@ function addVacation(){
   document.getElementById('vacEnd').value='';
   document.getElementById('vacNote').value='';
   document.getElementById('vacPerson').value='';
-  document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>{
+    b.classList.remove('selected');
+    const c=PERSON_COLORS[b.dataset.person];
+    b.style.background='var(--border)';b.style.borderColor=c+'44';
+  });
 }
 function deleteVacation(id){
   state.vacations=(state.vacations||[]).filter(v=>v.id!==id);
@@ -2212,21 +2293,6 @@ function initListeners(){
   });
   document.getElementById('dpSave').addEventListener('click',saveDailyPipeline);
   document.getElementById('atSave').addEventListener('click',saveNewTask);
-  // File connect/disconnect
-  document.getElementById('btnFile').addEventListener('click',()=>{
-    const menu=document.createElement('div');
-    menu.style.cssText='position:fixed;background:var(--card);border:1px solid var(--border2);border-radius:7px;padding:4px 0;z-index:9999;box-shadow:0 6px 20px rgba(0,0,0,.6);min-width:200px;';
-    const btn=document.getElementById('btnFile');
-    const r=btn.getBoundingClientRect();
-    menu.style.top=(r.bottom+4)+'px';menu.style.right=(window.innerWidth-r.right)+'px';
-    const itemStyle='padding:7px 14px;font-size:12px;color:var(--dark2);cursor:pointer;display:block;width:100%;background:none;border:none;text-align:left;';
-    menu.innerHTML=`<button style="${itemStyle}" id="_fmOpen">📂 Otwórz istniejący plik</button><button style="${itemStyle}" id="_fmNew">✨ Utwórz nowy plik</button>`;
-    document.body.appendChild(menu);
-    menu.querySelector('#_fmOpen').addEventListener('click',()=>{menu.remove();connectExistingFile();});
-    menu.querySelector('#_fmNew').addEventListener('click',()=>{menu.remove();createNewFile();});
-    menu.querySelectorAll('button').forEach(b=>{b.addEventListener('mouseenter',()=>b.style.background='var(--border)');b.addEventListener('mouseleave',()=>b.style.background='none');});
-    setTimeout(()=>document.addEventListener('click',()=>menu.remove(),{once:true}),50);
-  });
   document.getElementById('btnFileDisconnect').addEventListener('click',disconnectFile);
   document.getElementById('addTaskModal').addEventListener('hidden.bs.modal',()=>{
     if(!lastCreatedId)return;
@@ -2591,9 +2657,21 @@ function initListeners(){
     const btn=e.target.closest('[data-person]');if(!btn)return;
     const person=btn.dataset.person;
     const isSelected=btn.classList.contains('selected');
-    document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>b.classList.remove('selected'));
-    if(!isSelected){btn.classList.add('selected');document.getElementById('vacPerson').value=person;}
-    else document.getElementById('vacPerson').value='';
+    // Deselect all
+    document.querySelectorAll('#vacPersonPicker [data-person]').forEach(b=>{
+      b.classList.remove('selected');
+      const c=PERSON_COLORS[b.dataset.person];
+      b.style.background='var(--border)';b.style.borderColor=c+'44';b.style.color=c;
+    });
+    if(!isSelected){
+      btn.classList.add('selected');
+      const c=PERSON_COLORS[person];
+      btn.style.background=c+'30';btn.style.borderColor=c;btn.style.color=c;
+      document.getElementById('vacPerson').value=person;
+      document.getElementById('vacPersonError').style.display='none';
+    } else {
+      document.getElementById('vacPerson').value='';
+    }
   });
 
   // Date masking for dm-inp inputs (auto-insert slashes as user types)
