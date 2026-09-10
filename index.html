@@ -343,6 +343,9 @@ body{
 .card-title:focus{background:rgba(255,255,255,.04);border-radius:3px;padding:1px 4px;}
 .task-card.expanded .title-display{display:none;}
 .task-card.expanded .card-title{display:block!important;}
+/* For linked tasks: keep the link title visible in expanded state, hide the textarea */
+.task-card.expanded.has-link .title-display.title-link{display:block;}
+.task-card.expanded.has-link .card-title{display:none!important;}
 [data-status="done"] .card-title{text-decoration:line-through;color:var(--muted);}
 
 /* Actions (top-right) */
@@ -1347,7 +1350,7 @@ function cardHtml(t){
     ?`<div class="title-display title-link" data-action="open-link" data-link="${esc(t.link)}" data-id="${t.id}" title="Otwórz link">${formatWithTimes(t.title)} <span style="font-size:10px;opacity:.5">↗</span></div>`
     :`<div class="title-display" data-action="expand" data-id="${t.id}">${renderText(t.title)}</div>`;
   return`
-<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''}" data-id="${t.id}" data-status="${t.status}">
+<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
     <span class="drag-handle" data-action="toggle-expand" data-id="${t.id}">⠿</span>
     <div class="cb ${t.status==='done'?'done':''}" data-action="toggle" data-id="${t.id}"></div>
