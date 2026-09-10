@@ -883,9 +883,16 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
           <div class="game-picker-wrap" id="rcGamePicker"></div>
           <input type="hidden" id="rcGame">
         </div>
-        <div class="mb-2 d-flex gap-2 align-items-center">
-          <label class="form-label small fw-semibold mb-0">Co ile dni</label>
-          <input type="number" class="form-control form-control-sm" id="rcInterval" value="7" min="1" style="width:80px">
+        <div class="mb-2 d-flex gap-3 align-items-center flex-wrap">
+          <div class="d-flex align-items-center gap-2">
+            <label class="form-label small fw-semibold mb-0">Co ile dni</label>
+            <input type="number" class="form-control form-control-sm" id="rcInterval" value="7" min="1" style="width:80px">
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <label class="form-label small fw-semibold mb-0">Aktywne od</label>
+            <input type="text" class="form-control form-control-sm dm-inp" id="rcStartDate" placeholder="dd/mm/yyyy" style="width:120px">
+            <span style="font-size:10px;color:var(--muted)">(puste = od dziś)</span>
+          </div>
         </div>
         <div class="mb-2">
           <label class="form-label small fw-semibold">Notatka (opcjonalnie)</label>
@@ -2151,6 +2158,7 @@ function openRecurringModal(){
   renderRecurringList();
   document.getElementById('rcTitle').value='';
   document.getElementById('rcInterval').value='7';
+  document.getElementById('rcStartDate').value='';
   document.getElementById('rcNote').value='';
   document.getElementById('rcSubtasks').value='';
   renderGamePicker(state.games[0]?.name||'','rcGamePicker');
@@ -2161,13 +2169,16 @@ function renderRecurringList(){
   const list=document.getElementById('recurringList');if(!list)return;
   const recurring=state.recurring||[];
   if(!recurring.length){list.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic">Brak zadań cyklicznych</div>';return;}
-  list.innerHTML=recurring.map(r=>`
-    <div class="rc-row">
+  list.innerHTML=recurring.map(r=>{
+    const today=todayStr();
+    const pending=r.startDate&&r.startDate>today;
+    return`<div class="rc-row">
       <span class="rc-title">${esc(r.title)}</span>
-      <span class="rc-interval">co ${r.interval||7} dni</span>
+      <span class="rc-interval">co ${r.interval||7} dni${r.startDate?` · od ${fmtDate(r.startDate)}`:''}${pending?` <span style="color:var(--orange);font-size:10px">(nieaktywne)</span>`:''}</span>
       <span class="rc-toggle" data-rc-toggle="${r.id}" title="${r.enabled?'Wyłącz':'Włącz'}">${r.enabled?'✅':'⬜'}</span>
       <button class="rc-del" data-rc-del="${r.id}">✕</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function addRecurring(){
   const title=document.getElementById('rcTitle').value.trim();if(!title){alert('Wpisz tytuł.');return;}
@@ -2175,13 +2186,15 @@ function addRecurring(){
   const interval=parseInt(document.getElementById('rcInterval').value)||7;
   const note=document.getElementById('rcNote').value.trim();
   const rawSubs=document.getElementById('rcSubtasks').value.split('\n').map(l=>l.trim()).filter(Boolean);
+  const startDate=parseDateInput(document.getElementById('rcStartDate').value)||null;
   if(!state.recurring)state.recurring=[];
-  state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,lastSeeded:null,enabled:true});
+  state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,startDate,lastSeeded:null,enabled:true});
   save();renderRecurringList();
   document.getElementById('rcTitle').value='';
   document.getElementById('rcInterval').value='7';
   document.getElementById('rcNote').value='';
   document.getElementById('rcSubtasks').value='';
+  document.getElementById('rcStartDate').value='';
 }
 function deleteRecurring(id){
   state.recurring=(state.recurring||[]).filter(r=>r.id!==id);
@@ -2197,6 +2210,7 @@ function seedRecurring(){
   let changed=false;
   (state.recurring||[]).forEach(r=>{
     if(!r.enabled)return;
+    if(r.startDate&&r.startDate>today)return; // not yet active
     const interval=r.interval||7;
     let shouldSeed=false;
     if(!r.lastSeeded) shouldSeed=true;
