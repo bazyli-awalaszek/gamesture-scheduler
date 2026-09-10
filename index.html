@@ -287,9 +287,13 @@ body{
 
 /* Card layout */
 .card-top{display:flex;align-items:flex-start;gap:4px;}
-.drag-handle{color:var(--faint);cursor:grab;font-size:14px;flex-shrink:0;user-select:none;padding:2px 6px 2px 0;align-self:stretch;display:flex;align-items:center;}
+.drag-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;align-self:stretch;padding-right:2px;}
+.drag-handle{color:var(--faint);cursor:grab;font-size:14px;flex-shrink:0;user-select:none;padding:2px 4px 0;}
 .drag-handle:hover{color:var(--muted);}
 .drag-handle:active{cursor:grabbing;}
+.expand-btn{background:none;border:none;cursor:pointer;color:var(--faint);font-size:9px;padding:1px 4px;line-height:1;user-select:none;flex:1;display:flex;align-items:center;transition:color .1s, transform .15s;}
+.expand-btn:hover{color:var(--muted);}
+.task-card.expanded .expand-btn{transform:rotate(90deg);}
 
 /* Checkbox */
 .cb{
@@ -1394,7 +1398,10 @@ function cardHtml(t){
   return`
 <div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
-    <span class="drag-handle" data-action="toggle-expand" data-id="${t.id}">⠿</span>
+    <div class="drag-col">
+      <span class="drag-handle">⠿</span>
+      <button class="expand-btn" data-action="toggle-expand" data-id="${t.id}">▶</button>
+    </div>
     <div class="cb ${t.status==='done'?'done':''}" data-action="toggle" data-id="${t.id}"></div>
     ${dateArea}
     <div class="title-wrap">
