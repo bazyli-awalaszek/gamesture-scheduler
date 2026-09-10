@@ -539,6 +539,40 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .person-toggle-btn{padding:4px 14px;border-radius:6px;border:2px solid transparent;cursor:pointer;font-size:12px;font-weight:600;background:var(--border);transition:all .12s;}
 .person-toggle-btn:hover{filter:brightness(1.15);}
 .person-toggle-btn.selected{filter:none;}
+/* ── VAC WIDGET (fixed bottom-right) ── */
+.vac-widget{
+  position:fixed;bottom:0;right:0;width:232px;
+  background:var(--card);border:1px solid var(--border2);border-bottom:none;
+  border-radius:8px 0 0 0;z-index:500;box-shadow:-3px -3px 18px rgba(0,0,0,.4);
+}
+.vac-widget-hdr{
+  width:100%;background:var(--card2);border:none;
+  border-bottom:1px solid var(--border2);border-radius:8px 0 0 0;
+  padding:5px 10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  color:var(--dark2);font-size:11px;font-weight:600;transition:background .1s;
+}
+.vac-widget-hdr:hover{background:var(--border);}
+.vac-widget-body{padding:8px 8px 10px;}
+.vac-widget.collapsed .vac-widget-body{display:none;}
+.vac-w-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.vac-w-dow{font-size:9px;color:var(--muted);text-align:center;padding-bottom:3px;font-weight:600;}
+.vac-w-day{
+  display:flex;flex-direction:column;align-items:center;padding:2px 1px;
+  border-radius:3px;min-height:26px;cursor:context-menu;
+  transition:background .1s;
+}
+.vac-w-day:hover{background:var(--border);}
+.vac-w-day-num{font-size:10px;color:var(--dark2);line-height:1.3;}
+.vac-w-day.is-today .vac-w-day-num{background:var(--blue);color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;}
+.vac-w-day.is-past .vac-w-day-num{opacity:.38;}
+.vac-w-month-lbl{grid-column:1/-1;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:4px 0 1px;opacity:.7;}
+.vac-w-note-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);margin-top:1px;flex-shrink:0;}
+/* Day note popover */
+#dayNotePopover{
+  position:fixed;z-index:9999;
+  background:var(--card);border:1px solid var(--border2);border-radius:7px;
+  padding:8px;box-shadow:0 6px 24px rgba(0,0,0,.6);width:200px;
+}
 /* ── VAC MINI CALENDAR ── */
 .vac-cal{margin-top:10px;}
 .vac-cal-month{margin-bottom:14px;}
@@ -1083,6 +1117,7 @@ function migrateData(s){
     s.vacations=s.myVacations.map(v=>({id:v.id||uid(),start:v.from||v.start,end:v.to||v.end,note:v.note||''})).filter(v=>v.start&&v.end);
   }
   if(!s.recurring) s.recurring=[];
+  if(!s.dayNotes||typeof s.dayNotes!=='object'||Array.isArray(s.dayNotes)) s.dayNotes={};
   if(!s.notes) s.notes=[];
   if(!Array.isArray(s.notes)){
     const merged=[];
@@ -1216,7 +1251,7 @@ function renderGamePicker(selectedGame,containerId='atGamePicker'){
 // RENDER
 // ═══════════════════════════════════════
 let sortables=[];
-function renderApp(){renderHeader();renderLinksBar();renderBoard();renderSidebar();}
+function renderApp(){renderHeader();renderLinksBar();renderBoard();renderSidebar();renderVacWidget();}
 
 function renderHeader(){
   document.getElementById('weekLbl').textContent=fmtWeek(currentWeekKey);
@@ -2148,7 +2183,7 @@ function addVacation(){
 }
 function deleteVacation(id){
   state.vacations=(state.vacations||[]).filter(v=>v.id!==id);
-  save();renderVacationList();renderSidebar();
+  save();renderVacationList();renderSidebar();renderVacWidget();
 }
 
 // ═══════════════════════════════════════
@@ -2710,6 +2745,25 @@ function initListeners(){
     }
   });
 
+  // Vac widget toggle
+  document.getElementById('vacWidgetToggle').addEventListener('click',toggleVacWidget);
+  // Vac widget: right-click on day → note popover
+  document.getElementById('vacWidget').addEventListener('contextmenu',e=>{
+    const day=e.target.closest('[data-vw-ds]');if(!day)return;
+    e.preventDefault();
+    showDayNotePopover(day.dataset.vwDs,e.clientX,e.clientY);
+  });
+  // Day note popover buttons
+  document.getElementById('dayNoteSaveBtn').addEventListener('click',saveDayNote);
+  document.getElementById('dayNoteCancelBtn').addEventListener('click',hideDayNotePopover);
+  document.getElementById('dayNoteInp').addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();saveDayNote();}
+    if(e.key==='Escape'){hideDayNotePopover();}
+  });
+  document.addEventListener('mousedown',e=>{
+    if(_dayNoteDs&&!e.target.closest('#dayNotePopover'))hideDayNotePopover();
+  });
+
   // Icon upload
   document.addEventListener('change',e=>{
     if(!e.target.classList.contains('icon-file-inp'))return;
@@ -2725,6 +2779,102 @@ function initListeners(){
       };img.src=ev.target.result;
     };reader.readAsDataURL(file);
   });
+}
+
+// ═══════════════════════════════════════
+// VAC WIDGET
+// ═══════════════════════════════════════
+let vacWidgetCollapsed=localStorage.getItem('tm-vac-widget')==='1';
+function applyVacWidgetState(){
+  const w=document.getElementById('vacWidget');
+  const arrow=document.getElementById('vacWidgetArrow');
+  if(!w)return;
+  w.classList.toggle('collapsed',vacWidgetCollapsed);
+  if(arrow)arrow.textContent=vacWidgetCollapsed?'▼':'▲';
+}
+function toggleVacWidget(){
+  vacWidgetCollapsed=!vacWidgetCollapsed;
+  localStorage.setItem('tm-vac-widget',vacWidgetCollapsed?'1':'0');
+  applyVacWidgetState();
+}
+function renderVacWidget(){
+  const el=document.getElementById('vacWidgetBody');if(!el)return;
+  const vacations=(state.vacations||[]).filter(v=>v.start&&v.end);
+  const tdStr=todayStr();
+  // Start from Monday of current week
+  const now=new Date();now.setHours(0,0,0,0);
+  const dow=now.getDay();
+  const startDay=new Date(now);startDay.setDate(now.getDate()-(dow===0?6:dow-1));
+  // Build dayMap for vacations
+  const dayMap={};
+  vacations.forEach(v=>{
+    const pc=PERSON_COLORS[v.person]||'#9ece6a';
+    let d=new Date(v.start+'T00:00:00');
+    const endD=new Date(v.end+'T00:00:00');
+    while(d<=endD){
+      const k=`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
+      if(!dayMap[k])dayMap[k]=[];
+      if(!dayMap[k].includes(pc))dayMap[k].push(pc);
+      d.setDate(d.getDate()+1);
+    }
+  });
+  // Person legend
+  const persons=[...new Set(vacations.map(v=>v.person).filter(Boolean))];
+  const legend=persons.length
+    ?`<div style="margin-bottom:6px;display:flex;flex-wrap:wrap;gap:6px">${persons.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--dark2)"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:${PERSON_COLORS[p]||'#9ece6a'}"></span>${esc(p)}</span>`).join('')}</div>`
+    :'';
+  // Render 4-week grid
+  let html=legend;
+  html+=`<div class="vac-w-grid">`;
+  ['Pn','Wt','Śr','Cz','Pt','So','Nd'].forEach(d=>{html+=`<div class="vac-w-dow">${d}</div>`;});
+  let lastMonth=-1;
+  for(let i=0;i<28;i++){
+    const d=new Date(startDay);d.setDate(startDay.getDate()+i);
+    const ds=`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
+    const m=d.getMonth();
+    if(m!==lastMonth){
+      html+=`<div class="vac-w-month-lbl">${PL_MON_FULL[m]}</div>`;
+      lastMonth=m;
+    }
+    const colors=dayMap[ds]||[];
+    const note=(state.dayNotes||{})[ds]||'';
+    const isToday=ds===tdStr;
+    const isPast=ds<tdStr;
+    html+=`<div class="vac-w-day${isToday?' is-today':''}${isPast?' is-past':''}" data-vw-ds="${ds}" title="${note?'📝 '+esc(note):'PPM: dodaj notatkę'}">`;
+    html+=`<span class="vac-w-day-num">${d.getDate()}</span>`;
+    if(colors.length)html+=`<div class="vac-cal-bars">${colors.map(c=>`<div class="vac-cal-bar" style="background:${c}"></div>`).join('')}</div>`;
+    if(note)html+=`<span class="vac-w-note-dot" title="${esc(note)}"></span>`;
+    html+=`</div>`;
+  }
+  html+=`</div>`;
+  el.innerHTML=html;
+}
+// Day note popover
+let _dayNoteDs=null;
+function showDayNotePopover(ds,x,y){
+  _dayNoteDs=ds;
+  const pop=document.getElementById('dayNotePopover');
+  document.getElementById('dayNotePopoverDate').textContent=fmtDate(ds);
+  document.getElementById('dayNoteInp').value=(state.dayNotes||{})[ds]||'';
+  pop.style.display='block';
+  // Position near click, keep in viewport
+  const pw=200,ph=130;
+  pop.style.left=Math.min(x,window.innerWidth-pw-10)+'px';
+  pop.style.top=Math.max(10,Math.min(y-ph-8,window.innerHeight-ph-10))+'px';
+  setTimeout(()=>document.getElementById('dayNoteInp').focus(),50);
+}
+function hideDayNotePopover(){
+  document.getElementById('dayNotePopover').style.display='none';
+  _dayNoteDs=null;
+}
+function saveDayNote(){
+  if(!_dayNoteDs)return;
+  const text=document.getElementById('dayNoteInp').value.trim();
+  if(!state.dayNotes)state.dayNotes={};
+  if(text)state.dayNotes[_dayNoteDs]=text;
+  else delete state.dayNotes[_dayNoteDs];
+  save();renderVacWidget();
+  hideDayNotePopover();
 }
 
 // ═══════════════════════════════════════
@@ -2753,6 +2903,7 @@ async function init(){
   updateFileUI();
   initListeners();
   applySidebarState();
+  applyVacWidgetState();
   renderApp();
 }
 init();
@@ -2762,5 +2913,22 @@ init();
   setTimeout(tickClock,1000);
 })();
 </script>
+<!-- Vacation widget (fixed bottom-right) -->
+<div class="vac-widget" id="vacWidget">
+  <button class="vac-widget-hdr" id="vacWidgetToggle">
+    <span>🏖️ Urlopy — 4 tygodnie</span>
+    <span id="vacWidgetArrow">▲</span>
+  </button>
+  <div class="vac-widget-body" id="vacWidgetBody"></div>
+</div>
+<!-- Day note popover -->
+<div id="dayNotePopover" style="display:none">
+  <div id="dayNotePopoverDate" style="font-size:10px;color:var(--muted);margin-bottom:5px"></div>
+  <textarea id="dayNoteInp" class="form-control form-control-sm" rows="3" placeholder="Notatka na ten dzień..." style="font-size:11px;resize:none;width:100%"></textarea>
+  <div style="display:flex;gap:5px;margin-top:6px">
+    <button id="dayNoteSaveBtn" class="btn btn-primary btn-sm" style="font-size:10px;padding:2px 10px;flex:1">OK</button>
+    <button id="dayNoteCancelBtn" class="btn btn-secondary btn-sm" style="font-size:10px;padding:2px 10px">Anuluj</button>
+  </div>
+</div>
 </body>
 </html>
