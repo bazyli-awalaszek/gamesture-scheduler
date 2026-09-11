@@ -306,6 +306,8 @@ body{
 .task-card.priority{border-left-color:var(--gold);background:linear-gradient(to right,rgba(224,175,104,.08),var(--card));}
 .task-card.sortable-ghost{opacity:.25;background:#2d3050;}
 .task-card.sortable-chosen{box-shadow:0 8px 24px rgba(0,0,0,.6);transform:rotate(1.5deg);}
+.tw-list.drop-target{background:rgba(0,0,0,.18);border-radius:8px;outline:2px dashed rgba(187,154,247,.35);transition:background .12s,outline .12s;}
+.tw-list.drop-over{background:rgba(187,154,247,.1);outline:2px dashed rgba(187,154,247,.65);}
 .task-card.hl{animation:pulse .35s ease 2;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 3px var(--blue);}50%{box-shadow:0 0 0 0 var(--blue);}}
 
@@ -1830,12 +1832,21 @@ function initNotesSortable(){
 
 // ── SORTABLES ────────────────────────────────────
 function initSortables(){
+  const allLists=()=>document.querySelectorAll('.tw-list');
   document.querySelectorAll('.tw-list').forEach(list=>{
     sortables.push(Sortable.create(list,{
       group:{name:'active',pull:true,put:['active']},
       handle:'.drag-handle',animation:150,
       ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',filter:'.empty-msg',
+      onStart(){
+        allLists().forEach(l=>l.classList.add('drop-target'));
+      },
+      onMove(evt){
+        allLists().forEach(l=>l.classList.remove('drop-over'));
+        if(evt.to) evt.to.classList.add('drop-over');
+      },
       onEnd(evt){
+        allLists().forEach(l=>l.classList.remove('drop-target','drop-over'));
         const id=evt.item.dataset.id;
         if(evt.from!==evt.to){
           const newStatus=evt.to.dataset.colStatus;
