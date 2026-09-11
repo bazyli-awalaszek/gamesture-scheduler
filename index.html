@@ -1600,16 +1600,7 @@ function renderHistoriaStrip(){
     </div>`;
   }).join('');
 
-  // Extras: tasks with no date or non-standard dates
-  const extraTasks=(byDate['brak']||[]).concat(
-    Object.entries(byDate).filter(([k])=>k!=='brak'&&!weekDays.includes(k)).flatMap(([,v])=>v)
-  );
-  const extraCol=extraTasks.length?`<div class="hist-day-col">
-    <div class="historia-day-hdr">Pozostałe</div>
-    ${extraTasks.map(cardHtml).join('')}
-  </div>`:'';
-
-  const innerHtml=`<div class="hist-day-cols">${cols}${extraCol}</div>`;
+  const innerHtml=`<div class="hist-day-cols">${cols}</div>`;
 
   strip.innerHTML=`
     <div class="hist-hdr" id="histHdr">
