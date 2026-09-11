@@ -2460,6 +2460,14 @@ function initListeners(){
   });
   document.getElementById('atTitle').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('atSave').click();}});
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
+  // Historia strip — reopen done task via checkbox
+  document.getElementById('historiaStrip').addEventListener('click',e=>{
+    const action=e.target.dataset.action;
+    const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
+    if(!id||!action)return;
+    if(action==='toggle') toggleDone(id);
+  });
+
   // Board click delegation
   document.getElementById('board').addEventListener('click',e=>{
     // Allow native <a href> links (subtask links, attach links) to open normally
