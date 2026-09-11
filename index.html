@@ -37,7 +37,7 @@ body{
   font-family:-apple-system,'Segoe UI',Roboto,sans-serif;
   font-size:13px;
   display:grid;
-  grid-template-rows:auto auto 1fr;
+  grid-template-rows:auto auto 1fr auto;
   grid-template-columns:1fr minmax(280px,33%);
   height:100vh;
   overflow:hidden;
@@ -133,6 +133,27 @@ body{
   background:rgba(255,158,100,.08);border-radius:8px;
   outline:2px dashed rgba(255,158,100,.35);min-height:60px;
 }
+
+/* ── HISTORIA TYGODNIA STRIP ── */
+.historia-strip{
+  grid-column:1/-1;grid-row:4;
+  background:#16161e;border-top:2px solid #bb9af7;z-index:50;
+}
+.hist-hdr{
+  display:flex;align-items:center;gap:8px;padding:6px 14px;
+  cursor:pointer;user-select:none;
+}
+.hist-hdr:hover{background:rgba(187,154,247,.06);}
+.hist-hdr-title{font-size:12px;font-weight:700;color:#bb9af7;}
+.hist-cnt{font-size:10px;background:rgba(187,154,247,.2);color:#bb9af7;border-radius:8px;padding:0 6px;font-weight:700;}
+.hist-toggle{margin-left:auto;font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:0 4px;}
+.hist-body{padding:6px 14px 10px;max-height:260px;overflow-y:auto;}
+.hist-body.collapsed{display:none;}
+.hist-body::-webkit-scrollbar{height:4px;width:4px;}
+.hist-body::-webkit-scrollbar-track{background:transparent;}
+.hist-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.hist-day-cols{display:flex;flex-wrap:wrap;gap:14px;}
+.hist-day-col{flex:0 0 auto;min-width:200px;}
 
 /* ── ONGOING CARD ── */
 .ong-card{
@@ -1255,7 +1276,7 @@ function renderGamePicker(selectedGame,containerId='atGamePicker'){
 // RENDER
 // ═══════════════════════════════════════
 let sortables=[];
-function renderApp(){renderHeader();renderLinksBar();renderBoard();renderSidebar();renderVacWidget();}
+function renderApp(){renderHeader();renderLinksBar();renderBoard();renderSidebar();renderVacWidget();renderHistoriaStrip();}
 
 function renderHeader(){
   document.getElementById('weekLbl').textContent=fmtWeek(currentWeekKey);
@@ -1276,7 +1297,7 @@ function buildBoardCol(status,title,cls){
   const col=document.createElement('div');
   col.className=`board-col ${cls}`;
   col.dataset.colStatus=status;
-  const allActive=state.tasks.filter(t=>t.status===status&&t.weekKey===currentWeekKey);
+  const allActive=state.tasks.filter(t=>t.status===status);
   const dated=allActive.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date));
   const undated=allActive.filter(t=>!t.date).sort((a,b)=>(a.order||0)-(b.order||0));
   const allSorted=[...dated,...undated];
@@ -1297,14 +1318,13 @@ function buildBoardCol(status,title,cls){
     }
   }
 
-  // Done section + Historia (For Today column only)
+  // Done section (For Today column only - done today)
   let doneSection='';
-  let historiaSection='';
   if(status==='active'){
     const today=todayStr();
     const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
     if(isCurrentWk){
-      const done=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&(t.doneAt===today||!t.doneAt)).sort((a,b)=>(a.order||0)-(b.order||0));
+      const done=state.tasks.filter(t=>t.status==='done'&&(t.doneAt===today||!t.doneAt)).sort((a,b)=>(a.order||0)-(b.order||0));
       if(done.length){
         doneSection=`<details class="done-sec mt-1">
           <summary><span class="done-arrow">▶</span> Gotowe dziś <span class="sec-cnt ms-1">${done.length}</span></summary>
@@ -1313,11 +1333,6 @@ function buildBoardCol(status,title,cls){
           </div>
         </details>`;
       }
-      const histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
-      historiaSection=buildHistoriaDetails(histTasks);
-    } else {
-      const histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
-      historiaSection=buildHistoriaDetails(histTasks);
     }
   }
 
@@ -1331,8 +1346,7 @@ function buildBoardCol(status,title,cls){
       ${active.map(cardHtml).join('')||'<div class="empty-msg">Brak zadań</div>'}
     </div>
     <button class="add-task-btn" data-add-status="${status}">+ Dodaj zadanie</button>
-    ${doneSection}
-    ${historiaSection}`;
+    ${doneSection}`;
   return col;
 }
 
@@ -1558,6 +1572,65 @@ function seedDailyPipeline(){
   }
 }
 
+// ── HISTORIA TYGODNIA ──────────────────────────────
+let histOpen=localStorage.getItem('tm-historia')==='1';
+function renderHistoriaStrip(){
+  const strip=document.getElementById('historiaStrip');
+  if(!strip)return;
+  const today=todayStr();
+  const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
+  let histTasks;
+  if(isCurrentWk){
+    histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
+  } else {
+    histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
+  }
+  const cnt=histTasks.length;
+
+  let innerHtml='';
+  if(cnt){
+    const byDate={};
+    histTasks.forEach(t=>{
+      const ds=t.doneAt||t.date||'';
+      if(!byDate[ds])byDate[ds]=[];
+      byDate[ds].push(t);
+    });
+    const dateKeys=Object.keys(byDate).sort().reverse();
+    const cols=dateKeys.map(ds=>{
+      const dayTasks=byDate[ds].sort((a,b)=>(a.order||0)-(b.order||0));
+      let dayLabel;
+      if(!ds){dayLabel='(bez daty)';}
+      else{const[y,mo,d]=ds.split('-').map(Number);const dow=PL_DNI[new Date(y,mo-1,d).getDay()]||'';dayLabel=`${dow}, ${fmtDate(ds)}`;}
+      return`<div class="hist-day-col">
+        <div class="historia-day-hdr">${dayLabel}</div>
+        ${dayTasks.map(cardHtml).join('')}
+      </div>`;
+    }).join('');
+    innerHtml=`<div class="hist-day-cols">${cols}</div>`;
+  } else {
+    innerHtml='<div style="color:var(--muted);font-size:11px;padding:4px 0">Brak ukończonych zadań w tym tygodniu</div>';
+  }
+
+  strip.innerHTML=`
+    <div class="hist-hdr" id="histHdr">
+      <span class="hist-hdr-title">📅 Historia tygodnia</span>
+      ${cnt?`<span class="hist-cnt">${cnt}</span>`:''}
+      <button class="hist-toggle" id="histToggleBtn">${histOpen?'▼':'▶'}</button>
+    </div>
+    <div class="hist-body${histOpen?'':' collapsed'}" id="histBody">
+      ${innerHtml}
+    </div>`;
+
+  document.getElementById('histHdr').addEventListener('click',()=>{
+    histOpen=!histOpen;
+    localStorage.setItem('tm-historia',histOpen?'1':'0');
+    const body=document.getElementById('histBody');
+    body.classList.toggle('collapsed',!histOpen);
+    document.getElementById('histToggleBtn').textContent=histOpen?'▼':'▶';
+    if(histOpen) body.querySelectorAll('textarea').forEach(autoResize);
+  });
+}
+
 // ── ONGOING ────────────────────────────────────────
 let ongOpen=true;
 function renderOngoing(){
@@ -1761,7 +1834,9 @@ function initSortables(){
 function toggleDone(id){
   const t=taskById(id);if(!t)return;
   const newStatus=t.status==='done'?'active':'done';
-  patchTask(id,{status:newStatus,doneAt:newStatus==='done'?todayStr():null});
+  const doneUpd={status:newStatus,doneAt:newStatus==='done'?todayStr():null};
+  if(newStatus==='done') doneUpd.weekKey=isoWeekKey(new Date());
+  patchTask(id,doneUpd);
   renderApp();
 }
 function togglePriority(id){
@@ -1770,7 +1845,7 @@ function togglePriority(id){
 }
 function moveToOngoing(id){patchTask(id,{status:'ongoing'});renderApp();}
 function returnFromOngoing(id){patchTask(id,{status:'active'});renderApp();}
-function doneFromOngoing(id){patchTask(id,{status:'done',doneAt:todayStr()});renderApp();}
+function doneFromOngoing(id){patchTask(id,{status:'done',doneAt:todayStr(),weekKey:isoWeekKey(new Date())});renderApp();}
 function deleteTask(id){if(!confirm('Usunąć zadanie?'))return;removeTask(id);renderApp();}
 function deleteGame(name){
   if(!confirm(`Usunąć "${name}"?\nZadania pozostaną w danych.`))return;
@@ -1977,7 +2052,7 @@ function toggleSubtask(taskId,subId){
   const t=taskById(taskId);if(!t)return;
   const s=t.subtasks.find(x=>x.id===subId);if(!s)return;
   s.done=!s.done;
-  if(t.subtasks.length&&t.subtasks.every(x=>x.done)) patchTask(taskId,{subtasks:t.subtasks,status:'done'});
+  if(t.subtasks.length&&t.subtasks.every(x=>x.done)) patchTask(taskId,{subtasks:t.subtasks,status:'done',doneAt:todayStr(),weekKey:isoWeekKey(new Date())});
   else patchTask(taskId,{subtasks:t.subtasks,status:t.status==='done'&&!t.subtasks.every(x=>x.done)?'active':t.status});
   renderApp();
 }
@@ -2041,7 +2116,6 @@ function saveEditTask(){
     return{id:orig.id||uid(),title:inp?inp.value.trim():orig.title||'',done:cb?cb.checked:orig.done||false,link:orig.link||null};
   }).filter(s=>s.title);
   const updates={title,game,date,note,subtasks,link};
-  if(date) updates.weekKey=dateStrToWk(date);
   patchTask(id,updates);
   bootstrap.Modal.getInstance(document.getElementById('editTaskModal')).hide();
   renderApp();
@@ -2553,9 +2627,7 @@ function initListeners(){
     const{f,id}=e.target.dataset;if(!f||!id)return;
     if(f==='date'){
       const date=parseDateInput(e.target.value)||null;
-      const updates={date};
-      if(date) updates.weekKey=dateStrToWk(date);
-      patchTask(id,updates);renderApp();
+      patchTask(id,{date});renderApp();
     } else if(f==='title'||f==='note'){
       patchTask(id,{[f]:e.target.value});
     }
@@ -2907,6 +2979,7 @@ async function init(){
   if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
   seedDailyPipeline();
   seedRecurring();
+  seedDailyTasks();
   updateFileUI();
   initListeners();
   applySidebarState();
@@ -2920,6 +2993,8 @@ init();
   setTimeout(tickClock,1000);
 })();
 </script>
+<!-- Historia tygodnia strip -->
+<div class="historia-strip" id="historiaStrip"></div>
 <!-- Vacation widget (fixed bottom-right) -->
 <div class="vac-widget" id="vacWidget">
   <button class="vac-widget-hdr" id="vacWidgetToggle">
