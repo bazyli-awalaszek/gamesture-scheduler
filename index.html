@@ -152,8 +152,11 @@ body{
 .hist-body::-webkit-scrollbar{height:4px;width:4px;}
 .hist-body::-webkit-scrollbar-track{background:transparent;}
 .hist-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-.hist-day-cols{display:flex;flex-wrap:wrap;gap:14px;}
-.hist-day-col{flex:0 0 auto;min-width:200px;}
+.hist-day-cols{display:flex;flex-wrap:nowrap;gap:0;overflow-x:auto;}
+.hist-day-col{flex:1 1 0;min-width:160px;padding:0 10px;border-right:1px solid var(--border);}
+.hist-day-col:last-child{border-right:none;}
+.hist-day-today>.historia-day-hdr{color:#bb9af7;}
+.hist-empty-day{font-size:11px;color:var(--border2);padding:4px 0;font-style:italic;}
 
 /* ── ONGOING CARD ── */
 .ong-card{
@@ -1574,6 +1577,7 @@ function seedDailyPipeline(){
 
 // ── HISTORIA TYGODNIA ──────────────────────────────
 let histOpen=localStorage.getItem('tm-historia')==='1';
+const PL_DNI_FULL=['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
 function renderHistoriaStrip(){
   const strip=document.getElementById('historiaStrip');
   if(!strip)return;
@@ -1587,29 +1591,45 @@ function renderHistoriaStrip(){
   }
   const cnt=histTasks.length;
 
-  let innerHtml='';
-  if(cnt){
-    const byDate={};
-    histTasks.forEach(t=>{
-      const ds=t.doneAt||t.date||'';
-      if(!byDate[ds])byDate[ds]=[];
-      byDate[ds].push(t);
-    });
-    const dateKeys=Object.keys(byDate).sort().reverse();
-    const cols=dateKeys.map(ds=>{
-      const dayTasks=byDate[ds].sort((a,b)=>(a.order||0)-(b.order||0));
-      let dayLabel;
-      if(!ds){dayLabel='(bez daty)';}
-      else{const[y,mo,d]=ds.split('-').map(Number);const dow=PL_DNI[new Date(y,mo-1,d).getDay()]||'';dayLabel=`${dow}, ${fmtDate(ds)}`;}
-      return`<div class="hist-day-col">
-        <div class="historia-day-hdr">${dayLabel}</div>
-        ${dayTasks.map(cardHtml).join('')}
-      </div>`;
-    }).join('');
-    innerHtml=`<div class="hist-day-cols">${cols}</div>`;
-  } else {
-    innerHtml='<div style="color:var(--muted);font-size:11px;padding:4px 0">Brak ukończonych zadań w tym tygodniu</div>';
-  }
+  // Group tasks by doneAt date
+  const byDate={};
+  histTasks.forEach(t=>{
+    const ds=t.doneAt||t.date||'brak';
+    if(!byDate[ds])byDate[ds]=[];
+    byDate[ds].push(t);
+  });
+
+  // Generate Mon-Fri date strings for the viewed week
+  const{mon}=weekRange(currentWeekKey);
+  const weekDays=Array.from({length:5},(_,i)=>{
+    const d=new Date(Date.UTC(mon.getUTCFullYear(),mon.getUTCMonth(),mon.getUTCDate()+i));
+    return`${d.getUTCFullYear()}-${p2(d.getUTCMonth()+1)}-${p2(d.getUTCDate())}`;
+  });
+
+  const cols=weekDays.map(ds=>{
+    const dayTasks=(byDate[ds]||[]).sort((a,b)=>(a.order||0)-(b.order||0));
+    const[y,mo,d]=ds.split('-').map(Number);
+    const dow=PL_DNI_FULL[new Date(y,mo-1,d).getDay()]||'';
+    const isToday=ds===today;
+    const isFuture=ds>today;
+    return`<div class="hist-day-col${isToday?' hist-day-today':''}">
+      <div class="historia-day-hdr">${dow}<span style="font-weight:400;margin-left:5px;opacity:.6">${fmtDate(ds)}</span></div>
+      ${dayTasks.length
+        ? dayTasks.map(cardHtml).join('')
+        : `<div class="hist-empty-day">${isFuture?'–':'brak'}</div>`}
+    </div>`;
+  }).join('');
+
+  // Extras: tasks with no date or non-standard dates
+  const extraTasks=(byDate['brak']||[]).concat(
+    Object.entries(byDate).filter(([k])=>k!=='brak'&&!weekDays.includes(k)).flatMap(([,v])=>v)
+  );
+  const extraCol=extraTasks.length?`<div class="hist-day-col">
+    <div class="historia-day-hdr">Pozostałe</div>
+    ${extraTasks.map(cardHtml).join('')}
+  </div>`:'';
+
+  const innerHtml=`<div class="hist-day-cols">${cols}${extraCol}</div>`;
 
   strip.innerHTML=`
     <div class="hist-hdr" id="histHdr">
