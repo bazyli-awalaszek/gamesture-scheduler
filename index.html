@@ -1323,23 +1323,6 @@ function buildBoardCol(status,title,cls){
     }
   }
 
-  // Done section (For Today column only - done today)
-  let doneSection='';
-  if(status==='active'){
-    const today=todayStr();
-    const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
-    if(isCurrentWk){
-      const done=state.tasks.filter(t=>t.status==='done'&&(t.doneAt===today||!t.doneAt)).sort((a,b)=>(a.order||0)-(b.order||0));
-      if(done.length){
-        doneSection=`<details class="done-sec mt-1">
-          <summary><span class="done-arrow">▶</span> Gotowe dziś <span class="sec-cnt ms-1">${done.length}</span></summary>
-          <div class="task-list done-list mt-1" data-col-status="done">
-            ${done.map(cardHtml).join('')}
-          </div>
-        </details>`;
-      }
-    }
-  }
 
   col.innerHTML=`
     <div class="col-hdr-new">
@@ -1350,8 +1333,7 @@ function buildBoardCol(status,title,cls){
     <div class="task-list tw-list" data-col-status="${status}">
       ${active.map(cardHtml).join('')||'<div class="empty-msg">Brak zadań</div>'}
     </div>
-    <button class="add-task-btn" data-add-status="${status}">+ Dodaj zadanie</button>
-    ${doneSection}`;
+    <button class="add-task-btn" data-add-status="${status}">+ Dodaj zadanie</button>`;
   return col;
 }
 
@@ -1586,11 +1568,7 @@ function renderHistoriaStrip(){
   const today=todayStr();
   const isCurrentWk=currentWeekKey===isoWeekKey(new Date());
   let histTasks;
-  if(isCurrentWk){
-    histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey&&t.doneAt&&t.doneAt<today);
-  } else {
-    histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
-  }
+  histTasks=state.tasks.filter(t=>t.status==='done'&&t.weekKey===currentWeekKey);
   const cnt=histTasks.length;
 
   // Group tasks by doneAt date
