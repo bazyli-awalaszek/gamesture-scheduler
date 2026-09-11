@@ -2997,9 +2997,13 @@ async function init(){
   if(!state.games.length){state.games=DEFAULT_GAMES.map(g=>({...g}));save();}
   // Ensure Daily Pipeline game exists in existing saves
   if(!state.games.find(g=>g.daily)) state.games.push({name:'Daily Pipeline',icon:'⚡',color:'#2ac3de',daily:true});
+  // Remove legacy individually-seeded daily tasks (superseded by seedDailyPipeline)
+  const dailyTitles=new Set(DAILY_TASKS.map(d=>d.title));
+  const before=state.tasks.length;
+  state.tasks=state.tasks.filter(t=>!(dailyTitles.has(t.title)&&t.game==='Ogólne'&&!t._daily));
+  if(state.tasks.length!==before)save();
   seedDailyPipeline();
   seedRecurring();
-  seedDailyTasks();
   updateFileUI();
   initListeners();
   applySidebarState();
