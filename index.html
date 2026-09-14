@@ -596,6 +596,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .vac-w-day.is-today .vac-w-day-num{background:var(--blue);color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;}
 .vac-w-day.is-past .vac-w-day-num{opacity:.38;}
 .vac-w-month-lbl{grid-column:1/-1;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:4px 0 1px;opacity:.7;}
+.vac-w-empty{pointer-events:none;}
 .vac-w-note-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);margin-top:1px;flex-shrink:0;}
 /* Day note popover */
 #dayNotePopover{
@@ -2922,6 +2923,8 @@ function renderVacWidget(){
     if(m!==lastMonth){
       html+=`<div class="vac-w-month-lbl">${PL_MON_FULL[m]}</div>`;
       lastMonth=m;
+      const colOffset=(d.getDay()+6)%7;
+      for(let j=0;j<colOffset;j++) html+=`<div class="vac-w-empty"></div>`;
     }
     const colors=dayMap[ds]||[];
     const note=(state.dayNotes||{})[ds]||'';
