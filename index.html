@@ -812,6 +812,7 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 <!-- CONTEXT MENU -->
 <div id="ctxMenu" class="ctx-menu">
   <div class="ctx-item" id="ctxEdit">✏️ Edytuj zadanie</div>
+  <div class="ctx-item" id="ctxDuplicate">📋 Duplikuj zadanie</div>
   <div class="ctx-item" id="ctxMoveNext">📅 Przenieś na następny tydzień</div>
 </div>
 
@@ -1848,6 +1849,18 @@ function moveToOngoing(id){patchTask(id,{status:'ongoing'});renderApp();}
 function returnFromOngoing(id){patchTask(id,{status:'active'});renderApp();}
 function doneFromOngoing(id){patchTask(id,{status:'done',doneAt:todayStr(),weekKey:isoWeekKey(new Date())});renderApp();}
 function deleteTask(id){if(!confirm('Usunąć zadanie?'))return;removeTask(id);renderApp();}
+function duplicateTask(id){
+  const t=taskById(id);if(!t)return;
+  const m=t.title.match(/^(.*?)\s*#(\d+)$/);
+  const newTitle=m?`${m[1]} #${parseInt(m[2])+1}`:`${t.title} #2`;
+  pushTask({
+    id:uid(),game:t.game,title:newTitle,date:t.date||null,note:'',
+    status:t.status==='done'?'active':t.status,priority:t.priority||false,
+    weekKey:t.weekKey||currentWeekKey,order:(t.order||0)+0.5,
+    attachments:[],subtasks:[],link:t.link||null,
+  });
+  renderApp();
+}
 function deleteGame(name){
   if(!confirm(`Usunąć "${name}"?\nZadania pozostaną w danych.`))return;
   state.games=state.games.filter(g=>g.name!==name);save();renderApp();
@@ -2626,6 +2639,7 @@ function initListeners(){
     }
   });
   document.getElementById('ctxEdit').addEventListener('click',()=>{if(ctxTaskId)openEditTask(ctxTaskId);hideCtxMenu();});
+  document.getElementById('ctxDuplicate').addEventListener('click',()=>{if(ctxTaskId)duplicateTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hideCtxMenu();});
