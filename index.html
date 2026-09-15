@@ -2645,7 +2645,9 @@ function initListeners(){
   document.getElementById('ctxDuplicate').addEventListener('click',()=>{if(ctxTaskId)duplicateTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')hideCtxMenu();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideCtxMenu();hideLightbox();}});
+  document.getElementById('imgLightbox').addEventListener('click',hideLightbox);
+  document.getElementById('imgLightboxClose').addEventListener('click',e=>{e.stopPropagation();hideLightbox();});
   document.addEventListener('scroll',hideCtxMenu,true);
 
   // Board change
@@ -2992,12 +2994,10 @@ function showLightbox(src){
 }
 function hideLightbox(){
   const lb=document.getElementById('imgLightbox');
+  if(!lb)return;
   lb.style.display='none';
   document.getElementById('imgLightboxImg').src='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')hideLightbox();});
-document.getElementById('imgLightbox').addEventListener('click',hideLightbox);
-document.getElementById('imgLightboxClose').addEventListener('click',e=>{e.stopPropagation();hideLightbox();});
 
 // ═══════════════════════════════════════
 // INIT
