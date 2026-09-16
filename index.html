@@ -2638,25 +2638,23 @@ function initListeners(){
       e.target.focus();
       return;
     }
-    // Subtask dblclick → inline edit
-    const subtaskSpan=e.target.closest('.subtask-title:not(a)');
+    // Subtask dblclick → inline edit (works for both linked and plain subtasks)
+    const subtaskSpan=e.target.closest('.subtask-title');
     if(subtaskSpan){
       const subtask=subtaskSpan.closest('.subtask');if(!subtask)return;
       const card=subtask.closest('.task-card');if(!card)return;
       const subId=subtask.dataset.subtaskId;
-      const orig=subtaskSpan.textContent;
+      const t=taskById(card.dataset.id);if(!t)return;
+      const s=t.subtasks.find(x=>x.id===subId);if(!s)return;
+      const orig=s.title;
       const inp=document.createElement('input');
       inp.type='text';inp.value=orig;inp.className='form-control form-control-sm';
       inp.style.cssText='font-size:11px;height:22px;padding:1px 5px;';
       subtaskSpan.replaceWith(inp);inp.focus();inp.select();
       const save2=()=>{
         const val=inp.value.trim();
-        if(val&&val!==orig){
-          const t=taskById(card.dataset.id);if(t){
-            const s=t.subtasks.find(x=>x.id===subId);
-            if(s){s.title=val;patchTask(t.id,{subtasks:t.subtasks});renderApp();}
-          }
-        } else {renderApp();}
+        if(val&&val!==orig){s.title=val;patchTask(t.id,{subtasks:t.subtasks});}
+        renderApp();
       };
       inp.addEventListener('blur',save2);
       inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){renderApp();}});
@@ -2695,19 +2693,17 @@ function initListeners(){
     if(subtask){
       hideCtxMenu();
       const span=subtask.querySelector('.subtask-title');if(!span)return;
-      const orig=span.textContent;
+      const t=taskById(card.dataset.id);if(!t)return;
+      const s=t.subtasks.find(x=>x.id===subId);if(!s)return;
+      const orig=s.title;
       const inp=document.createElement('input');
       inp.type='text';inp.value=orig;inp.className='form-control form-control-sm';
       inp.style.cssText='font-size:11px;height:22px;padding:1px 5px;';
       span.replaceWith(inp);inp.focus();inp.select();
       const save2=()=>{
         const val=inp.value.trim();
-        if(val&&val!==orig){
-          const t=taskById(card.dataset.id);if(t){
-            const s=t.subtasks.find(x=>x.id===subId);
-            if(s){s.title=val;patchTask(t.id,{subtasks:t.subtasks});renderApp();}
-          }
-        } else {renderApp();}
+        if(val&&val!==orig){s.title=val;patchTask(t.id,{subtasks:t.subtasks});}
+        renderApp();
       };
       inp.addEventListener('blur',save2);
       inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){renderApp();}});
