@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📋 Task Manager — Gamesture</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <style>
 /* ══════════════════════════════════
@@ -1031,7 +1032,7 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
     <textarea class="ranking-ta" id="rankingDataTa" placeholder="PL&#9;PlayerName123&#9;15000&#10;DE&#9;AnotherPlayer&#9;12500&#10;US&#9;ThirdPlayer&#9;10000"></textarea>
     <div class="ranking-preview-bar">
       <span class="ranking-preview-lbl">Podgląd</span>
-      <button class="btn-rk-screenshot" id="btnRankingScreenshot">🖼 Pełny ekran do screenshota</button>
+      <button class="btn-rk-screenshot" id="btnRankingScreenshot">📋 Kopiuj do schowka</button>
     </div>
     <div id="rankingPreview"><div class="rtable-empty">Wklej dane z Excela powyżej</div></div>
   </div>
@@ -2834,12 +2835,9 @@ function initListeners(){
   document.getElementById('rankingDataTa').addEventListener('input',updateRankingPreview);
   document.getElementById('rankingTitleInp').addEventListener('input',updateRankingPreview);
   document.getElementById('btnRankingScreenshot').addEventListener('click',()=>{
-    const raw=document.getElementById('rankingDataTa').value;
-    const title=document.getElementById('rankingTitleInp').value.trim();
-    document.getElementById('rankingScreenshotContent').innerHTML=buildRankingTable(raw,title);
-    document.getElementById('rankingScreenshot').classList.add('open');
+    const canvas=document.querySelector('#rankingPreview canvas');
+    if(canvas) copyCanvasToClipboard(canvas);
   });
-  document.getElementById('btnRankingCloseScreenshot').addEventListener('click',()=>document.getElementById('rankingScreenshot').classList.remove('open'));
   document.getElementById('rcAdd').addEventListener('click',addRecurring);
   document.getElementById('recurringModal').addEventListener('click',e=>{
     if(e.target.dataset.rcDel) deleteRecurring(e.target.dataset.rcDel);
@@ -3087,14 +3085,9 @@ function hideLightbox(){
   document.getElementById('imgLightboxImg').src='';
 }
 
-// ── RANKING TABLE ────────────────────────────────────
-function _codeToFlag(code){
-  if(!code||code.length!==2)return '';
-  return`<img src="https://flagcdn.com/w40/${code.toLowerCase()}.png" alt="${esc(code.toUpperCase())}" title="${esc(code.toUpperCase())}">`;
-}
-function buildRankingTable(raw,title){
+// ── RANKING TABLE (canvas) ────────────────────────────────────
+function parseRankingRows(raw){
   const lines=raw.trim().split(/\r?\n/).filter(l=>l.trim());
-  if(!lines.length)return`<div class="rtable-empty">Wklej dane z Excela powyżej</div>`;
   let rows=lines.map(l=>{
     const p=l.split('\t');
     if(p.length<2)return null;
@@ -3102,21 +3095,94 @@ function buildRankingTable(raw,title){
     const player=(p[1]||'').trim().replace(/\r/g,'');
     const scoreRaw=(p[2]||'').trim().replace(/\r/g,'');
     const scoreNum=parseInt(scoreRaw.replace(/[\s,.']/g,'').replace(/[^\d]/g,''),10);
-    const score=isNaN(scoreNum)?esc(scoreRaw):scoreNum.toLocaleString('pl-PL');
+    const score=isNaN(scoreNum)?scoreRaw:scoreNum.toLocaleString('pl-PL');
     return{country,player,score};
   }).filter(Boolean).slice(0,10);
   while(rows.length<10)rows.push({country:'',player:'',score:''});
-  const tbody=rows.map((r,i)=>{
-    const flag=_codeToFlag(r.country)||esc(r.country);
-    return`<tr><td class="rt-num">${i+1}</td><td class="rt-flag">${flag}</td><td class="rt-player">${esc(r.player)}</td><td class="rt-score">${r.score}</td></tr>`;
-  }).join('');
-  const titleHtml=title?`<div class="rtable-hdr"><div class="rtable-title">${esc(title)}</div></div>`:'';
-  return`<div class="rtable-wrap">${titleHtml}<table class="rtable"><tbody>${tbody}</tbody></table></div>`;
+  return rows;
 }
-function updateRankingPreview(){
+function loadFlagImg(code){
+  if(!code||code.length!==2)return Promise.resolve(null);
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>resolve(img);
+    img.onerror=()=>resolve(null);
+    img.src=`https://flagcdn.com/w40/${code.toLowerCase()}.png`;
+  });
+}
+async function drawRankingCanvas(raw,title){
+  const ROW_H=40,W=530;
+  const rows=parseRankingRows(raw);
+  const HEADER_H=title?42:0;
+  const H=HEADER_H+rows.length*ROW_H;
+  const flags=await Promise.all(rows.map(r=>loadFlagImg(r.country)));
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  if(title){
+    ctx.fillStyle='#0a0a06';
+    ctx.fillRect(0,0,W,HEADER_H);
+    ctx.fillStyle='#ffffff';
+    ctx.font='600 14px "Oswald",sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(title,W/2,HEADER_H/2);
+  }
+  for(let i=0;i<rows.length;i++){
+    const y=HEADER_H+i*ROW_H;
+    ctx.fillStyle=i%2===0?'#141409':'#1a1a10';
+    ctx.fillRect(0,y,W,ROW_H);
+    const midY=y+ROW_H/2;
+    ctx.fillStyle='rgba(255,255,255,0.45)';
+    ctx.font='600 14px "Oswald",sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(String(i+1),18,midY);
+    if(flags[i]){
+      const fH=15,fW=flags[i].naturalWidth*(fH/flags[i].naturalHeight);
+      ctx.drawImage(flags[i],36+(30-fW)/2,midY-fH/2,fW,fH);
+    }else if(rows[i].country){
+      ctx.fillStyle='rgba(255,255,255,0.45)';
+      ctx.font='11px sans-serif';ctx.textAlign='center';
+      ctx.fillText(rows[i].country.toUpperCase(),51,midY);
+    }
+    if(rows[i].player){
+      ctx.fillStyle='#ffffff';
+      ctx.font='600 16px "Oswald",sans-serif';
+      ctx.textAlign='left';ctx.textBaseline='middle';
+      ctx.fillText(rows[i].player,82,midY);
+    }
+    if(rows[i].score){
+      ctx.fillStyle='#ffde00';
+      ctx.font='600 16px "Oswald",sans-serif';
+      ctx.textAlign='right';
+      ctx.fillText(rows[i].score,W-12,midY);
+    }
+  }
+  return canvas;
+}
+function copyCanvasToClipboard(canvas){
+  canvas.toBlob(async blob=>{
+    try{
+      await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+      const prev=canvas.style.outline;
+      canvas.style.outline='2px solid #9ece6a';
+      setTimeout(()=>{canvas.style.outline=prev;},700);
+    }catch(e){console.warn('Clipboard write failed:',e);}
+  });
+}
+async function updateRankingPreview(){
   const raw=document.getElementById('rankingDataTa').value;
   const title=document.getElementById('rankingTitleInp').value.trim();
-  document.getElementById('rankingPreview').innerHTML=buildRankingTable(raw,title);
+  const preview=document.getElementById('rankingPreview');
+  if(!raw.trim()){preview.innerHTML='<div class="rtable-empty">Wklej dane z Excela powyżej</div>';return;}
+  await document.fonts.ready;
+  const canvas=await drawRankingCanvas(raw,title);
+  canvas.style.display='block';
+  canvas.style.cursor='pointer';
+  canvas.title='Kliknij aby skopiować do schowka';
+  canvas.addEventListener('click',()=>copyCanvasToClipboard(canvas));
+  preview.innerHTML='';
+  preview.appendChild(canvas);
 }
 
 // ═══════════════════════════════════════
