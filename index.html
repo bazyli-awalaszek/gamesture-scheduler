@@ -634,6 +634,10 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .rc-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 3px;line-height:1;}
 .rc-del:hover{color:var(--red);}
 
+/* ── COPY TOAST ── */
+#copyToast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:#9ece6a;color:#1a1b26;font-size:13px;font-weight:700;padding:8px 20px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:300000;}
+#copyToast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 /* ── RANKING TABLE ── */
 #rankingModal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;z-index:10000;align-items:flex-start;justify-content:center;padding:32px 20px;overflow-y:auto;}
 #rankingModal.open{display:flex;}
@@ -1018,6 +1022,8 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
     </div>
   </div>
 </div>
+
+<div id="copyToast">✓ Skopiowano do schowka</div>
 
 <!-- RANKING TABLE MODAL -->
 <div id="rankingModal">
@@ -3160,13 +3166,18 @@ async function drawRankingCanvas(raw,title){
   }
   return canvas;
 }
+let _copyToastTimer=null;
+function showCopyToast(){
+  const t=document.getElementById('copyToast');
+  t.classList.add('show');
+  clearTimeout(_copyToastTimer);
+  _copyToastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
 function copyCanvasToClipboard(canvas){
   canvas.toBlob(async blob=>{
     try{
       await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
-      const prev=canvas.style.outline;
-      canvas.style.outline='2px solid #9ece6a';
-      setTimeout(()=>{canvas.style.outline=prev;},700);
+      showCopyToast();
     }catch(e){console.warn('Clipboard write failed:',e);}
   });
 }
