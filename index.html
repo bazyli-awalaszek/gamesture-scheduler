@@ -403,9 +403,23 @@ body{
   resize:none;padding:0;overflow:hidden;
 }
 .card-note:focus{background:rgba(255,255,255,.04);border-radius:3px;padding:1px 4px;}
-.card-note[readonly]{cursor:default;}
-.card-note[readonly]:focus{background:transparent;padding:0;}
 .card-note::placeholder{color:var(--faint);font-style:italic;}
+.card-note-view{
+  font-size:11px;color:var(--muted);
+  width:100%;line-height:1.5;word-break:break-word;cursor:default;
+  min-height:14px;
+}
+.card-note-view a{color:var(--blue);font-size:11px;}
+.card-note-view a:hover{text-decoration:underline;}
+.card-note-ph{color:var(--faint);font-style:italic;}
+/* Sidebar note display */
+.note-disp{
+  font-size:12px;color:rgba(192,202,245,.85);line-height:1.5;
+  word-break:break-word;cursor:text;min-height:16px;padding:1px 0;
+}
+.note-disp a{color:var(--blue);}
+.note-disp a:hover{text-decoration:underline;}
+.note-disp-ph{color:rgba(255,255,255,.2);font-style:italic;font-size:12px;}
 /* Attachments */
 .attach-area{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;}
 .attach-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;}
@@ -1494,7 +1508,7 @@ function cardHtml(t){
   ${t.game?`<div class="card-badges">${cardGameBadgeHtml(t.game)}</div>`:''}
   <div class="card-expand">
     <div class="subtasks-area">${subsHtml}<input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."></div>
-    <textarea class="card-note" data-f="note" data-id="${t.id}" rows="1" placeholder="Notatka... (dblclick aby edytować)" spellcheck="false" readonly>${esc(t.note||'')}</textarea>
+    <div class="card-note-view" data-id="${t.id}" title="Dblclick aby edytować">${t.note?renderText(t.note):'<span class="card-note-ph">Notatka...</span>'}</div>
     <div class="attach-area" style="${atts.length?'':'display:none'}">${attHtml}</div>
     <div class="attach-hint" style="font-size:10px;color:var(--faint);margin-top:4px;font-style:italic">Upuść plik lub wklej (Ctrl+V) aby dodać załącznik</div>
   </div>
@@ -1855,9 +1869,9 @@ function renderNotes(){
     </div>
     <button class="note-del" data-del-note="${n.id}" title="Usuń">✕</button>
   </div>
-  <textarea class="note-ta" data-note-id="${n.id}" rows="2" placeholder="Notatka..." style="color:rgba(192,202,245,.85)">${esc(n.text||'')}</textarea>
+  <div class="note-disp" data-note-id="${n.id}">${n.text?renderText(n.text):'<span class="note-disp-ph">Notatka...</span>'}</div>
+  <textarea class="note-ta" data-note-id="${n.id}" rows="2" placeholder="Notatka..." style="color:rgba(192,202,245,.85);display:none">${esc(n.text||'')}</textarea>
 </div>`).join('');
-  requestAnimationFrame(()=>container.querySelectorAll('.note-ta').forEach(autoResize));
   initNotesSortable();
 }
 
@@ -2089,7 +2103,14 @@ function addNote(){
   if(!Array.isArray(state.notes)) state.notes=[];
   state.notes.push({id:uid(),text:'',color:'#1e0806'});
   save();renderNotes();
-  requestAnimationFrame(()=>{const ns=document.querySelectorAll('.note-ta');if(ns.length)ns[ns.length-1].focus();});
+  requestAnimationFrame(()=>{
+    const ns=document.querySelectorAll('.note-ta');
+    if(!ns.length)return;
+    const ta=ns[ns.length-1];
+    const disp=ta.previousElementSibling;
+    if(disp&&disp.classList.contains('note-disp')) disp.style.display='none';
+    ta.style.display='';autoResize(ta);ta.focus();
+  });
 }
 function deleteNote(noteId){
   state.notes=(state.notes||[]).filter(n=>n.id!==noteId);
@@ -2570,7 +2591,7 @@ function initListeners(){
       const card=document.querySelector(`.task-card[data-id="${id}"]`);if(!card)return;
       const isExp=card.classList.contains('expanded');
       card.classList.toggle('expanded',!isExp);
-      if(!isExp){expandedCards.add(id);const note=card.querySelector('.card-note');if(note)requestAnimationFrame(()=>autoResize(note));}
+      if(!isExp){expandedCards.add(id);}
       else{
         expandedCards.delete(id);
         const disp=card.querySelector('.title-display');
@@ -2600,8 +2621,6 @@ function initListeners(){
       card.classList.toggle('expanded',opening);
       if(opening){
         expandedCards.add(id);
-        const note=card.querySelector('.card-note');
-        if(note) requestAnimationFrame(()=>autoResize(note));
       }else{
         expandedCards.delete(id);
         const disp=card.querySelector('.title-display');
@@ -2632,10 +2651,17 @@ function initListeners(){
 
   // Board double-click → edit title / note / subtask
   document.getElementById('board').addEventListener('dblclick',e=>{
-    // Note dblclick → unlock for editing
-    if(e.target.classList.contains('card-note')){
-      e.target.removeAttribute('readonly');
-      e.target.focus();
+    // Note dblclick → create editable textarea
+    if(e.target.closest('.card-note-view')){
+      const noteDiv=e.target.closest('.card-note-view');
+      const id=noteDiv.dataset.id;
+      const t=taskById(id);if(!t)return;
+      const ta=document.createElement('textarea');
+      ta.className='card-note';ta.dataset.f='note';ta.dataset.id=id;
+      ta.rows=1;ta.spellcheck=false;ta.value=t.note||'';
+      ta.placeholder='Notatka...';
+      noteDiv.replaceWith(ta);
+      requestAnimationFrame(()=>{autoResize(ta);ta.focus();});
       return;
     }
     // Subtask dblclick → inline edit (works for both linked and plain subtasks)
@@ -2754,7 +2780,13 @@ function initListeners(){
       return;
     }
     if(e.target.classList.contains('card-note')){
-      e.target.setAttribute('readonly','');
+      const id=e.target.dataset.id;const val=e.target.value;
+      patchTask(id,{note:val});
+      const div=document.createElement('div');
+      div.className='card-note-view';div.dataset.id=id;
+      div.title='Dblclick aby edytować';
+      div.innerHTML=val?renderText(val):'<span class="card-note-ph">Notatka...</span>';
+      e.target.replaceWith(div);
       return;
     }
     if(!e.target.classList.contains('date-input'))return;
@@ -2781,6 +2813,29 @@ function initListeners(){
     if(e.target.classList.contains('note-cdot')){setNoteColor(e.target.dataset.noteId,e.target.dataset.color);return;}
     if(e.target.dataset.delNote){deleteNote(e.target.dataset.delNote);return;}
     if(e.target.id==='addNoteBtn'||e.target.closest('#addNoteBtn')){addNote();return;}
+    const disp=e.target.closest('.note-disp');
+    if(disp&&!e.target.closest('a')){
+      const ta=disp.nextElementSibling;
+      if(ta&&ta.classList.contains('note-ta')){
+        disp.style.display='none';
+        ta.style.display='';
+        autoResize(ta);ta.focus();
+        const end=ta.value.length;ta.setSelectionRange(end,end);
+      }
+      return;
+    }
+  });
+  document.getElementById('notesContainer').addEventListener('focusout',e=>{
+    if(!e.target.classList.contains('note-ta'))return;
+    const ta=e.target;
+    const noteId=ta.dataset.noteId;
+    saveNoteText(noteId,ta.value);
+    const disp=ta.previousElementSibling;
+    if(disp&&disp.classList.contains('note-disp')){
+      disp.innerHTML=ta.value?renderText(ta.value):'<span class="note-disp-ph">Notatka...</span>';
+      disp.style.display='';
+      ta.style.display='none';
+    }
   });
   document.getElementById('notesContainer').addEventListener('input',e=>{
     if(!e.target.classList.contains('note-ta'))return;
