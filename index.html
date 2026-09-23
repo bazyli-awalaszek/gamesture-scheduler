@@ -877,7 +877,6 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
   <div class="ctx-item" id="ctxEdit">✏️ Edytuj zadanie</div>
   <div class="ctx-item" id="ctxDuplicate">📋 Duplikuj zadanie</div>
   <div class="ctx-item" id="ctxMoveNext">📅 Przenieś na następny tydzień</div>
-  <div class="ctx-item" id="ctxChangeDoneDate" style="display:none">✏️ Zmień datę ukończenia</div>
 </div>
 
 <!-- MODAL: Edit Task -->
@@ -1654,7 +1653,7 @@ function seedDailyPipeline(){
 }
 
 // ── HISTORIA TYGODNIA ──────────────────────────────
-let histOpen=localStorage.getItem('tm-historia')==='1';
+let histOpen=localStorage.getItem('tm-historia')!=='0';
 const PL_DNI_FULL=['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
 function renderHistoriaStrip(){
   const strip=document.getElementById('historiaStrip');
@@ -2240,14 +2239,11 @@ function saveEditTask(){
 // ═══════════════════════════════════════
 let ctxTaskId=null;
 let ctxSubId=null;
-function showCtxMenu(x,y,id,subId,isDone){
+function showCtxMenu(x,y,id,subId){
   ctxTaskId=id;ctxSubId=subId||null;
   const menu=document.getElementById('ctxMenu');
-  const boardItems=['ctxEdit','ctxDuplicate','ctxMoveNext'];
-  boardItems.forEach(i=>document.getElementById(i).style.display=isDone?'none':'');
-  document.getElementById('ctxChangeDoneDate').style.display=isDone?'':'none';
   menu.style.display='block';
-  const mw=220,mh=isDone?42:110;
+  const mw=220,mh=110;
   menu.style.left=Math.min(x,window.innerWidth-mw-8)+'px';
   menu.style.top=Math.min(y,window.innerHeight-mh-8)+'px';
 }
@@ -2745,38 +2741,43 @@ function initListeners(){
   document.getElementById('ctxEdit').addEventListener('click',()=>{if(ctxTaskId)openEditTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxDuplicate').addEventListener('click',()=>{if(ctxTaskId)duplicateTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
-  document.getElementById('ctxChangeDoneDate').addEventListener('click',()=>{
-    const id=ctxTaskId;hideCtxMenu();if(!id)return;
+  // Historia strip — right-click on done task → inline date popup
+  document.getElementById('historiaStrip').addEventListener('contextmenu',e=>{
+    const card=e.target.closest('.task-card');if(!card)return;
+    e.preventDefault();
+    const id=card.dataset.id;
     const t=taskById(id);if(!t)return;
-    const existing=document.getElementById('doneAtPopup');if(existing)existing.remove();
+    document.getElementById('doneAtPopup')?.remove();
     const popup=document.createElement('div');
     popup.id='doneAtPopup';
-    popup.style.cssText='position:fixed;z-index:99999;background:var(--card);border:1px solid var(--green);border-radius:7px;padding:10px 12px;box-shadow:0 4px 20px rgba(0,0,0,.6);left:50%;top:50%;transform:translate(-50%,-50%);';
+    const px=Math.min(e.clientX,window.innerWidth-220),py=Math.min(e.clientY,window.innerHeight-90);
+    popup.style.cssText=`position:fixed;z-index:99999;left:${px}px;top:${py}px;background:#1f2335;border:1px solid #9ece6a;border-radius:8px;padding:10px 12px;box-shadow:0 6px 24px rgba(0,0,0,.7);`;
     const lbl=document.createElement('div');
-    lbl.style.cssText='font-size:10px;color:var(--muted);margin-bottom:6px;';
+    lbl.style.cssText='font-size:10px;color:#565f89;margin-bottom:6px;';
     lbl.textContent='Data ukończenia (dd/mm/yyyy)';
     popup.appendChild(lbl);
     const inp=document.createElement('input');
-    inp.type='text';inp.className='done-at-inp';
-    inp.style.cssText='width:120px;display:block;font-size:12px;padding:3px 6px;';
+    inp.type='text';inp.className='form-control form-control-sm';
+    inp.style.cssText='width:130px;font-size:12px;display:block;';
     inp.placeholder='dd/mm/yyyy';
     if(t.doneAt){const[y,m,d]=t.doneAt.split('-').map(Number);inp.value=`${p2(d)}/${p2(m)}/${y}`;}
     popup.appendChild(inp);
     document.body.appendChild(popup);
-    inp.focus();inp.select();
+    requestAnimationFrame(()=>{inp.focus();inp.select();});
+    let committed=false;
     const commit=()=>{
+      if(committed)return;committed=true;
       const parsed=parseDateInput(inp.value);
       if(parsed){t.doneAt=parsed;t.weekKey=dateStrToWk(parsed);save();}
       popup.remove();renderHistoriaStrip();
     };
     inp.addEventListener('blur',commit);
-    inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){popup.remove();}});
-  });
-  // Historia strip — right-click to change doneAt
-  document.getElementById('historiaStrip').addEventListener('contextmenu',e=>{
-    const card=e.target.closest('.task-card');if(!card)return;
-    e.preventDefault();
-    showCtxMenu(e.clientX,e.clientY,card.dataset.id,null,true);
+    inp.addEventListener('keydown',ev=>{
+      if(ev.key==='Enter'){ev.preventDefault();inp.blur();}
+      if(ev.key==='Escape'){committed=true;popup.remove();}
+    });
+    const outsideClick=ev=>{if(!popup.contains(ev.target)){committed=true;popup.remove();document.removeEventListener('click',outsideClick);}};
+    setTimeout(()=>document.addEventListener('click',outsideClick),100);
   });
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{
