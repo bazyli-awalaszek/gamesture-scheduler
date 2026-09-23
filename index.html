@@ -877,6 +877,7 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
   <div class="ctx-item" id="ctxEdit">✏️ Edytuj zadanie</div>
   <div class="ctx-item" id="ctxDuplicate">📋 Duplikuj zadanie</div>
   <div class="ctx-item" id="ctxMoveNext">📅 Przenieś na następny tydzień</div>
+  <div class="ctx-item" id="ctxChangeDoneDate" style="display:none">✏️ Zmień datę ukończenia</div>
 </div>
 
 <!-- MODAL: Edit Task -->
@@ -1503,7 +1504,6 @@ function cardHtml(t){
       <textarea class="card-title" data-f="title" data-id="${t.id}" rows="1" spellcheck="false">${esc(t.title)}</textarea>
     </div>
     <div class="card-actions">
-      ${t.status==='done'&&t.doneAt?`<span class="done-at-chip" data-action="edit-done-date" data-id="${t.id}" title="Zmień datę ukończenia">✓ ${fmtDate(t.doneAt)}</span>`:''}
       <button class="btn-prio ${t.priority?'on':''}" data-action="priority" data-id="${t.id}" title="${t.priority?'Usuń priorytet':'Oznacz jako ważne'}">${t.priority?'⭐':'☆'}</button>
       ${t.status!=='done'?`<button class="btn-ong" data-action="to-ongoing" data-id="${t.id}" title="Przenieś do W toku">🔥</button>`:''}
       <button class="del-btn" data-action="del" data-id="${t.id}" title="Usuń">✕</button>
@@ -2240,11 +2240,14 @@ function saveEditTask(){
 // ═══════════════════════════════════════
 let ctxTaskId=null;
 let ctxSubId=null;
-function showCtxMenu(x,y,id,subId){
+function showCtxMenu(x,y,id,subId,isDone){
   ctxTaskId=id;ctxSubId=subId||null;
   const menu=document.getElementById('ctxMenu');
+  const boardItems=['ctxEdit','ctxDuplicate','ctxMoveNext'];
+  boardItems.forEach(i=>document.getElementById(i).style.display=isDone?'none':'');
+  document.getElementById('ctxChangeDoneDate').style.display=isDone?'':'none';
   menu.style.display='block';
-  const mw=220,mh=80;
+  const mw=220,mh=isDone?42:110;
   menu.style.left=Math.min(x,window.innerWidth-mw-8)+'px';
   menu.style.top=Math.min(y,window.innerHeight-mh-8)+'px';
 }
@@ -2565,28 +2568,12 @@ function initListeners(){
   });
   document.getElementById('atTitle').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('atSave').click();}});
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
-  // Historia strip — reopen done task via checkbox, edit doneAt date
+  // Historia strip — reopen done task via checkbox
   document.getElementById('historiaStrip').addEventListener('click',e=>{
-    const action=e.target.dataset.action||e.target.closest('[data-action]')?.dataset.action;
+    const action=e.target.dataset.action;
     const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
     if(!id||!action)return;
-    if(action==='toggle'){toggleDone(id);return;}
-    if(action==='edit-done-date'){
-      const chip=e.target.closest('.done-at-chip');if(!chip)return;
-      const t=taskById(id);if(!t)return;
-      const inp=document.createElement('input');
-      inp.type='text';inp.className='done-at-inp';inp.placeholder='dd/mm/yyyy';
-      if(t.doneAt){const[y,m,d]=t.doneAt.split('-').map(Number);inp.value=`${p2(d)}/${p2(m)}/${y}`;}
-      chip.replaceWith(inp);inp.focus();inp.select();
-      const commit=()=>{
-        const parsed=parseDateInput(inp.value);
-        if(parsed){t.doneAt=parsed;t.weekKey=dateStrToWk(parsed);save();}
-        renderHistoriaStrip();
-      };
-      inp.addEventListener('blur',commit);
-      inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){renderHistoriaStrip();}});
-      return;
-    }
+    if(action==='toggle') toggleDone(id);
   });
 
   // Board click delegation
@@ -2758,6 +2745,39 @@ function initListeners(){
   document.getElementById('ctxEdit').addEventListener('click',()=>{if(ctxTaskId)openEditTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxDuplicate').addEventListener('click',()=>{if(ctxTaskId)duplicateTask(ctxTaskId);hideCtxMenu();});
   document.getElementById('ctxMoveNext').addEventListener('click',()=>{if(ctxTaskId)moveTaskToNextWeek(ctxTaskId);hideCtxMenu();});
+  document.getElementById('ctxChangeDoneDate').addEventListener('click',()=>{
+    const id=ctxTaskId;hideCtxMenu();if(!id)return;
+    const t=taskById(id);if(!t)return;
+    const existing=document.getElementById('doneAtPopup');if(existing)existing.remove();
+    const popup=document.createElement('div');
+    popup.id='doneAtPopup';
+    popup.style.cssText='position:fixed;z-index:99999;background:var(--card);border:1px solid var(--green);border-radius:7px;padding:10px 12px;box-shadow:0 4px 20px rgba(0,0,0,.6);left:50%;top:50%;transform:translate(-50%,-50%);';
+    const lbl=document.createElement('div');
+    lbl.style.cssText='font-size:10px;color:var(--muted);margin-bottom:6px;';
+    lbl.textContent='Data ukończenia (dd/mm/yyyy)';
+    popup.appendChild(lbl);
+    const inp=document.createElement('input');
+    inp.type='text';inp.className='done-at-inp';
+    inp.style.cssText='width:120px;display:block;font-size:12px;padding:3px 6px;';
+    inp.placeholder='dd/mm/yyyy';
+    if(t.doneAt){const[y,m,d]=t.doneAt.split('-').map(Number);inp.value=`${p2(d)}/${p2(m)}/${y}`;}
+    popup.appendChild(inp);
+    document.body.appendChild(popup);
+    inp.focus();inp.select();
+    const commit=()=>{
+      const parsed=parseDateInput(inp.value);
+      if(parsed){t.doneAt=parsed;t.weekKey=dateStrToWk(parsed);save();}
+      popup.remove();renderHistoriaStrip();
+    };
+    inp.addEventListener('blur',commit);
+    inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){popup.remove();}});
+  });
+  // Historia strip — right-click to change doneAt
+  document.getElementById('historiaStrip').addEventListener('contextmenu',e=>{
+    const card=e.target.closest('.task-card');if(!card)return;
+    e.preventDefault();
+    showCtxMenu(e.clientX,e.clientY,card.dataset.id,null,true);
+  });
   document.addEventListener('click',e=>{if(!e.target.closest('#ctxMenu'))hideCtxMenu();});
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
