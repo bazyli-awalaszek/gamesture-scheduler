@@ -3119,7 +3119,7 @@ function renderVacWidget(){
     :'';
   // Calculate how many days to render: up to end of furthest future vacation, min 4 weeks
   const futureVacs=vacations.filter(v=>v.end>=tdStr);
-  let endDay=new Date(startDay);endDay.setDate(startDay.getDate()+27);
+  let endDay=new Date(startDay);endDay.setDate(startDay.getDate()+181);
   if(futureVacs.length){
     const furthest=futureVacs.reduce((a,b)=>a.end>b.end?a:b);
     const[fy,fm,fd]=furthest.end.split('-').map(Number);
