@@ -601,7 +601,10 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
   color:var(--dark2);font-size:11px;font-weight:600;transition:background .1s;
 }
 .vac-widget-hdr:hover{background:var(--border);}
-.vac-widget-body{padding:8px 8px 10px;}
+.vac-widget-body{padding:8px 8px 10px;max-height:320px;overflow-y:auto;}
+.vac-widget-body::-webkit-scrollbar{width:4px;}
+.vac-widget-body::-webkit-scrollbar-track{background:transparent;}
+.vac-widget-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 .vac-widget.collapsed .vac-widget-body{display:none;}
 .vac-w-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
 .vac-w-dow{font-size:9px;color:var(--muted);text-align:center;padding-bottom:3px;font-weight:600;}
@@ -3114,12 +3117,24 @@ function renderVacWidget(){
   const legend=persons.length
     ?`<div style="margin-bottom:6px;display:flex;flex-wrap:wrap;gap:6px">${persons.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--dark2)"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:${PERSON_COLORS[p]||'#9ece6a'}"></span>${esc(p)}</span>`).join('')}</div>`
     :'';
-  // Render 4-week grid
+  // Calculate how many days to render: up to end of furthest future vacation, min 4 weeks
+  const futureVacs=vacations.filter(v=>v.end>=tdStr);
+  let endDay=new Date(startDay);endDay.setDate(startDay.getDate()+27);
+  if(futureVacs.length){
+    const furthest=futureVacs.reduce((a,b)=>a.end>b.end?a:b);
+    const[fy,fm,fd]=furthest.end.split('-').map(Number);
+    const fEnd=new Date(fy,fm-1,fd);
+    const endDow=fEnd.getDay();
+    fEnd.setDate(fEnd.getDate()+(endDow===0?0:7-endDow)); // round to end of week (Sun)
+    if(fEnd>endDay) endDay=fEnd;
+  }
+  const totalDays=Math.round((endDay-startDay)/(864e5))+1;
+  // Render grid
   let html=legend;
   html+=`<div class="vac-w-grid">`;
   ['Pn','Wt','Śr','Cz','Pt','So','Nd'].forEach(d=>{html+=`<div class="vac-w-dow">${d}</div>`;});
   let lastMonth=-1;
-  for(let i=0;i<28;i++){
+  for(let i=0;i<totalDays;i++){
     const d=new Date(startDay);d.setDate(startDay.getDate()+i);
     const ds=`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
     const m=d.getMonth();
