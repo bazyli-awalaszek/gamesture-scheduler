@@ -624,6 +624,9 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .vac-w-day.is-past .vac-w-day-num{opacity:.38;}
 .vac-w-month-lbl{grid-column:1/-1;font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:4px 0 1px;opacity:.7;}
 .vac-w-empty{pointer-events:none;}
+.vac-w-day.is-weekend .vac-w-day-num{color:#c94f4f;}
+.vac-w-day.is-weekend.is-today .vac-w-day-num{color:#fff;}
+.vac-w-day.is-holiday{box-shadow:inset 0 0 0 1px #c94f4f;}
 .vac-w-note-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);margin-top:1px;flex-shrink:0;}
 /* Day note popover */
 #dayNotePopover{
@@ -992,6 +995,22 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
           </div>
         </div>
         <button type="button" class="btn btn-primary btn-sm" id="vacAdd">Dodaj urlop</button>
+        <hr style="border-color:var(--border);margin:14px 0 12px">
+        <div class="mb-1">
+          <label class="form-label small fw-semibold mb-1">🔴 Wolne / Święta</label>
+          <div id="holidayList" style="margin-bottom:8px"></div>
+          <div class="d-flex gap-2 flex-wrap align-items-end">
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:100px">
+              <label class="form-label small mb-0" style="font-size:10px;color:var(--muted)">Data</label>
+              <input type="text" class="form-control form-control-sm dm-inp" id="holidayDate" placeholder="dd/mm/yyyy">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px;flex:2;min-width:130px">
+              <label class="form-label small mb-0" style="font-size:10px;color:var(--muted)">Nazwa (opcjonalnie)</label>
+              <input type="text" class="form-control form-control-sm" id="holidayName" placeholder="np. Boże Narodzenie">
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="holidayAdd" style="flex-shrink:0">Dodaj</button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer py-2">
         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
@@ -1247,6 +1266,7 @@ function migrateData(s){
     s.vacations=s.myVacations.map(v=>({id:v.id||uid(),start:v.from||v.start,end:v.to||v.end,note:v.note||''})).filter(v=>v.start&&v.end);
   }
   if(!s.recurring) s.recurring=[];
+  if(!Array.isArray(s.holidays)) s.holidays=[];
   if(!s.dayNotes||typeof s.dayNotes!=='object'||Array.isArray(s.dayNotes)) s.dayNotes={};
   if(!s.notes) s.notes=[];
   if(!Array.isArray(s.notes)){
@@ -2273,10 +2293,42 @@ function moveTaskToNextWeek(id){
 }
 
 // ═══════════════════════════════════════
+// HOLIDAYS / FREE DAYS
+// ═══════════════════════════════════════
+function renderHolidayList(){
+  const list=document.getElementById('holidayList');if(!list)return;
+  const holidays=(state.holidays||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  if(!holidays.length){list.innerHTML='<div style="font-size:11px;color:var(--muted);font-style:italic">Brak wpisanych dni wolnych</div>';return;}
+  list.innerHTML=holidays.map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:11px;padding:3px 6px;background:rgba(201,79,79,.1);border-left:2px solid #c94f4f;border-radius:3px">
+      <span style="color:#c94f4f;font-weight:700;white-space:nowrap;min-width:56px">${fmtDate(h.date)}</span>
+      <span style="color:var(--dark2);flex:1">${esc(h.name||'')}</span>
+      <button style="background:none;border:none;cursor:pointer;color:var(--faint);font-size:10px;padding:0 2px" data-del-holiday="${h.id}">✕</button>
+    </div>`).join('');
+}
+function addHoliday(){
+  const dateVal=document.getElementById('holidayDate').value;
+  const name=document.getElementById('holidayName').value.trim();
+  const parsed=parseDateInput(dateVal);
+  if(!parsed)return;
+  if(!Array.isArray(state.holidays)) state.holidays=[];
+  state.holidays.push({id:uid(),date:parsed,name});
+  save();renderHolidayList();renderVacWidget();
+  document.getElementById('holidayDate').value='';
+  document.getElementById('holidayName').value='';
+  document.getElementById('holidayDate').focus();
+}
+function deleteHoliday(id){
+  state.holidays=(state.holidays||[]).filter(h=>h.id!==id);
+  save();renderHolidayList();renderVacWidget();
+}
+
+// ═══════════════════════════════════════
 // VACATION
 // ═══════════════════════════════════════
 function openVacationModal(){
   renderVacationList();
+  renderHolidayList();
   document.getElementById('vacStart').value='';
   document.getElementById('vacEnd').value='';
   document.getElementById('vacNote').value='';
@@ -2925,8 +2977,11 @@ function initListeners(){
   // Vacation
   document.getElementById('btnVacation').addEventListener('click',openVacationModal);
   document.getElementById('vacAdd').addEventListener('click',addVacation);
+  document.getElementById('holidayAdd').addEventListener('click',addHoliday);
+  document.getElementById('holidayDate').addEventListener('keydown',e=>{if(e.key==='Enter')addHoliday();});
   document.getElementById('vacationModal').addEventListener('click',e=>{
     if(e.target.dataset.delVac) deleteVacation(e.target.dataset.delVac);
+    if(e.target.dataset.delHoliday) deleteHoliday(e.target.dataset.delHoliday);
   });
 
   // Recurring
@@ -3123,7 +3178,9 @@ function renderVacWidget(){
   const legend=persons.length
     ?`<div style="margin-bottom:6px;display:flex;flex-wrap:wrap;gap:6px">${persons.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--dark2)"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:${PERSON_COLORS[p]||'#9ece6a'}"></span>${esc(p)}</span>`).join('')}</div>`
     :'';
-  // Calculate how many days to render: up to end of furthest future vacation, min 4 weeks
+  // Build holiday set
+  const holidaySet=new Set((state.holidays||[]).map(h=>h.date));
+  // Calculate how many days to render: up to end of furthest future vacation, min 26 weeks
   const futureVacs=vacations.filter(v=>v.end>=tdStr);
   let endDay=new Date(startDay);endDay.setDate(startDay.getDate()+181);
   if(futureVacs.length){
@@ -3154,7 +3211,9 @@ function renderVacWidget(){
     const note=(state.dayNotes||{})[ds]||'';
     const isToday=ds===tdStr;
     const isPast=ds<tdStr;
-    html+=`<div class="vac-w-day${isToday?' is-today':''}${isPast?' is-past':''}" data-vw-ds="${ds}" title="${note?'📝 '+esc(note):'PPM: dodaj notatkę'}">`;
+    const isWeekend=d.getDay()===0||d.getDay()===6;
+    const isHoliday=holidaySet.has(ds);
+    html+=`<div class="vac-w-day${isToday?' is-today':''}${isPast?' is-past':''}${isWeekend?' is-weekend':''}${isHoliday?' is-holiday':''}" data-vw-ds="${ds}" title="${note?'📝 '+esc(note):'PPM: dodaj notatkę'}">`;
     html+=`<span class="vac-w-day-num">${d.getDate()}</span>`;
     if(colors.length)html+=`<div class="vac-cal-bars">${colors.map(c=>`<div class="vac-cal-bar" style="background:${c}"></div>`).join('')}</div>`;
     if(note)html+=`<span class="vac-w-note-dot" title="${esc(note)}"></span>`;
