@@ -409,7 +409,7 @@ body{
   width:100%;line-height:1.5;word-break:break-word;cursor:default;
   min-height:14px;
 }
-.card-note-view a{color:var(--blue);font-size:11px;}
+.card-note-view a{color:var(--blue);font-size:11px;cursor:pointer;}
 .card-note-view a:hover{text-decoration:underline;}
 .card-note-ph{color:var(--faint);font-style:italic;}
 /* Sidebar note display */
@@ -417,9 +417,14 @@ body{
   font-size:12px;color:rgba(192,202,245,.85);line-height:1.5;
   word-break:break-word;cursor:text;min-height:16px;padding:1px 0;
 }
-.note-disp a{color:var(--blue);}
+.note-disp a{color:var(--blue);cursor:pointer;}
 .note-disp a:hover{text-decoration:underline;}
 .note-disp-ph{color:rgba(255,255,255,.2);font-style:italic;font-size:12px;}
+/* Inline image thumbnails (visible even when collapsed) */
+.card-thumbs{display:flex;flex-wrap:wrap;gap:3px;padding-left:37px;margin-top:3px;}
+.card-thumb-mini{width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border2);cursor:pointer;transition:opacity .1s;}
+.card-thumb-mini:hover{opacity:.75;}
+.task-card.expanded .card-thumbs{display:none;}
 /* Attachments */
 .attach-area{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;}
 .attach-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;}
@@ -1512,6 +1517,7 @@ function cardHtml(t){
     </div>
   </div>
   ${t.game?`<div class="card-badges">${cardGameBadgeHtml(t.game)}</div>`:''}
+  ${atts.filter(a=>a.type.startsWith('image/')).length?`<div class="card-thumbs">${atts.filter(a=>a.type.startsWith('image/')).map(a=>`<img src="${a.data}" class="card-thumb-mini" title="${esc(a.name)}" data-action="view-attach" data-att-id="${a.id}" data-id="${t.id}">`).join('')}</div>`:''}
   <div class="card-expand">
     <div class="subtasks-area">${subsHtml}<input class="subtask-inp" data-id="${t.id}" placeholder="+ Dodaj podzadanie..."></div>
     <div class="card-note-view" data-id="${t.id}" title="Dblclick aby edytować">${t.note?renderText(t.note):'<span class="card-note-ph">Notatka...</span>'}</div>
