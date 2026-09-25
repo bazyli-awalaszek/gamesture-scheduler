@@ -3179,7 +3179,7 @@ function renderVacWidget(){
     ?`<div style="margin-bottom:6px;display:flex;flex-wrap:wrap;gap:6px">${persons.map(p=>`<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--dark2)"><span style="display:inline-block;width:18px;height:3px;border-radius:2px;background:${PERSON_COLORS[p]||'#9ece6a'}"></span>${esc(p)}</span>`).join('')}</div>`
     :'';
   // Build holiday set
-  const holidaySet=new Set((state.holidays||[]).map(h=>h.date));
+  const holidayMap=Object.fromEntries((state.holidays||[]).map(h=>[h.date,h.name||'']));
   // Calculate how many days to render: up to end of furthest future vacation, min 26 weeks
   const futureVacs=vacations.filter(v=>v.end>=tdStr);
   let endDay=new Date(startDay);endDay.setDate(startDay.getDate()+181);
@@ -3212,8 +3212,11 @@ function renderVacWidget(){
     const isToday=ds===tdStr;
     const isPast=ds<tdStr;
     const isWeekend=d.getDay()===0||d.getDay()===6;
-    const isHoliday=holidaySet.has(ds);
-    html+=`<div class="vac-w-day${isToday?' is-today':''}${isPast?' is-past':''}${isWeekend?' is-weekend':''}${isHoliday?' is-holiday':''}" data-vw-ds="${ds}" title="${note?'📝 '+esc(note):'PPM: dodaj notatkę'}">`;
+    const isHoliday=ds in holidayMap;
+    const holidayName=holidayMap[ds]||'';
+    const tipParts=[holidayName?'🔴 '+esc(holidayName):'',note?'📝 '+esc(note):''].filter(Boolean);
+    const tip=tipParts.length?tipParts.join('\n'):'PPM: dodaj notatkę';
+    html+=`<div class="vac-w-day${isToday?' is-today':''}${isPast?' is-past':''}${isWeekend?' is-weekend':''}${isHoliday?' is-holiday':''}" data-vw-ds="${ds}" title="${tip}">`;
     html+=`<span class="vac-w-day-num">${d.getDate()}</span>`;
     if(colors.length)html+=`<div class="vac-cal-bars">${colors.map(c=>`<div class="vac-cal-bar" style="background:${c}"></div>`).join('')}</div>`;
     if(note)html+=`<span class="vac-w-note-dot" title="${esc(note)}"></span>`;
