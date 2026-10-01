@@ -1325,6 +1325,8 @@ function parseDateInput(val){
   if(!m) return null;
   const[,d,mo,y]=m.map(Number);
   if(mo<1||mo>12||d<1||d>31) return null;
+  const dt=new Date(y,mo-1,d);
+  if(dt.getFullYear()!==y||dt.getMonth()!==mo-1||dt.getDate()!==d) return null;
   return`${y}-${p2(mo)}-${p2(d)}`;
 }
 const PL_MON=['sty','lut','mar','kwi','maj','cze','lip','sie','wrz','paź','lis','gru'];
@@ -2827,8 +2829,16 @@ function initListeners(){
     requestAnimationFrame(()=>{inp.focus();inp.select();});
     let committed=false;
     const commit=()=>{
-      if(committed)return;committed=true;
+      if(committed)return;
       const parsed=parseDateInput(inp.value);
+      if(inp.value&&!parsed){
+        inp.style.borderColor='#f7768e';
+        let errMsg=popup.querySelector('.doneAtErr');
+        if(!errMsg){errMsg=document.createElement('div');errMsg.className='doneAtErr';errMsg.style.cssText='font-size:10px;color:#f7768e;margin-top:4px;';popup.appendChild(errMsg);}
+        errMsg.textContent='Nieprawidłowa data';
+        return;
+      }
+      committed=true;
       if(parsed){t.doneAt=parsed;t.weekKey=dateStrToWk(parsed);save();}
       popup.remove();renderHistoriaStrip();
     };
