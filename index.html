@@ -2977,14 +2977,21 @@ function initListeners(){
     e.preventDefault();handleAttachUploadFiles(card.dataset.id,files);
   });
 
+  // Track last clicked task card for paste target
+  document.addEventListener('click',e=>{
+    const card=e.target.closest('.task-card');
+    if(card&&card.dataset.id) _lastClickedCardId=card.dataset.id;
+  },true);
+
   // Attachment paste (Ctrl+V)
   document.addEventListener('paste',e=>{
     const items=[...(e.clipboardData?.items||[])];
     const files=items.filter(i=>i.kind==='file').map(i=>i.getAsFile()).filter(Boolean);
     if(!files.length)return;
-    const card=document.activeElement?.closest('.task-card')||document.querySelector('.task-card.expanded');
-    if(!card)return;
-    e.preventDefault();handleAttachUploadFiles(card.dataset.id,files);
+    const focusCard=document.activeElement?.closest('.task-card');
+    const id=focusCard?.dataset.id||_lastClickedCardId;
+    if(!id)return;
+    e.preventDefault();handleAttachUploadFiles(id,files);
   });
 
   // Vacation
@@ -3268,6 +3275,7 @@ function saveDayNote(){
 
 // ── LIGHTBOX ───────────────────────────
 let _lbZoomed=false;
+let _lastClickedCardId=null;
 function showLightbox(src){
   _lbZoomed=false;
   const lb=document.getElementById('imgLightbox');
