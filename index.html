@@ -1414,7 +1414,7 @@ function renderBoard(){
   sortables.forEach(s=>s.destroy());sortables=[];
   const board=document.getElementById('board');board.innerHTML='';
   board.appendChild(buildBoardCol('inbox','📥 Inbox','inbox-col'));
-  board.appendChild(buildBoardCol('active','📌 For Today','today-col'));
+  board.appendChild(buildBoardCol('active','📌 Coming Next','today-col'));
   board.appendChild(buildBoardCol('ongoing','🔥 W toku','wtoku-col'));
   initSortables();
   requestAnimationFrame(()=>board.querySelectorAll('textarea').forEach(autoResize));
