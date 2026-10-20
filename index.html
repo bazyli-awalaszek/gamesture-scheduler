@@ -305,6 +305,8 @@ body{
 .task-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.5);}
 .task-card[data-status="done"]{opacity:.45;border-left-color:var(--green);}
 .task-card.priority{border-left-color:var(--gold);background:linear-gradient(to right,rgba(224,175,104,.08),var(--card));}
+.task-card.recurring-card{border-left-color:#7dcfff;background:linear-gradient(to right,rgba(125,207,255,.07),var(--card));}
+.task-card.recurring-card.priority{border-left-color:var(--gold);}
 .task-card.sortable-ghost{opacity:.25;background:#2d3050;}
 .task-card.sortable-chosen{box-shadow:0 8px 24px rgba(0,0,0,.6);transform:rotate(1.5deg);}
 .tw-list.drop-target{background:rgba(0,0,0,.18);border-radius:8px;outline:2px dashed rgba(187,154,247,.35);transition:background .12s,outline .12s;}
@@ -1530,7 +1532,7 @@ function cardHtml(t){
     ?`<div class="title-display title-link" data-action="open-link" data-link="${esc(t.link)}" data-id="${t.id}" title="Otwórz link">${formatWithTimes(t.title)} <span style="font-size:10px;opacity:.5">↗</span></div>`
     :`<div class="title-display" data-action="expand" data-id="${t.id}">${renderText(t.title)}</div>`;
   return`
-<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''}" data-id="${t.id}" data-status="${t.status}">
+<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''} ${t._recurringId?'recurring-card':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
     <div class="drag-col">
       <span class="drag-handle">⠿</span>
@@ -2549,7 +2551,10 @@ function seedRecurring(){
       if(diffDays>=interval) shouldSeed=true;
     }
     if(shouldSeed){
-      const alreadyExists=state.tasks.some(t=>t._recurringId===r.id&&t.date===today);
+      const nextDay=new Date();nextDay.setDate(nextDay.getDate()+1);
+      const nextStr=`${nextDay.getFullYear()}-${p2(nextDay.getMonth()+1)}-${p2(nextDay.getDate())}`;
+      const nextWk=isoWeekKey(nextDay);
+      const alreadyExists=state.tasks.some(t=>t._recurringId===r.id&&(t.date===today||t.date===nextStr));
       if(!alreadyExists){
         const subs=(r.subtasks||[]).map(line=>{
           const parts=String(line).split('|').map(x=>x.trim());
@@ -2557,8 +2562,8 @@ function seedRecurring(){
         });
         state.tasks.push({
           id:uid(),game:r.game||state.games[0]?.name||'',title:r.title,
-          date:today,note:r.note||'',status:'inbox',priority:false,
-          weekKey:todayWk,order:state.tasks.length,attachments:[],subtasks:subs,link:null,
+          date:nextStr,note:r.note||'',status:'inbox',priority:false,
+          weekKey:nextWk,order:state.tasks.length,attachments:[],subtasks:subs,link:null,
           _recurringId:r.id
         });
         changed=true;
