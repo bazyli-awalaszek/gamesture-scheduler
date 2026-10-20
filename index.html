@@ -2501,6 +2501,7 @@ function renderRecurringList(){
     const pending=r.startDate&&r.startDate>today;
     const isEditing=_editingRecurringId===r.id;
     return`<div class="rc-row${isEditing?' editing':''}">
+      ${r.game?gameIconHtml(r.game,18,4):''}
       <span class="rc-title">${esc(r.title)}</span>
       <span class="rc-interval">co ${r.interval||7} dni${r.startDate?` · od ${fmtDate(r.startDate)}`:''}${pending?` <span style="color:var(--orange);font-size:10px">(nieaktywne)</span>`:''}</span>
       <span class="rc-toggle" data-rc-toggle="${r.id}" title="${r.enabled?'Wyłącz':'Włącz'}">${r.enabled?'✅':'⬜'}</span>
