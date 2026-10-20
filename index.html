@@ -1265,6 +1265,8 @@ function migrateData(s){
     if(!t.subtasks) t.subtasks=[];
     if(t.link===undefined) t.link=null;
     if(t.doneAt===undefined) t.doneAt=null;
+    // Mark pre-existing recurring tasks as manually moved so they don't show blue
+    if(t._recurringId&&t._movedManually===undefined) t._movedManually=true;
   });
   const GAME_ORDER=['Ogólne','The Gang','Cooking Wars','Mafia Rivals'];
   s.games.sort((a,b)=>{
