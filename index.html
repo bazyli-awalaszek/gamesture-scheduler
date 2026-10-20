@@ -1359,7 +1359,7 @@ function fmtWeek(wk){
 // TASK UTILS
 // ═══════════════════════════════════════
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
-function patchTask(id,patch){const i=state.tasks.findIndex(t=>t.id===id);if(i>=0){Object.assign(state.tasks[i],patch);save();}}
+function patchTask(id,patch){const i=state.tasks.findIndex(t=>t.id===id);if(i>=0){if('status' in patch&&state.tasks[i]._recurringId) patch._movedManually=true;Object.assign(state.tasks[i],patch);save();}}
 function removeTask(id){state.tasks=state.tasks.filter(t=>t.id!==id);save();}
 function pushTask(task){state.tasks.push(task);save();}
 function taskById(id){return state.tasks.find(t=>t.id===id);}
@@ -1532,7 +1532,7 @@ function cardHtml(t){
     ?`<div class="title-display title-link" data-action="open-link" data-link="${esc(t.link)}" data-id="${t.id}" title="Otwórz link">${formatWithTimes(t.title)} <span style="font-size:10px;opacity:.5">↗</span></div>`
     :`<div class="title-display" data-action="expand" data-id="${t.id}">${renderText(t.title)}</div>`;
   return`
-<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''} ${t._recurringId?'recurring-card':''}" data-id="${t.id}" data-status="${t.status}">
+<div class="task-card ${t.priority?'priority':''} ${isExp?'expanded':''} ${t.link?'has-link':''} ${t._recurringId&&!t._movedManually?'recurring-card':''}" data-id="${t.id}" data-status="${t.status}">
   <div class="card-top">
     <div class="drag-col">
       <span class="drag-handle">⠿</span>
