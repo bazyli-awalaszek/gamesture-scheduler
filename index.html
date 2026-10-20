@@ -665,6 +665,9 @@ details.done-sec[open] .done-arrow{transform:rotate(90deg);}
 .rc-toggle{cursor:pointer;font-size:13px;}
 .rc-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 3px;line-height:1;}
 .rc-del:hover{color:var(--red);}
+.rc-edit{background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;padding:0 3px;line-height:1;}
+.rc-edit:hover{color:var(--blue);}
+.rc-row.editing{background:rgba(122,162,247,.08);border-radius:6px;}
 
 /* ── COPY TOAST ── */
 #copyToast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:#9ece6a;color:#1a1b26;font-size:13px;font-weight:700;padding:8px 20px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:300000;}
@@ -1062,7 +1065,10 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
           <label class="form-label small fw-semibold">Podzadania <span class="text-muted fw-normal">(jedno na linię; opcjonalnie: Nazwa | https://link)</span></label>
           <textarea class="form-control form-control-sm" id="rcSubtasks" rows="4" placeholder="Zadanie A&#10;Zadanie B | https://link"></textarea>
         </div>
-        <button type="button" class="btn btn-primary btn-sm" id="rcAdd">Dodaj zadanie cykliczne</button>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button type="button" class="btn btn-primary btn-sm" id="rcAdd">Dodaj zadanie cykliczne</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="rcCancel" style="display:none">Anuluj</button>
+        </div>
       </div>
       <div class="modal-footer py-2">
         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Zamknij</button>
@@ -2450,16 +2456,39 @@ function deleteVacation(id){
 // ═══════════════════════════════════════
 // RECURRING TASKS
 // ═══════════════════════════════════════
+let _editingRecurringId=null;
 function openRecurringModal(){
+  _editingRecurringId=null;
   renderRecurringList();
+  _rcResetForm();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('recurringModal')).show();
+  setTimeout(()=>document.getElementById('rcTitle').focus(),350);
+}
+function _rcResetForm(){
   document.getElementById('rcTitle').value='';
   document.getElementById('rcInterval').value='7';
   document.getElementById('rcStartDate').value='';
   document.getElementById('rcNote').value='';
   document.getElementById('rcSubtasks').value='';
   renderGamePicker(state.games[0]?.name||'','rcGamePicker');
-  bootstrap.Modal.getOrCreateInstance(document.getElementById('recurringModal')).show();
-  setTimeout(()=>document.getElementById('rcTitle').focus(),350);
+  document.getElementById('rcAdd').textContent='Dodaj zadanie cykliczne';
+  document.getElementById('rcCancel').style.display='none';
+  _editingRecurringId=null;
+  renderRecurringList();
+}
+function editRecurring(id){
+  const r=(state.recurring||[]).find(x=>x.id===id);if(!r)return;
+  _editingRecurringId=id;
+  document.getElementById('rcTitle').value=r.title||'';
+  document.getElementById('rcInterval').value=r.interval||7;
+  document.getElementById('rcStartDate').value=r.startDate?fmtDate(r.startDate):'';
+  document.getElementById('rcNote').value=r.note||'';
+  document.getElementById('rcSubtasks').value=(r.subtasks||[]).join('\n');
+  renderGamePicker(r.game||state.games[0]?.name||'','rcGamePicker');
+  document.getElementById('rcAdd').textContent='Zapisz zmiany';
+  document.getElementById('rcCancel').style.display='';
+  renderRecurringList();
+  document.getElementById('rcTitle').focus();
 }
 function renderRecurringList(){
   const list=document.getElementById('recurringList');if(!list)return;
@@ -2468,11 +2497,13 @@ function renderRecurringList(){
   list.innerHTML=recurring.map(r=>{
     const today=todayStr();
     const pending=r.startDate&&r.startDate>today;
-    return`<div class="rc-row">
+    const isEditing=_editingRecurringId===r.id;
+    return`<div class="rc-row${isEditing?' editing':''}">
       <span class="rc-title">${esc(r.title)}</span>
       <span class="rc-interval">co ${r.interval||7} dni${r.startDate?` · od ${fmtDate(r.startDate)}`:''}${pending?` <span style="color:var(--orange);font-size:10px">(nieaktywne)</span>`:''}</span>
       <span class="rc-toggle" data-rc-toggle="${r.id}" title="${r.enabled?'Wyłącz':'Włącz'}">${r.enabled?'✅':'⬜'}</span>
-      <button class="rc-del" data-rc-del="${r.id}">✕</button>
+      <button class="rc-edit" data-rc-edit="${r.id}" title="Edytuj">✏️</button>
+      <button class="rc-del" data-rc-del="${r.id}" title="Usuń">✕</button>
     </div>`;
   }).join('');
 }
@@ -2484,13 +2515,13 @@ function addRecurring(){
   const rawSubs=document.getElementById('rcSubtasks').value.split('\n').map(l=>l.trim()).filter(Boolean);
   const startDate=parseDateInput(document.getElementById('rcStartDate').value)||null;
   if(!state.recurring)state.recurring=[];
-  state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,startDate,lastSeeded:null,enabled:true});
-  save();renderRecurringList();
-  document.getElementById('rcTitle').value='';
-  document.getElementById('rcInterval').value='7';
-  document.getElementById('rcNote').value='';
-  document.getElementById('rcSubtasks').value='';
-  document.getElementById('rcStartDate').value='';
+  if(_editingRecurringId){
+    const r=state.recurring.find(x=>x.id===_editingRecurringId);
+    if(r){Object.assign(r,{title,game,note,subtasks:rawSubs,interval,startDate});}
+  }else{
+    state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,startDate,lastSeeded:null,enabled:true});
+  }
+  save();_rcResetForm();
 }
 function deleteRecurring(id){
   state.recurring=(state.recurring||[]).filter(r=>r.id!==id);
@@ -3025,9 +3056,11 @@ function initListeners(){
     if(canvas) copyCanvasToClipboard(canvas);
   });
   document.getElementById('rcAdd').addEventListener('click',addRecurring);
+  document.getElementById('rcCancel').addEventListener('click',_rcResetForm);
   document.getElementById('recurringModal').addEventListener('click',e=>{
     if(e.target.dataset.rcDel) deleteRecurring(e.target.dataset.rcDel);
     if(e.target.dataset.rcToggle) toggleRecurring(e.target.dataset.rcToggle);
+    if(e.target.dataset.rcEdit) editRecurring(e.target.dataset.rcEdit);
   });
 
   // Edit task modal
