@@ -1060,6 +1060,21 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
           </div>
         </div>
         <div class="mb-2">
+          <div style="display:flex;align-items:center;gap:8px">
+            <input type="checkbox" id="rcVacTrigger" style="cursor:pointer;width:14px;height:14px;flex-shrink:0">
+            <label for="rcVacTrigger" class="form-label small fw-semibold mb-0" style="cursor:pointer">Dodaj tylko gdy osoba jest na urlopie</label>
+          </div>
+          <div id="rcVacPersonWrap" style="display:none;margin-top:8px;padding:8px 10px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.2);border-radius:6px">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Czyja nieobecność wyzwala zadanie:</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap" id="rcVacPersonPicker">
+              <button type="button" class="person-toggle-btn" data-rc-person="Bazi" style="color:#6366f1;border-color:#6366f144">Bazi</button>
+              <button type="button" class="person-toggle-btn" data-rc-person="Yahu" style="color:#a855f7;border-color:#a855f744">Yahu</button>
+              <button type="button" class="person-toggle-btn" data-rc-person="Sean" style="color:#38bdf8;border-color:#38bdf844">Sean</button>
+            </div>
+            <input type="hidden" id="rcVacPerson" value="">
+          </div>
+        </div>
+        <div class="mb-2">
           <label class="form-label small fw-semibold">Notatka (opcjonalnie)</label>
           <textarea class="form-control form-control-sm" id="rcNote" rows="2"></textarea>
         </div>
@@ -2475,6 +2490,10 @@ function _rcResetForm(){
   renderGamePicker(state.games[0]?.name||'','rcGamePicker');
   document.getElementById('rcAdd').textContent='Dodaj zadanie cykliczne';
   document.getElementById('rcCancel').style.display='none';
+  document.getElementById('rcVacTrigger').checked=false;
+  document.getElementById('rcVacPersonWrap').style.display='none';
+  document.getElementById('rcVacPerson').value='';
+  document.querySelectorAll('#rcVacPersonPicker [data-rc-person]').forEach(b=>{b.classList.remove('selected');});
   _editingRecurringId=null;
   renderRecurringList();
 }
@@ -2489,6 +2508,16 @@ function editRecurring(id){
   renderGamePicker(r.game||state.games[0]?.name||'','rcGamePicker');
   document.getElementById('rcAdd').textContent='Zapisz zmiany';
   document.getElementById('rcCancel').style.display='';
+  const vt=r.vacationTrigger||null;
+  document.getElementById('rcVacTrigger').checked=!!vt;
+  document.getElementById('rcVacPersonWrap').style.display=vt?'':'none';
+  document.getElementById('rcVacPerson').value=vt||'';
+  document.querySelectorAll('#rcVacPersonPicker [data-rc-person]').forEach(b=>{
+    const sel=b.dataset.rcPerson===vt;
+    b.classList.toggle('selected',sel);
+    const c=PERSON_COLORS[b.dataset.rcPerson]||'#565f89';
+    b.style.background=sel?c+'33':'';
+  });
   renderRecurringList();
   document.getElementById('rcTitle').focus();
 }
@@ -2503,7 +2532,10 @@ function renderRecurringList(){
     return`<div class="rc-row${isEditing?' editing':''}">
       ${r.game?gameIconHtml(r.game,18,4):''}
       <span class="rc-title">${esc(r.title)}</span>
-      <span class="rc-interval">co ${r.interval||7} dni${r.startDate?` · od ${fmtDate(r.startDate)}`:''}${pending?` <span style="color:var(--orange);font-size:10px">(nieaktywne)</span>`:''}</span>
+      ${r.vacationTrigger
+        ?`<span class="rc-interval">🏖️ gdy <span style="color:${PERSON_COLORS[r.vacationTrigger]||'#38bdf8'}">${esc(r.vacationTrigger)}</span> nieobecny/a</span>`
+        :`<span class="rc-interval">co ${r.interval||7} dni${r.startDate?` · od ${fmtDate(r.startDate)}`:''}${pending?` <span style="color:var(--orange);font-size:10px">(nieaktywne)</span>`:''}</span>`
+      }
       <span class="rc-toggle" data-rc-toggle="${r.id}" title="${r.enabled?'Wyłącz':'Włącz'}">${r.enabled?'✅':'⬜'}</span>
       <button class="rc-edit" data-rc-edit="${r.id}" title="Edytuj">✏️</button>
       <button class="rc-del" data-rc-del="${r.id}" title="Usuń">✕</button>
@@ -2517,12 +2549,15 @@ function addRecurring(){
   const note=document.getElementById('rcNote').value.trim();
   const rawSubs=document.getElementById('rcSubtasks').value.split('\n').map(l=>l.trim()).filter(Boolean);
   const startDate=parseDateInput(document.getElementById('rcStartDate').value)||null;
+  const vacTriggerOn=document.getElementById('rcVacTrigger').checked;
+  const vacationTrigger=vacTriggerOn?(document.getElementById('rcVacPerson').value||null):null;
+  if(vacTriggerOn&&!vacationTrigger){alert('Wybierz osobę dla wyzwalacza urlopu.');return;}
   if(!state.recurring)state.recurring=[];
   if(_editingRecurringId){
     const r=state.recurring.find(x=>x.id===_editingRecurringId);
-    if(r){Object.assign(r,{title,game,note,subtasks:rawSubs,interval,startDate});}
+    if(r){Object.assign(r,{title,game,note,subtasks:rawSubs,interval,startDate,vacationTrigger:vacationTrigger||null});}
   }else{
-    state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,startDate,lastSeeded:null,enabled:true});
+    state.recurring.push({id:uid(),title,game,note,subtasks:rawSubs,interval,startDate,lastSeeded:null,enabled:true,vacationTrigger:vacationTrigger||null});
   }
   save();_rcResetForm();
 }
@@ -2534,6 +2569,9 @@ function toggleRecurring(id){
   const r=(state.recurring||[]).find(x=>x.id===id);
   if(r){r.enabled=!r.enabled;save();renderRecurringList();}
 }
+function isOnVacation(person,dateStr){
+  return(state.vacations||[]).some(v=>v.person===person&&v.start<=dateStr&&v.end>=dateStr);
+}
 function seedRecurring(){
   const today=todayStr();
   const todayWk=isoWeekKey(new Date());
@@ -2543,13 +2581,19 @@ function seedRecurring(){
     if(r.startDate&&r.startDate>today)return; // not yet active
     const interval=r.interval||7;
     let shouldSeed=false;
-    if(!r.lastSeeded) shouldSeed=true;
-    else{
-      const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
-      const last=new Date(Date.UTC(ly,lm-1,ld));
-      const now=new Date();
-      const diffDays=Math.floor((now-last)/864e5);
-      if(diffDays>=interval) shouldSeed=true;
+    if(r.vacationTrigger){
+      const nextDay=new Date();nextDay.setDate(nextDay.getDate()+1);
+      const nextStr2=`${nextDay.getFullYear()}-${p2(nextDay.getMonth()+1)}-${p2(nextDay.getDate())}`;
+      if(isOnVacation(r.vacationTrigger,nextStr2)) shouldSeed=true;
+    }else{
+      if(!r.lastSeeded) shouldSeed=true;
+      else{
+        const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
+        const last=new Date(Date.UTC(ly,lm-1,ld));
+        const now=new Date();
+        const diffDays=Math.floor((now-last)/864e5);
+        if(diffDays>=interval) shouldSeed=true;
+      }
     }
     if(shouldSeed){
       const nextDay=new Date();nextDay.setDate(nextDay.getDate()+1);
@@ -3063,6 +3107,21 @@ function initListeners(){
   });
   document.getElementById('rcAdd').addEventListener('click',addRecurring);
   document.getElementById('rcCancel').addEventListener('click',_rcResetForm);
+  document.getElementById('rcVacTrigger').addEventListener('change',e=>{
+    document.getElementById('rcVacPersonWrap').style.display=e.target.checked?'':'none';
+    if(!e.target.checked){document.getElementById('rcVacPerson').value='';document.querySelectorAll('#rcVacPersonPicker [data-rc-person]').forEach(b=>{b.classList.remove('selected');b.style.background='';});}
+  });
+  document.getElementById('rcVacPersonPicker').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-rc-person]');if(!btn)return;
+    const person=btn.dataset.rcPerson;
+    document.getElementById('rcVacPerson').value=person;
+    document.querySelectorAll('#rcVacPersonPicker [data-rc-person]').forEach(b=>{
+      const sel=b.dataset.rcPerson===person;
+      b.classList.toggle('selected',sel);
+      const c=PERSON_COLORS[b.dataset.rcPerson]||'#565f89';
+      b.style.background=sel?c+'33':'';
+    });
+  });
   document.getElementById('recurringModal').addEventListener('click',e=>{
     if(e.target.dataset.rcDel) deleteRecurring(e.target.dataset.rcDel);
     if(e.target.dataset.rcToggle) toggleRecurring(e.target.dataset.rcToggle);
