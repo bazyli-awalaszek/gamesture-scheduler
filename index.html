@@ -2584,6 +2584,7 @@ function runSearch(){
         <div class="search-result-meta">
           ${t.date?`<span>${fmtDate(t.date)}</span> · `:''}
           <span style="color:${statusColor[t.status]||'var(--muted)'}">${statusLabel[t.status]||t.status}</span>
+          ${t.status==='done'&&t.doneAt?` · <span style="color:var(--green)">zamknięte ${fmtDate(t.doneAt)}</span>`:''}
           ${t.game?` · ${esc(t.game)}`:''}
           ${subs.length?` · <span style="opacity:.6">${subs.filter(s=>s.done).length}/${subs.length} podzadań</span>`:''}
           ${imgs.length?` · <span style="opacity:.6">🖼️ ${imgs.length}</span>`:''}
