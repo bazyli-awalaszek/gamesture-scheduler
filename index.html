@@ -421,11 +421,18 @@ body{
 /* Search */
 .search-toggle-btn{font-size:11px;padding:3px 10px;border:1px solid var(--border2);border-radius:4px;background:transparent;color:var(--muted);cursor:pointer;transition:all .1s;}
 .search-toggle-btn.active{background:rgba(122,162,247,.2);color:var(--blue);border-color:var(--blue);}
-.search-result-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:6px;border:1px solid var(--border);margin-bottom:6px;background:var(--card);}
+.search-result-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:6px;border:1px solid var(--border);margin-bottom:6px;background:var(--card);transition:border-color .1s;}
+.search-result-item:hover{border-color:var(--border2);}
 .search-result-title{font-size:13px;font-weight:500;color:var(--dark);word-break:break-word;}
 .search-result-title mark,.search-result-note mark{background:rgba(224,175,104,.3);color:var(--gold);border-radius:2px;padding:0 2px;font-style:normal;}
 .search-result-meta{font-size:11px;color:var(--muted);margin-top:3px;}
 .search-result-note{font-size:11px;color:rgba(192,202,245,.65);margin-top:4px;white-space:pre-wrap;word-break:break-word;border-top:1px solid var(--border);padding-top:4px;}
+.search-result-subs{display:none;margin-top:6px;padding-top:6px;border-top:1px dashed var(--border2);}
+.search-result-item:hover .search-result-subs{display:block;}
+.search-result-sub{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;color:var(--muted);}
+.search-result-sub.done{color:var(--faint);text-decoration:line-through;}
+.search-result-sub-cb{width:11px;height:11px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:7px;}
+.search-result-sub-cb.done{background:var(--green);border-color:var(--green);color:#1a1b26;}
 .search-empty{font-size:12px;color:var(--muted);font-style:italic;text-align:center;padding:24px 0;}
 /* Sidebar note display */
 .note-disp{
@@ -2561,6 +2568,12 @@ function runSearch(){
   const statusColor={inbox:'var(--muted)',active:'var(--blue)',ongoing:'var(--orange)',done:'var(--green)'};
   el.innerHTML=tasks.map(t=>{
     const noteSnippet=t.note?t.note.slice(0,200)+(t.note.length>200?'…':''):'';
+    const subs=t.subtasks||[];
+    const subsHtml=subs.length?`<div class="search-result-subs">${subs.map(s=>`
+      <div class="search-result-sub${s.done?' done':''}">
+        <span class="search-result-sub-cb${s.done?' done':''}">${s.done?'✓':''}</span>
+        <span>${esc(s.title)}</span>
+      </div>`).join('')}</div>`:'';
     return`<div class="search-result-item">
       ${t.game?`<div style="flex-shrink:0;margin-top:1px">${gameIconHtml(t.game,20,4)}</div>`:''}
       <div style="flex:1;min-width:0">
@@ -2569,8 +2582,10 @@ function runSearch(){
           ${t.date?`<span>${fmtDate(t.date)}</span> · `:''}
           <span style="color:${statusColor[t.status]||'var(--muted)'}">${statusLabel[t.status]||t.status}</span>
           ${t.game?` · ${esc(t.game)}`:''}
+          ${subs.length?` · <span style="opacity:.6">${subs.filter(s=>s.done).length}/${subs.length} podzadań</span>`:''}
         </div>
         ${noteSnippet?`<div class="search-result-note">${highlightQuery(noteSnippet,words)}</div>`:''}
+        ${subsHtml}
       </div>
     </div>`;
   }).join('');
