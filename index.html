@@ -2838,10 +2838,34 @@ function initListeners(){
   document.getElementById('agName').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('agSave').click();});
   // Historia strip — reopen done task via checkbox
   document.getElementById('historiaStrip').addEventListener('click',e=>{
-    const action=e.target.dataset.action;
+    const nativeA=e.target.closest('a[href]');
+    if(nativeA&&!nativeA.dataset.action) return;
+    const action=e.target.dataset.action||e.target.closest('[data-action]')?.dataset.action;
     const id=e.target.dataset.id||e.target.closest('[data-id]')?.dataset.id;
     if(!id||!action)return;
     if(action==='toggle') toggleDone(id);
+    else if(action==='toggle-expand'){
+      const card=e.target.closest('.task-card');if(!card)return;
+      const isExp=card.classList.contains('expanded');
+      card.classList.toggle('expanded',!isExp);
+      if(!isExp) expandedCards.add(id); else expandedCards.delete(id);
+    }
+    else if(action==='toggle-subtask'){
+      const subId=e.target.dataset.subtaskId||e.target.closest('[data-subtask-id]')?.dataset.subtaskId;
+      if(!subId)return;
+      const t=taskById(id);if(!t)return;
+      const s=t.subtasks.find(x=>x.id===subId);if(!s)return;
+      s.done=!s.done;if(s.done)s.doneAt=todayStr();else delete s.doneAt;
+      patchTask(id,{subtasks:t.subtasks});
+      const cb=e.target.closest('[data-subtask-id]')?.querySelector('.subtask-cb')||e.target;
+      cb.classList.toggle('done',s.done);
+    }
+    else if(action==='view-attach'){
+      const attId=e.target.dataset.attId;
+      const t=taskById(id);
+      const att=(t?.attachments||[]).find(a=>a.id===attId);
+      if(att) showLightbox(att.data);
+    }
   });
 
   // Board click delegation
