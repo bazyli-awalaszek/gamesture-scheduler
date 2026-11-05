@@ -418,6 +418,15 @@ body{
 .card-note-view a{color:var(--blue);font-size:13px;cursor:pointer;}
 .card-note-view a:hover{text-decoration:underline;}
 .card-note-ph{color:var(--faint);font-style:italic;}
+/* Search */
+.search-toggle-btn{font-size:11px;padding:3px 10px;border:1px solid var(--border2);border-radius:4px;background:transparent;color:var(--muted);cursor:pointer;transition:all .1s;}
+.search-toggle-btn.active{background:rgba(122,162,247,.2);color:var(--blue);border-color:var(--blue);}
+.search-result-item{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border-radius:6px;border:1px solid var(--border);margin-bottom:6px;background:var(--card);}
+.search-result-title{font-size:13px;font-weight:500;color:var(--dark);word-break:break-word;}
+.search-result-title mark,.search-result-note mark{background:rgba(224,175,104,.3);color:var(--gold);border-radius:2px;padding:0 2px;font-style:normal;}
+.search-result-meta{font-size:11px;color:var(--muted);margin-top:3px;}
+.search-result-note{font-size:11px;color:rgba(192,202,245,.65);margin-top:4px;white-space:pre-wrap;word-break:break-word;border-top:1px solid var(--border);padding-top:4px;}
+.search-empty{font-size:12px;color:var(--muted);font-style:italic;text-align:center;padding:24px 0;}
 /* Sidebar note display */
 .note-disp{
   font-size:12px;color:rgba(192,202,245,.85);line-height:1.5;
@@ -732,6 +741,7 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
     <button class="btn btn-sm btn-outline-secondary" id="btnDailyPipeline" title="Konfiguruj daily pipeline">⚡ Daily</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnVacation" title="Urlopy">🏖️ Urlop</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnRecurring" title="Zadania cykliczne">🔄 Cykliczne</button>
+    <button class="btn btn-sm btn-outline-secondary" id="btnSearch" title="Wyszukaj taski (Ctrl+K)">🔍 Szukaj</button>
     <button class="btn btn-sm btn-outline-secondary" id="btnRanking" title="Generator tabelki rankingowej">🏆 Ranking</button>
     <span id="utcClock" style="font-size:11px;color:var(--muted);font-family:monospace;white-space:nowrap;padding:2px 6px;background:var(--border);border-radius:4px;border:1px solid var(--border2)" title="Czas UTC"></span>
     <div id="fileBadge" style="display:none;align-items:center;gap:5px;font-size:11px;background:rgba(158,206,106,.12);border:1px solid rgba(158,206,106,.3);border-radius:5px;padding:3px 8px;">
@@ -1095,6 +1105,39 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
 </div>
 
 <div id="copyToast">✓ Skopiowano do schowka</div>
+
+<!-- SEARCH MODAL -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h5 class="modal-title fs-6 fw-bold">🔍 Wyszukaj taski</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding-bottom:8px">
+        <input type="text" class="form-control mb-3" id="searchQuery" placeholder="Wpisz słowa kluczowe...">
+        <div class="d-flex gap-2 flex-wrap align-items-center mb-3">
+          <div class="d-flex gap-1">
+            <button class="search-toggle-btn active" data-sf-status="all">Wszystkie</button>
+            <button class="search-toggle-btn" data-sf-status="active">Aktywne</button>
+            <button class="search-toggle-btn" data-sf-status="done">Zamknięte</button>
+          </div>
+          <div style="width:1px;height:20px;background:var(--border2);margin:0 2px"></div>
+          <div class="d-flex gap-1">
+            <button class="search-toggle-btn active" data-sf-period="all">Cały czas</button>
+            <button class="search-toggle-btn" data-sf-period="range">Zakres dat</button>
+          </div>
+          <div id="searchDateRange" style="display:none;gap:6px;align-items:center" class="d-flex">
+            <input type="text" class="form-control form-control-sm dm-inp" id="searchFrom" placeholder="od dd/mm/yyyy" style="width:135px">
+            <span style="color:var(--muted)">–</span>
+            <input type="text" class="form-control form-control-sm dm-inp" id="searchTo" placeholder="do dd/mm/yyyy" style="width:135px">
+          </div>
+        </div>
+        <div id="searchResults" style="max-height:460px;overflow-y:auto;padding-right:2px"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- RANKING TABLE MODAL -->
 <div id="rankingModal">
@@ -2475,6 +2518,65 @@ function deleteVacation(id){
 // ═══════════════════════════════════════
 // RECURRING TASKS
 // ═══════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════
+let _searchStatus='all',_searchPeriod='all';
+function openSearchModal(){
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('searchModal')).show();
+  setTimeout(()=>{document.getElementById('searchQuery').focus();},200);
+  runSearch();
+}
+function highlightQuery(text,words){
+  if(!text||!words.length) return esc(text||'');
+  let out=esc(text);
+  words.forEach(w=>{
+    const re=new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    out=out.replace(re,'<mark>$1</mark>');
+  });
+  return out;
+}
+function runSearch(){
+  const raw=document.getElementById('searchQuery').value.trim();
+  const words=raw.split(/\s+/).filter(Boolean);
+  const fromVal=parseDateInput(document.getElementById('searchFrom')?.value||'');
+  const toVal=parseDateInput(document.getElementById('searchTo')?.value||'');
+  let tasks=state.tasks.filter(t=>{
+    if(_searchStatus==='active'&&t.status==='done') return false;
+    if(_searchStatus==='done'&&t.status!=='done') return false;
+    if(_searchPeriod==='range'){
+      if(fromVal&&t.date&&t.date<fromVal) return false;
+      if(toVal&&t.date&&t.date>toVal) return false;
+    }
+    if(!words.length) return true;
+    const haystack=(t.title+' '+(t.note||'')+' '+(t.subtasks||[]).map(s=>s.title).join(' ')).toLowerCase();
+    return words.every(w=>haystack.includes(w.toLowerCase()));
+  });
+  tasks=tasks.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const el=document.getElementById('searchResults');
+  if(!raw&&_searchPeriod==='all'&&_searchStatus==='all'){
+    el.innerHTML='<div class="search-empty">Wpisz słowa kluczowe lub wybierz filtry</div>';return;
+  }
+  if(!tasks.length){el.innerHTML='<div class="search-empty">Brak wyników</div>';return;}
+  const statusLabel={inbox:'Inbox',active:'Coming Next',ongoing:'W toku',done:'Zamknięte'};
+  const statusColor={inbox:'var(--muted)',active:'var(--blue)',ongoing:'var(--orange)',done:'var(--green)'};
+  el.innerHTML=tasks.map(t=>{
+    const noteSnippet=t.note?t.note.slice(0,200)+(t.note.length>200?'…':''):'';
+    return`<div class="search-result-item">
+      ${t.game?`<div style="flex-shrink:0;margin-top:1px">${gameIconHtml(t.game,20,4)}</div>`:''}
+      <div style="flex:1;min-width:0">
+        <div class="search-result-title">${highlightQuery(t.title,words)}</div>
+        <div class="search-result-meta">
+          ${t.date?`<span>${fmtDate(t.date)}</span> · `:''}
+          <span style="color:${statusColor[t.status]||'var(--muted)'}">${statusLabel[t.status]||t.status}</span>
+          ${t.game?` · ${esc(t.game)}`:''}
+        </div>
+        ${noteSnippet?`<div class="search-result-note">${highlightQuery(noteSnippet,words)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
 let _editingRecurringId=null;
 function openRecurringModal(){
   _editingRecurringId=null;
@@ -3092,9 +3194,32 @@ function initListeners(){
   });
 
   // Recurring
+  document.getElementById('btnSearch').addEventListener('click',openSearchModal);
   document.getElementById('btnRecurring').addEventListener('click',openRecurringModal);
 
   // Ranking table
+  // Search modal events
+  document.getElementById('searchQuery').addEventListener('input',runSearch);
+  document.getElementById('searchFrom').addEventListener('input',runSearch);
+  document.getElementById('searchTo').addEventListener('input',runSearch);
+  document.getElementById('searchModal').addEventListener('click',e=>{
+    const sfStatus=e.target.dataset.sfStatus;
+    if(sfStatus){
+      _searchStatus=sfStatus;
+      document.querySelectorAll('[data-sf-status]').forEach(b=>b.classList.toggle('active',b.dataset.sfStatus===sfStatus));
+      runSearch();return;
+    }
+    const sfPeriod=e.target.dataset.sfPeriod;
+    if(sfPeriod){
+      _searchPeriod=sfPeriod;
+      document.querySelectorAll('[data-sf-period]').forEach(b=>b.classList.toggle('active',b.dataset.sfPeriod===sfPeriod));
+      document.getElementById('searchDateRange').style.display=sfPeriod==='range'?'flex':'none';
+      runSearch();return;
+    }
+  });
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearchModal();}
+  });
   document.getElementById('btnRanking').addEventListener('click',()=>{
     document.getElementById('rankingModal').classList.add('open');
     setTimeout(()=>document.getElementById('rankingDataTa').focus(),60);
