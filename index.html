@@ -2569,11 +2569,14 @@ function runSearch(){
   el.innerHTML=tasks.map(t=>{
     const noteSnippet=t.note?t.note.slice(0,200)+(t.note.length>200?'…':''):'';
     const subs=t.subtasks||[];
-    const subsHtml=subs.length?`<div class="search-result-subs">${subs.map(s=>`
-      <div class="search-result-sub${s.done?' done':''}">
+    const imgs=(t.attachments||[]).filter(a=>a.type&&a.type.startsWith('image/'));
+    const extraHtml=(subs.length||imgs.length)?`<div class="search-result-subs">
+      ${subs.map(s=>`<div class="search-result-sub${s.done?' done':''}">
         <span class="search-result-sub-cb${s.done?' done':''}">${s.done?'✓':''}</span>
         <span>${esc(s.title)}</span>
-      </div>`).join('')}</div>`:'';
+      </div>`).join('')}
+      ${imgs.length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:${subs.length?6:0}px">${imgs.map(a=>`<img src="${a.data}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid var(--border2);cursor:pointer" data-action="view-attach" data-att-id="${a.id}" data-id="${t.id}" title="${esc(a.name)}">`).join('')}</div>`:''}
+    </div>`:'';
     return`<div class="search-result-item">
       ${t.game?`<div style="flex-shrink:0;margin-top:1px">${gameIconHtml(t.game,20,4)}</div>`:''}
       <div style="flex:1;min-width:0">
@@ -2583,9 +2586,10 @@ function runSearch(){
           <span style="color:${statusColor[t.status]||'var(--muted)'}">${statusLabel[t.status]||t.status}</span>
           ${t.game?` · ${esc(t.game)}`:''}
           ${subs.length?` · <span style="opacity:.6">${subs.filter(s=>s.done).length}/${subs.length} podzadań</span>`:''}
+          ${imgs.length?` · <span style="opacity:.6">🖼️ ${imgs.length}</span>`:''}
         </div>
         ${noteSnippet?`<div class="search-result-note">${highlightQuery(noteSnippet,words)}</div>`:''}
-        ${subsHtml}
+        ${extraHtml}
       </div>
     </div>`;
   }).join('');
@@ -3217,6 +3221,15 @@ function initListeners(){
   document.getElementById('searchQuery').addEventListener('input',runSearch);
   document.getElementById('searchFrom').addEventListener('input',runSearch);
   document.getElementById('searchTo').addEventListener('input',runSearch);
+  document.getElementById('searchResults').addEventListener('click',e=>{
+    const attId=e.target.dataset.attId;
+    const id=e.target.dataset.id;
+    if(e.target.dataset.action==='view-attach'&&attId&&id){
+      const t=taskById(id);
+      const att=(t?.attachments||[]).find(a=>a.id===attId);
+      if(att) showLightbox(att.data);
+    }
+  });
   document.getElementById('searchModal').addEventListener('click',e=>{
     const sfStatus=e.target.dataset.sfStatus;
     if(sfStatus){
