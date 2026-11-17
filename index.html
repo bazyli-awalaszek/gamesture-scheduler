@@ -1054,7 +1054,8 @@ table.rtable td.rt-score{font-family:'Oswald',sans-serif;font-weight:600;font-si
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div id="recurringList" style="margin-bottom:14px"></div>
+        <div id="recurringList" style="margin-bottom:8px"></div>
+        <div id="rcDebug" style="margin-bottom:14px;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:6px;min-height:0"></div>
         <hr style="border-color:var(--border)">
         <div class="mb-2">
           <label class="form-label small fw-semibold">Tytuł <span class="text-danger">*</span></label>
@@ -2602,8 +2603,34 @@ function openRecurringModal(){
   _editingRecurringId=null;
   renderRecurringList();
   _rcResetForm();
+  renderRecurringDebug();
   bootstrap.Modal.getOrCreateInstance(document.getElementById('recurringModal')).show();
   setTimeout(()=>document.getElementById('rcTitle').focus(),350);
+}
+function renderRecurringDebug(){
+  const el=document.getElementById('rcDebug');if(!el)return;
+  const today=todayStr();
+  const rows=(state.recurring||[]).map(r=>{
+    if(r.vacationTrigger) return`<tr><td>${esc(r.title)}</td><td colspan="3" style="color:#38bdf8">🏖️ ${esc(r.vacationTrigger)}</td></tr>`;
+    const interval=r.interval||7;
+    let diffDays=null,nextIn=null;
+    if(r.lastSeeded){
+      const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
+      const last=new Date(Date.UTC(ly,lm-1,ld));
+      diffDays=Math.floor((new Date()-last)/864e5);
+      nextIn=Math.max(0,(interval-1)-diffDays);
+    }
+    const ready=diffDays===null||diffDays>=(interval-1);
+    return`<tr>
+      <td>${esc(r.title)}</td>
+      <td>${r.lastSeeded?fmtDate(r.lastSeeded):'nigdy'}</td>
+      <td>${diffDays===null?'—':diffDays+' dni temu'}</td>
+      <td style="color:${ready?'#9ece6a':'#f7768e'}">${ready?'✓ gotowe':'za '+nextIn+' dni'}</td>
+    </tr>`;
+  }).join('');
+  el.innerHTML=rows?`<table style="width:100%;font-size:11px;border-collapse:collapse">
+    <tr style="color:var(--muted);border-bottom:1px solid var(--border)"><th style="text-align:left;padding:2px 6px 4px 0">Zadanie</th><th style="text-align:left;padding:2px 6px 4px">Ostatnio</th><th style="text-align:left;padding:2px 6px 4px">Minęło</th><th style="text-align:left;padding:2px 0 4px">Status</th></tr>
+    ${rows}</table>`:'';
 }
 function _rcResetForm(){
   document.getElementById('rcTitle').value='';
