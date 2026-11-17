@@ -1346,6 +1346,16 @@ function migrateData(s){
     s.vacations=s.myVacations.map(v=>({id:v.id||uid(),start:v.from||v.start,end:v.to||v.end,note:v.note||''})).filter(v=>v.start&&v.end);
   }
   if(!s.recurring) s.recurring=[];
+  // Fix: if lastSeeded is within 7 days of startDate, it was set on first open — reset to startDate
+  s.recurring.forEach(r=>{
+    if(r.startDate&&r.lastSeeded){
+      const[sy,sm,sd]=r.startDate.split('-').map(Number);
+      const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
+      const diffMs=new Date(Date.UTC(ly,lm-1,ld))-new Date(Date.UTC(sy,sm-1,sd));
+      const diffDays=Math.round(diffMs/864e5);
+      if(diffDays>=0&&diffDays<=7) r.lastSeeded=r.startDate;
+    }
+  });
   if(!Array.isArray(s.holidays)) s.holidays=[];
   if(!s.dayNotes||typeof s.dayNotes!=='object'||Array.isArray(s.dayNotes)) s.dayNotes={};
   if(!s.notes) s.notes=[];
@@ -2737,9 +2747,11 @@ function seedRecurring(){
       const nextStr2=`${nextDay.getFullYear()}-${p2(nextDay.getMonth()+1)}-${p2(nextDay.getDate())}`;
       if(isOnVacation(r.vacationTrigger,nextStr2)) shouldSeed=true;
     }else{
-      if(!r.lastSeeded) shouldSeed=true;
+      // Use startDate as the reference base if lastSeeded was never set
+      const refDate=r.lastSeeded||(r.startDate||null);
+      if(!refDate) shouldSeed=true;
       else{
-        const[ly,lm,ld]=r.lastSeeded.split('-').map(Number);
+        const[ly,lm,ld]=refDate.split('-').map(Number);
         const last=new Date(Date.UTC(ly,lm-1,ld));
         const now=new Date();
         const diffDays=Math.floor((now-last)/864e5);
